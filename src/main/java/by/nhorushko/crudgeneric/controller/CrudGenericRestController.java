@@ -1,8 +1,8 @@
-package by.aurorasoft.crudgeneric.controller;
+package by.nhorushko.crudgeneric.controller;
 
-import by.aurorasoft.crudgeneric.domain.AbstractDto;
-import by.aurorasoft.crudgeneric.exception.AuthenticationException;
-import by.aurorasoft.crudgeneric.service.CrudGenericService;
+import by.nhorushko.crudgeneric.domain.AbstractDto;
+import by.nhorushko.crudgeneric.exception.AuthenticationException;
+import by.nhorushko.crudgeneric.service.CrudGenericService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

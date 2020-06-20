@@ -1,7 +1,7 @@
-package by.aurorasoft.crudgeneric.mapper;
+package by.nhorushko.crudgeneric.mapper;
 
-import by.aurorasoft.crudgeneric.domain.AbstractDto;
-import by.aurorasoft.crudgeneric.domain.AbstractEntity;
+import by.nhorushko.crudgeneric.domain.AbstractDto;
+import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 

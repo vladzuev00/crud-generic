@@ -1,4 +1,4 @@
-package by.aurorasoft.crudgeneric.domain;
+package by.nhorushko.crudgeneric.domain;
 
 public interface AbstractEntity {
     Long getId();

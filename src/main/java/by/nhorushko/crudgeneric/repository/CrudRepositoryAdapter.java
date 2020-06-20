@@ -1,4 +1,4 @@
-package by.aurorasoft.crudgeneric.repository;
+package by.nhorushko.crudgeneric.repository;
 
 import java.util.Optional;
 

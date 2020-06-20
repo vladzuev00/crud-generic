@@ -1,4 +1,4 @@
-package by.aurorasoft.crudgeneric.exception;
+package by.nhorushko.crudgeneric.exception;
 
 public class AppNotFoundException extends RuntimeException {
 

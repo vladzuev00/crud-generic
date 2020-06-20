@@ -1,10 +1,10 @@
-package by.aurorasoft.crudgeneric.service;
+package by.nhorushko.crudgeneric.service;
 
-import by.aurorasoft.crudgeneric.domain.AbstractDto;
-import by.aurorasoft.crudgeneric.domain.AbstractEntity;
-import by.aurorasoft.crudgeneric.repository.CrudRepositoryAdapter;
-import by.aurorasoft.crudgeneric.exception.AppNotFoundException;
-import by.aurorasoft.crudgeneric.mapper.AbstractMapper;
+import by.nhorushko.crudgeneric.domain.AbstractDto;
+import by.nhorushko.crudgeneric.domain.AbstractEntity;
+import by.nhorushko.crudgeneric.repository.CrudRepositoryAdapter;
+import by.nhorushko.crudgeneric.exception.AppNotFoundException;
+import by.nhorushko.crudgeneric.mapper.AbstractMapper;
 
 import java.util.Collection;
 import java.util.List;

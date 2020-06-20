@@ -1,4 +1,4 @@
-package by.aurorasoft.crudgeneric.mapper;
+package by.nhorushko.crudgeneric.mapper;
 
 import java.util.List;
 
