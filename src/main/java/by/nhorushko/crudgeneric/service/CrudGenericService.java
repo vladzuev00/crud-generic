@@ -2,19 +2,20 @@ package by.nhorushko.crudgeneric.service;
 
 import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.repository.CrudRepositoryAdapter;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.mapper.AbstractMapper;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public abstract class CrudGenericService<
         DTO extends AbstractDto,
         ENTITY extends AbstractEntity,
-        REPOSITORY extends CrudRepositoryAdapter<ENTITY, Long>,
+        REPOSITORY extends CrudRepository<ENTITY, Long>,
         MAPPER extends AbstractMapper<ENTITY, DTO>> {
 
     protected final REPOSITORY repository;
@@ -59,6 +60,10 @@ public abstract class CrudGenericService<
 
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    public void deleteAll(List<DTO> dtos) {
+        repository.deleteAll(mapper.toEntity(dtos));
     }
 
     public DTO save(DTO dto) {

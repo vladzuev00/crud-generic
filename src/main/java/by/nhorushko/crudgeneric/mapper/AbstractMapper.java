@@ -15,7 +15,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
     protected Class<DTO> dtoClass;
     protected ModelMapper mapper;
 
-    AbstractMapper(Class<ENTITY> entityClass, Class<DTO> dtoClass, ModelMapper modelMapper) {
+    public AbstractMapper(Class<ENTITY> entityClass, Class<DTO> dtoClass, ModelMapper modelMapper) {
         this.entityClass = entityClass;
         this.dtoClass = dtoClass;
         this.mapper = modelMapper;
@@ -45,7 +45,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         return entities.stream().map(e -> toDto(e)).collect(Collectors.toList());
     }
 
-    Converter<ENTITY, DTO> toDtoConverter() {
+    public Converter<ENTITY, DTO> toDtoConverter() {
         return context -> {
             ENTITY source = context.getSource();
             DTO destination = context.getDestination();
@@ -54,7 +54,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         };
     }
 
-    Converter<DTO, ENTITY> toEntityConverter() {
+    public Converter<DTO, ENTITY> toEntityConverter() {
         return context -> {
             DTO source = context.getSource();
             ENTITY destination = context.getDestination();
@@ -63,9 +63,9 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         };
     }
 
-    void mapSpecificFields(ENTITY source, DTO destination) {
+    public void mapSpecificFields(ENTITY source, DTO destination) {
     }
 
-    void mapSpecificFields(DTO source, ENTITY destination) {
+    public void mapSpecificFields(DTO source, ENTITY destination) {
     }
 }
