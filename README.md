@@ -7,7 +7,7 @@ Abstract generic реализация для Spring Boot CRUD сервисов, 
 
 <repositories>
     <repository>
-        <id>[name-project]-mvn-repo</id>
+        <id>crud-service-mvn-repo</id>
         <url>https://raw.github.com/NNikolay/crud-service/mvn-repo/</url>
         <snapshots>
             <enabled>true</enabled>
