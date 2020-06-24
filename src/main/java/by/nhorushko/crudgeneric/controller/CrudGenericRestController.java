@@ -26,6 +26,7 @@ public abstract class CrudGenericRestController<
     }
 
     protected void checkAccessSaveBefore(DTO obj, HttpServletRequest request) throws AuthenticationException {
+        checkAccess(request, obj);
     }
 
     @PutMapping("{id}")
@@ -47,6 +48,7 @@ public abstract class CrudGenericRestController<
     }
 
     protected void checkAccessUpdateBefore(DTO obj, HttpServletRequest request) {
+        checkAccess(request, obj);
     }
 
 
@@ -57,5 +59,7 @@ public abstract class CrudGenericRestController<
     }
 
     protected void checkAccessDeleteBefore(Long id, HttpServletRequest request) {
+        DTO dto = service.getById(id);
+        checkAccess(request, dto);
     }
 }

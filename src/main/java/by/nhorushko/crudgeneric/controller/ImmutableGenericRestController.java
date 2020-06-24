@@ -31,5 +31,13 @@ public abstract class ImmutableGenericRestController<
     }
 
     protected void checkAccessGetByIdAfter(DTO dto, HttpServletRequest request) throws AuthenticationException {
+        checkAccess(request, dto);
+    }
+
+    /**
+     * ovveride если логика защиты одинакова для всех эндпоинтов
+     */
+    protected void checkAccess(HttpServletRequest request, DTO dto) throws AuthenticationException {
+
     }
 }
