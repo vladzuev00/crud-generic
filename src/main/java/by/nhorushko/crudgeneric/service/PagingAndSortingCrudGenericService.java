@@ -3,6 +3,7 @@ package by.nhorushko.crudgeneric.service;
 import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.mapper.AbstractMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -23,10 +24,8 @@ public abstract class PagingAndSortingCrudGenericService <
         super(repository, mapper, dtoClass, entityClass);
     }
 
-    public List<DTO> list(Pageable pageable, Specification<ENTITY> specs) {
-        return StreamSupport
-                .stream(repository.findAll(specs, pageable).spliterator(), false)
-                .map(e -> mapper.toDto(e))
-                .collect(Collectors.toList());
+    public Page<DTO> list(Pageable pageable, Specification<ENTITY> specs) {
+        return repository.findAll(specs, pageable)
+                .map(e -> mapper.toDto(e));
     }
 }
