@@ -9,10 +9,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 public abstract class PagingAndSortingCrudGenericService <
         DTO extends AbstractDto,
         ENTITY extends AbstractEntity,
