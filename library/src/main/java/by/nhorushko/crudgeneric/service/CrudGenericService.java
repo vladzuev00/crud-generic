@@ -4,13 +4,11 @@ import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.mapper.AbstractMapper;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -52,6 +50,13 @@ public abstract class CrudGenericService<
         return mapper.toDto(e);
     }
 
+    public List<DTO> getById(Collection<Long> ids) {
+        return StreamSupport
+                .stream(repository.findAllById(ids).spliterator(), false)
+                .map(e -> mapper.toDto(e))
+                .collect(Collectors.toList());
+    }
+
     public boolean existById(Long id) {
         return repository.existsById(id);
     }
@@ -61,7 +66,11 @@ public abstract class CrudGenericService<
     }
 
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new AppNotFoundException(String.format("Entity %s with id: %s was not found", entityClass.getSimpleName(), id), ex);
+        }
     }
 
     public void deleteAll(List<DTO> dtos) {
