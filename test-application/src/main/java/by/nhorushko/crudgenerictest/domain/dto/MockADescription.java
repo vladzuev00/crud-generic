@@ -1,11 +1,12 @@
 package by.nhorushko.crudgenerictest.domain.dto;
 
 import by.nhorushko.crudgeneric.domain.AbstractDto;
+import lombok.AllArgsConstructor;
 import lombok.Value;
 
 @Value
-public class MockBDto implements AbstractDto {
+@AllArgsConstructor
+public class MockADescription implements AbstractDto {
     Long id;
-    String name;
-    MockADto mockADto;
+    String description;
 }

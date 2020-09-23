@@ -4,11 +4,16 @@ import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.mapper.AbstractMapper;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -22,12 +27,22 @@ public abstract class CrudGenericService<
     protected final MAPPER mapper;
     protected final Class<DTO> dtoClass;
     protected final Class<ENTITY> entityClass;
+    private String[] ignoreUpdateProperties = new String[]{"id"};
 
     public CrudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass) {
         this.repository = repository;
         this.mapper = mapper;
         this.dtoClass = dtoClass;
         this.entityClass = entityClass;
+    }
+
+    public CrudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass,
+                              String[] ignoreUpdateProperties) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.dtoClass = dtoClass;
+        this.entityClass = entityClass;
+        this.ignoreUpdateProperties = ignoreUpdateProperties;
     }
 
     public List<DTO> list() {
@@ -45,9 +60,12 @@ public abstract class CrudGenericService<
     }
 
     public DTO getById(Long id) {
-        ENTITY e = repository.findById(id)
+        return mapper.toDto(findById(id));
+    }
+
+    private ENTITY findById(Long id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new AppNotFoundException(String.format("Entity %s id: %s was not found", entityClass, id)));
-        return mapper.toDto(e);
     }
 
     public List<DTO> getById(Collection<Long> ids) {
@@ -80,6 +98,16 @@ public abstract class CrudGenericService<
     public DTO save(DTO dto) {
         ENTITY entity = mapper.toEntity(dto);
         return mapper.toDto(repository.save(entity));
+    }
+
+    public DTO update(DTO obj) {
+        return save(obj);
+    }
+
+    public DTO updatePartial(AbstractDto source) {
+        ENTITY target = findById(source.getId());
+        BeanUtils.copyProperties(source, target, ignoreUpdateProperties);
+        return mapper.toDto(repository.save(target));
     }
 
     public List<DTO> saveAll(List<DTO> list) {

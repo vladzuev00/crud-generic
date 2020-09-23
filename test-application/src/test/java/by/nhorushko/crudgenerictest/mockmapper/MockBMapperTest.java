@@ -1,7 +1,7 @@
 package by.nhorushko.crudgenerictest.mockmapper;
 
 import by.nhorushko.crudgenerictest.domain.dto.MockBDto;
-import by.nhorushko.crudgenerictest.domain.dto.MockDto;
+import by.nhorushko.crudgenerictest.domain.dto.MockADto;
 import by.nhorushko.crudgenerictest.domain.entity.MockAEntity;
 import by.nhorushko.crudgenerictest.domain.entity.MockBEntity;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class MockBMapperTest {
 
     @Test
     void test1() {
-        MockBDto mockBDto = new MockBDto(1l, "name", new MockDto(1l, "ssss"));
+        MockBDto mockBDto = new MockBDto(1l, "name", new MockADto(1l, "ssss"));
         MockBEntity actual = mockBMapper.toEntity(mockBDto);
 
         MockBEntity expected = new MockBEntity(1l, "name", new MockAEntity(1l, "ssss"));

@@ -19,4 +19,11 @@ public class MockAEntity implements AbstractEntity {
     private Long id;
     @Column(name = "name")
     private String name;
+    @Column(name = "description")
+    private String description;
+
+    public MockAEntity(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
