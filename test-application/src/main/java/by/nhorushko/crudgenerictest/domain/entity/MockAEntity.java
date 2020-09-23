@@ -1,6 +1,7 @@
 package by.nhorushko.crudgenerictest.domain.entity;
 
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,8 +10,9 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "mock_entity")
-public class MockEntity implements AbstractEntity {
+public class MockAEntity implements AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

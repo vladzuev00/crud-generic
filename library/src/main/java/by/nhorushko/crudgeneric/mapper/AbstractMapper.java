@@ -25,24 +25,32 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
     public ENTITY toEntity(DTO dto) {
         return Objects.isNull(dto)
                 ? null
-                : mapper.map(dto, entityClass);
+                : mapEntity(dto);
+    }
+
+    protected ENTITY mapEntity(DTO dto) {
+        return mapper.map(dto, entityClass);
     }
 
     @Override
     public List<ENTITY> toEntity(List<DTO> dtos) {
-        return dtos.stream().map(d -> toEntity(d)).collect(Collectors.toList());
+        return Objects.isNull(dtos) ? null : dtos.stream().map(d -> toEntity(d)).collect(Collectors.toList());
     }
 
     @Override
     public DTO toDto(ENTITY entity) {
         return Objects.isNull(entity)
                 ? null
-                : mapper.map(entity, dtoClass);
+                : mapDto(entity);
+    }
+
+    protected DTO mapDto(ENTITY entity) {
+        return mapper.map(entity, dtoClass);
     }
 
     @Override
     public List<DTO> toDto(List<ENTITY> entities) {
-        return entities.stream().map(e -> toDto(e)).collect(Collectors.toList());
+        return Objects.isNull(entities) ? null : entities.stream().map(e -> toDto(e)).collect(Collectors.toList());
     }
 
     public Converter<ENTITY, DTO> toDtoConverter() {

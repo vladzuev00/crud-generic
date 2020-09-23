@@ -2,7 +2,7 @@ package by.nhorushko.crudgenerictest;
 
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgenerictest.domain.dto.MockDto;
-import by.nhorushko.crudgenerictest.domain.entity.MockEntity;
+import by.nhorushko.crudgenerictest.domain.entity.MockAEntity;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -155,9 +155,9 @@ public class CrudGenericServiceIT {
     @Sql(value = {"classpath:add-entities-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void deleteByIdTest_ShouldBeNullAfterDelete() {
-        assertNotNull(entityManager.find(MockEntity.class, 5l));
+        assertNotNull(entityManager.find(MockAEntity.class, 5l));
         mockService.deleteById(5l);
-        assertNull(entityManager.find(MockEntity.class, 5l));
+        assertNull(entityManager.find(MockAEntity.class, 5l));
     }
 
     @Test
@@ -173,8 +173,8 @@ public class CrudGenericServiceIT {
     @Sql(value = {"classpath:add-entities-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void deleteAll() {
-        assertNotNull(entityManager.find(MockEntity.class, 1l));
-        assertNotNull(entityManager.find(MockEntity.class, 2l));
+        assertNotNull(entityManager.find(MockAEntity.class, 1l));
+        assertNotNull(entityManager.find(MockAEntity.class, 2l));
 
         List<MockDto> toDel = List.of(
                 new MockDto(1l, "test-1"),
@@ -182,19 +182,19 @@ public class CrudGenericServiceIT {
 
         mockService.deleteAll(toDel);
 
-        assertNull(entityManager.find(MockEntity.class, 1l));
-        assertNull(entityManager.find(MockEntity.class, 2l));
+        assertNull(entityManager.find(MockAEntity.class, 1l));
+        assertNull(entityManager.find(MockAEntity.class, 2l));
     }
 
     @Test
     @Sql(value = {"classpath:add-entities-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void deleteAllShouldDeleteOne() {
-        assertNotNull(entityManager.find(MockEntity.class, 1l));
-        assertNotNull(entityManager.find(MockEntity.class, 2l));
-        assertNotNull(entityManager.find(MockEntity.class, 3l));
-        assertNotNull(entityManager.find(MockEntity.class, 4l));
-        assertNotNull(entityManager.find(MockEntity.class, 5l));
+        assertNotNull(entityManager.find(MockAEntity.class, 1l));
+        assertNotNull(entityManager.find(MockAEntity.class, 2l));
+        assertNotNull(entityManager.find(MockAEntity.class, 3l));
+        assertNotNull(entityManager.find(MockAEntity.class, 4l));
+        assertNotNull(entityManager.find(MockAEntity.class, 5l));
 
         List<MockDto> toDel = List.of(
                 new MockDto(1l, "test-1"),
@@ -202,22 +202,22 @@ public class CrudGenericServiceIT {
 
         mockService.deleteAll(toDel);
 
-        assertNull(entityManager.find(MockEntity.class, 1l));
-        assertNotNull(entityManager.find(MockEntity.class, 2l));
-        assertNotNull(entityManager.find(MockEntity.class, 3l));
-        assertNotNull(entityManager.find(MockEntity.class, 4l));
-        assertNotNull(entityManager.find(MockEntity.class, 5l));
+        assertNull(entityManager.find(MockAEntity.class, 1l));
+        assertNotNull(entityManager.find(MockAEntity.class, 2l));
+        assertNotNull(entityManager.find(MockAEntity.class, 3l));
+        assertNotNull(entityManager.find(MockAEntity.class, 4l));
+        assertNotNull(entityManager.find(MockAEntity.class, 5l));
     }
 
     @Test
     @Sql(value = {"classpath:add-entities-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void deleteAllShouldDeleteAnyOne() {
-        assertNotNull(entityManager.find(MockEntity.class, 1l));
-        assertNotNull(entityManager.find(MockEntity.class, 2l));
-        assertNotNull(entityManager.find(MockEntity.class, 3l));
-        assertNotNull(entityManager.find(MockEntity.class, 4l));
-        assertNotNull(entityManager.find(MockEntity.class, 5l));
+        assertNotNull(entityManager.find(MockAEntity.class, 1l));
+        assertNotNull(entityManager.find(MockAEntity.class, 2l));
+        assertNotNull(entityManager.find(MockAEntity.class, 3l));
+        assertNotNull(entityManager.find(MockAEntity.class, 4l));
+        assertNotNull(entityManager.find(MockAEntity.class, 5l));
 
         List<MockDto> toDel = List.of(
                 new MockDto(8888l, "test-1"),
@@ -225,20 +225,20 @@ public class CrudGenericServiceIT {
 
         mockService.deleteAll(toDel);
 
-        assertNotNull(entityManager.find(MockEntity.class, 1l));
-        assertNotNull(entityManager.find(MockEntity.class, 2l));
-        assertNotNull(entityManager.find(MockEntity.class, 3l));
-        assertNotNull(entityManager.find(MockEntity.class, 4l));
-        assertNotNull(entityManager.find(MockEntity.class, 5l));
+        assertNotNull(entityManager.find(MockAEntity.class, 1l));
+        assertNotNull(entityManager.find(MockAEntity.class, 2l));
+        assertNotNull(entityManager.find(MockAEntity.class, 3l));
+        assertNotNull(entityManager.find(MockAEntity.class, 4l));
+        assertNotNull(entityManager.find(MockAEntity.class, 5l));
     }
 
     @Test
     @Sql(value = {"classpath:add-entities-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void saveTest_ShouldSaveNew() {
-        assertNull(entityManager.find(MockEntity.class, 6l));
+        assertNull(entityManager.find(MockAEntity.class, 6l));
         MockDto actual = mockService.save(new MockDto(55l, "test-6"));
-        assertNotNull(entityManager.find(MockEntity.class, actual.getId()));
+        assertNotNull(entityManager.find(MockAEntity.class, actual.getId()));
     }
 
     @Test
@@ -247,17 +247,17 @@ public class CrudGenericServiceIT {
     public void saveTest_ShouldSaveZeroId() {
         MockDto actual = mockService.save(new MockDto(0l, "test-55"));
         assertNotEquals(0l, actual.getId(), 0);
-        assertNotNull(entityManager.find(MockEntity.class, actual.getId()));
+        assertNotNull(entityManager.find(MockAEntity.class, actual.getId()));
     }
 
     @Test
     @Sql(value = {"classpath:add-entities-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void saveTest_UpdateExist() {
-        assertNotNull(entityManager.find(MockEntity.class, 1l));
+        assertNotNull(entityManager.find(MockAEntity.class, 1l));
         MockDto given = new MockDto(1l, "updated-test");
         mockService.save(given);
-        assertEquals("updated-test", entityManager.find(MockEntity.class, 1l).getName());
+        assertEquals("updated-test", entityManager.find(MockAEntity.class, 1l).getName());
     }
 
 }

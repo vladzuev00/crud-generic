@@ -11,5 +11,5 @@ public abstract class ImmutableDtoAbstractMapper<ENTITY extends AbstractEntity, 
     }
 
     @Override
-    public abstract DTO toDto(ENTITY entity);
+    protected abstract DTO mapDto(ENTITY entity);
 }
