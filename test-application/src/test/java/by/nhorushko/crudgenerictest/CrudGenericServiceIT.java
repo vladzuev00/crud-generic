@@ -259,7 +259,7 @@ public class CrudGenericServiceIT {
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void saveTest_UpdateExist() {
         MockADescription obj = new MockADescription(1l, "upd");
-        mockService.updatePartial(obj);
+        mockService.updatePartial(1l, obj);
         assertEquals("test-1", entityManager.find(MockAEntity.class, 1l).getName());
         assertEquals("upd", entityManager.find(MockAEntity.class, 1l).getDescription());
     }

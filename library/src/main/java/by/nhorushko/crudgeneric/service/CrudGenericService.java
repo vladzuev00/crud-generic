@@ -5,15 +5,11 @@ import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.mapper.AbstractMapper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -27,7 +23,7 @@ public abstract class CrudGenericService<
     protected final MAPPER mapper;
     protected final Class<DTO> dtoClass;
     protected final Class<ENTITY> entityClass;
-    private String[] ignoreUpdateProperties = new String[]{"id"};
+    protected String[] ignorePartialUpdateProperties = new String[]{"id"};
 
     public CrudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass) {
         this.repository = repository;
@@ -37,12 +33,12 @@ public abstract class CrudGenericService<
     }
 
     public CrudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass,
-                              String[] ignoreUpdateProperties) {
+                              String[] ignorePartialUpdateProperties) {
         this.repository = repository;
         this.mapper = mapper;
         this.dtoClass = dtoClass;
         this.entityClass = entityClass;
-        this.ignoreUpdateProperties = ignoreUpdateProperties;
+        this.ignorePartialUpdateProperties = ignorePartialUpdateProperties;
     }
 
     public List<DTO> list() {
@@ -104,9 +100,9 @@ public abstract class CrudGenericService<
         return save(obj);
     }
 
-    public DTO updatePartial(AbstractDto source) {
-        ENTITY target = findById(source.getId());
-        BeanUtils.copyProperties(source, target, ignoreUpdateProperties);
+    public DTO updatePartial(Long id, Object source) {
+        ENTITY target = findById(id);
+        BeanUtils.copyProperties(source, target, ignorePartialUpdateProperties);
         return mapper.toDto(repository.save(target));
     }
 
