@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
+/** some useful https://habr.com/ru/post/438808/ */
 public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends AbstractDto> implements Mapper<ENTITY, DTO> {
 
     protected Class<ENTITY> entityClass;
@@ -19,6 +19,14 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         this.entityClass = entityClass;
         this.dtoClass = dtoClass;
         this.mapper = modelMapper;
+        this.setupMapper();
+    }
+
+    public void setupMapper() {
+        mapper.createTypeMap(entityClass, dtoClass)
+                .setPostConverter(toDtoConverter());
+        mapper.createTypeMap(dtoClass, entityClass)
+                .setPostConverter(toEntityConverter());
     }
 
     @Override
