@@ -4,12 +4,13 @@ import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.mapper.AbstractMapper;
+import by.nhorushko.crudgeneric.util.FieldCopyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -23,7 +24,7 @@ public abstract class CrudGenericService<
     protected final MAPPER mapper;
     protected final Class<DTO> dtoClass;
     protected final Class<ENTITY> entityClass;
-    protected String[] ignorePartialUpdateProperties = new String[]{"id"};
+    protected Set<String> ignorePartialUpdateProperties = Set.of("id");
 
     public CrudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass) {
         this.repository = repository;
@@ -33,7 +34,7 @@ public abstract class CrudGenericService<
     }
 
     public CrudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass,
-                              String[] ignorePartialUpdateProperties) {
+                              Set<String> ignorePartialUpdateProperties) {
         this.repository = repository;
         this.mapper = mapper;
         this.dtoClass = dtoClass;
@@ -101,9 +102,9 @@ public abstract class CrudGenericService<
     }
 
     public DTO updatePartial(Long id, Object source) {
-        ENTITY target = findById(id);
-        BeanUtils.copyProperties(source, target, ignorePartialUpdateProperties);
-        return mapper.toDto(repository.save(target));
+        DTO target = getById(id);
+        FieldCopyUtil.copy(source, target, ignorePartialUpdateProperties);
+        return save(target);
     }
 
     public List<DTO> saveAll(List<DTO> list) {
