@@ -7,7 +7,9 @@ import by.nhorushko.crudgeneric.mapper.AbstractMapper;
 import by.nhorushko.crudgeneric.util.FieldCopyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.*;
@@ -17,67 +19,19 @@ import java.util.stream.StreamSupport;
 public abstract class CrudGenericService<
         DTO extends AbstractDto,
         ENTITY extends AbstractEntity,
-        REPOSITORY extends CrudRepository<ENTITY, Long>,
-        MAPPER extends AbstractMapper<ENTITY, DTO>> {
+        REPOSITORY extends PagingAndSortingRepository<ENTITY, Long> & JpaSpecificationExecutor<ENTITY>,
+        MAPPER extends AbstractMapper<ENTITY, DTO>> extends PagingAndSortingImmutableGenericService<DTO, ENTITY, REPOSITORY, MAPPER> {
 
-    protected final REPOSITORY repository;
-    protected final MAPPER mapper;
-    protected final Class<DTO> dtoClass;
-    protected final Class<ENTITY> entityClass;
     protected Set<String> ignorePartialUpdateProperties = Set.of("id");
 
     public CrudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this.dtoClass = dtoClass;
-        this.entityClass = entityClass;
+        super(repository, mapper, dtoClass, entityClass);
     }
 
     public CrudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass,
                               Set<String> ignorePartialUpdateProperties) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this.dtoClass = dtoClass;
-        this.entityClass = entityClass;
+        super(repository, mapper, dtoClass, entityClass);
         this.ignorePartialUpdateProperties = ignorePartialUpdateProperties;
-    }
-
-    public List<DTO> list() {
-        return StreamSupport
-                .stream(repository.findAll().spliterator(), false)
-                .map(e -> mapper.toDto(e))
-                .collect(Collectors.toList());
-    }
-
-    public List<DTO> list(Collection<Long> ids) {
-        return StreamSupport
-                .stream(repository.findAllById(ids).spliterator(), false)
-                .map(e -> mapper.toDto(e))
-                .collect(Collectors.toList());
-    }
-
-    public DTO getById(Long id) {
-        return mapper.toDto(findById(id));
-    }
-
-    private ENTITY findById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new AppNotFoundException(String.format("Entity %s id: %s was not found", entityClass, id)));
-    }
-
-    public List<DTO> getById(Collection<Long> ids) {
-        return StreamSupport
-                .stream(repository.findAllById(ids).spliterator(), false)
-                .map(e -> mapper.toDto(e))
-                .collect(Collectors.toList());
-    }
-
-    public boolean existById(Long id) {
-        return repository.existsById(id);
-    }
-
-    public long count() {
-        return repository.count();
     }
 
     public void deleteById(Long id) {

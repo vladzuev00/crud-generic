@@ -9,14 +9,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public abstract class PagingAndSortingCrudGenericService <
+public abstract class PagingAndSortingImmutableGenericService<
         DTO extends AbstractDto,
         ENTITY extends AbstractEntity,
         REPOSITORY extends PagingAndSortingRepository<ENTITY, Long> & JpaSpecificationExecutor<ENTITY>,
         MAPPER extends AbstractMapper<ENTITY, DTO>>
-        extends CrudGenericService<DTO, ENTITY, REPOSITORY, MAPPER> {
+        extends ImmutableGenericService<DTO, ENTITY, REPOSITORY, MAPPER> {
 
-    public PagingAndSortingCrudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass) {
+    public PagingAndSortingImmutableGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass) {
         super(repository, mapper, dtoClass, entityClass);
     }
 

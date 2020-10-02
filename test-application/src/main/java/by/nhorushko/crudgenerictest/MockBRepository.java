@@ -1,7 +1,8 @@
 package by.nhorushko.crudgenerictest;
 
 import by.nhorushko.crudgenerictest.domain.entity.MockBEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface MockBRepository  extends CrudRepository<MockBEntity, Long> {
+public interface MockBRepository  extends PagingAndSortingRepository<MockBEntity, Long>, JpaSpecificationExecutor<MockBEntity> {
 }
