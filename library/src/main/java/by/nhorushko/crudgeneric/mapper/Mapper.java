@@ -1,8 +1,11 @@
 package by.nhorushko.crudgeneric.mapper;
 
+import by.nhorushko.crudgeneric.domain.AbstractDto;
+import by.nhorushko.crudgeneric.domain.AbstractEntity;
+
 import java.util.List;
 
-public interface Mapper<ENTITY, DTO> {
+public interface Mapper<ENTITY extends AbstractEntity, DTO extends AbstractDto> {
 
     ENTITY toEntity(DTO dto);
 

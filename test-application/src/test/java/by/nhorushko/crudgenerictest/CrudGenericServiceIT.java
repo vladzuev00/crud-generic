@@ -1,5 +1,6 @@
 package by.nhorushko.crudgenerictest;
 
+import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgenerictest.domain.dto.MockADescription;
 import by.nhorushko.crudgenerictest.domain.dto.MockADto;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.AbstractDelegatingSmartContextLoader;
 
 import javax.persistence.EntityManager;
 import java.util.LinkedHashMap;
@@ -40,11 +42,11 @@ public class CrudGenericServiceIT {
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void listTest_ShouldReturnList() {
         List<MockADto> expected = List.of(
-                new MockADto(1l, "test-1"),
-                new MockADto(2l, "test-2"),
-                new MockADto(3l, "test-3"),
-                new MockADto(4l, "test-4"),
-                new MockADto(5l, "test-5"));
+                new MockADto(1l, "test-1", "description-1"),
+                new MockADto(2l, "test-2", "description-2"),
+                new MockADto(3l, "test-3", "description-3"),
+                new MockADto(4l, "test-4", "description-4"),
+                new MockADto(5l, "test-5", "description-5"));
 
         List<MockADto> actual = mockService.list();
         assertEquals(expected, actual);
@@ -62,8 +64,8 @@ public class CrudGenericServiceIT {
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void listTestShouldReturnSpecified() {
         List<MockADto> expected = List.of(
-                new MockADto(2l, "test-2"),
-                new MockADto(3l, "test-3"));
+                new MockADto(2l, "test-2", "description-2"),
+                new MockADto(3l, "test-3", "description-3"));
         List<MockADto> actual = mockService.list(Set.of(2l, 3l));
         assertEquals(expected, actual);
     }
@@ -71,9 +73,33 @@ public class CrudGenericServiceIT {
     @Test
     @Sql(value = {"classpath:add-entities-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void listTest_MockADescription() {
+        List<MockADescription> expected = List.of(
+                new MockADescription(1l, "description-1"),
+                new MockADescription(2l, "description-2"),
+                new MockADescription(3l, "description-3"),
+                new MockADescription(4l, "description-4"),
+                new MockADescription(5l, "description-5"));
+
+        List<MockADescription> actual = mockService.list(MockADescription.class);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @Sql(value = {"classpath:add-entities-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getByIdTest() {
-        MockADto expected = new MockADto(2l, "test-2");
+        MockADto expected = new MockADto(2l, "test-2", "description-2");
         MockADto actual = mockService.getById(2l);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @Sql(value = {"classpath:add-entities-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void getByIdTest_DtoPartial() {
+        MockADescription expected = new MockADescription(2l, "description-2");
+        MockADescription actual = mockService.getById(2l, MockADescription.class);
         assertEquals(expected, actual);
     }
 
@@ -91,8 +117,8 @@ public class CrudGenericServiceIT {
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getByIdTest_ShouldReturnList() {
         List<MockADto> expected = List.of(
-                new MockADto(2l, "test-2"),
-                new MockADto(3l, "test-3"));
+                new MockADto(2l, "test-2", "description-2"),
+                new MockADto(3l, "test-3", "description-3"));
         List<MockADto> actual = mockService.getById(Set.of(2l, 3l));
         assertEquals(expected, actual);
     }
@@ -102,7 +128,7 @@ public class CrudGenericServiceIT {
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getByIdTest_ShouldReturnList2() {
         List<MockADto> expected = List.of(
-                new MockADto(2l, "test-2"));
+                new MockADto(2l, "test-2", "description-2"));
         List<MockADto> actual = mockService.getById(Set.of(2l, 9999l));
         assertEquals(expected, actual);
     }

@@ -4,17 +4,19 @@ import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.mapper.AbstractMapper;
-import org.springframework.data.repository.CrudRepository;
+import by.nhorushko.crudgeneric.mapper.DtoMappers;
+import by.nhorushko.crudgeneric.mapper.Mapper;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-public abstract class ImmutableGenericService <
+@Transactional
+public abstract class ImmutableGenericService<
         DTO extends AbstractDto,
         ENTITY extends AbstractEntity,
-        REPOSITORY extends CrudRepository<ENTITY, Long>,
+        REPOSITORY extends JpaRepository<ENTITY, Long>,
         MAPPER extends AbstractMapper<ENTITY, DTO>> {
 
     protected final REPOSITORY repository;
@@ -30,20 +32,29 @@ public abstract class ImmutableGenericService <
     }
 
     public List<DTO> list() {
-        return StreamSupport
-                .stream(repository.findAll().spliterator(), false)
-                .map(e -> mapper.toDto(e))
-                .collect(Collectors.toList());
+        return mapper.toDto(repository.findAll());
+    }
+
+    public <DTO_PARTIAL extends AbstractDto> List<DTO_PARTIAL> list(Class<DTO_PARTIAL> dtoClass) {
+        Mapper mapper = DtoMappers.get(entityClass, dtoClass);
+        return mapper.toDto(repository.findAll());
     }
 
     public List<DTO> list(Collection<Long> ids) {
-        return StreamSupport
-                .stream(repository.findAllById(ids).spliterator(), false)
-                .map(e -> mapper.toDto(e))
-                .collect(Collectors.toList());
+        return mapper.toDto(repository.findAllById(ids));
+    }
+
+    public <DTO_PARTIAL extends AbstractDto> List<DTO_PARTIAL>  list(Collection<Long> ids, Class<DTO_PARTIAL> dto_partialClass) {
+        Mapper mapper = DtoMappers.get(entityClass, dto_partialClass);
+        return mapper.toDto(repository.findAllById(ids));
     }
 
     public DTO getById(Long id) {
+        return mapper.toDto(findById(id));
+    }
+
+    public <DTO_PARTIAL extends AbstractDto> DTO_PARTIAL getById(Long id, Class<DTO_PARTIAL> dto_partialClass) {
+        Mapper<ENTITY, DTO_PARTIAL> mapper = DtoMappers.get(entityClass, dto_partialClass);
         return mapper.toDto(findById(id));
     }
 
@@ -53,10 +64,12 @@ public abstract class ImmutableGenericService <
     }
 
     public List<DTO> getById(Collection<Long> ids) {
-        return StreamSupport
-                .stream(repository.findAllById(ids).spliterator(), false)
-                .map(e -> mapper.toDto(e))
-                .collect(Collectors.toList());
+        return mapper.toDto(repository.findAllById(ids));
+    }
+
+    public<DTO_PARTIAL extends AbstractDto> List<DTO_PARTIAL> getById(Collection<Long> ids, Class<DTO_PARTIAL> dto_partialClass) {
+        Mapper mapper = DtoMappers.get(entityClass, dto_partialClass);
+        return mapper.toDto(repository.findAllById(ids));
     }
 
     public boolean existById(Long id) {

@@ -20,6 +20,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         this.dtoClass = dtoClass;
         this.mapper = modelMapper;
         this.setupMapper();
+        DtoMappers.register(entityClass, dtoClass, this);
     }
 
     public void setupMapper() {
