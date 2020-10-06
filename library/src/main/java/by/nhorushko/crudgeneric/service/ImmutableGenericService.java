@@ -12,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 @Transactional
 public abstract class ImmutableGenericService<
         DTO extends AbstractDto,
         ENTITY extends AbstractEntity,
         REPOSITORY extends JpaRepository<ENTITY, Long>,
-        MAPPER extends AbstractMapper<ENTITY, DTO>> {
+        MAPPER extends AbstractMapper<ENTITY, DTO>>
+        implements ImmutableGenericServiceI<DTO> {
 
     protected final REPOSITORY repository;
     protected final MAPPER mapper;
@@ -31,31 +33,22 @@ public abstract class ImmutableGenericService<
         this.entityClass = entityClass;
     }
 
+    @Override
     public List<DTO> list() {
         return mapper.toDto(repository.findAll());
     }
 
     public <DTO_PARTIAL extends AbstractDto> List<DTO_PARTIAL> list(Class<DTO_PARTIAL> dtoClass) {
-        Mapper mapper = DtoMappers.get(entityClass, dtoClass);
-        return mapper.toDto(repository.findAll());
+        return getMapper(dtoClass).toDto(repository.findAll());
     }
 
-    public List<DTO> list(Collection<Long> ids) {
-        return mapper.toDto(repository.findAllById(ids));
-    }
-
-    public <DTO_PARTIAL extends AbstractDto> List<DTO_PARTIAL>  list(Collection<Long> ids, Class<DTO_PARTIAL> dto_partialClass) {
-        Mapper mapper = DtoMappers.get(entityClass, dto_partialClass);
-        return mapper.toDto(repository.findAllById(ids));
-    }
-
+    @Override
     public DTO getById(Long id) {
         return mapper.toDto(findById(id));
     }
 
     public <DTO_PARTIAL extends AbstractDto> DTO_PARTIAL getById(Long id, Class<DTO_PARTIAL> dto_partialClass) {
-        Mapper<ENTITY, DTO_PARTIAL> mapper = DtoMappers.get(entityClass, dto_partialClass);
-        return mapper.toDto(findById(id));
+        return getMapper(dto_partialClass).toDto(findById(id));
     }
 
     private ENTITY findById(Long id) {
@@ -63,20 +56,26 @@ public abstract class ImmutableGenericService<
                 .orElseThrow(() -> new AppNotFoundException(String.format("Entity %s id: %s was not found", entityClass, id)));
     }
 
+    @Override
     public List<DTO> getById(Collection<Long> ids) {
         return mapper.toDto(repository.findAllById(ids));
     }
 
     public<DTO_PARTIAL extends AbstractDto> List<DTO_PARTIAL> getById(Collection<Long> ids, Class<DTO_PARTIAL> dto_partialClass) {
-        Mapper mapper = DtoMappers.get(entityClass, dto_partialClass);
-        return mapper.toDto(repository.findAllById(ids));
+        return getMapper(dto_partialClass).toDto(repository.findAllById(ids));
     }
 
+    @Override
     public boolean existById(Long id) {
         return repository.existsById(id);
     }
 
+    @Override
     public long count() {
         return repository.count();
+    }
+
+    protected <DTO_PARTIAL extends AbstractDto> Mapper<ENTITY, DTO_PARTIAL> getMapper(Class<DTO_PARTIAL> dto_partialClass) {
+        return DtoMappers.get(entityClass, dto_partialClass);
     }
 }

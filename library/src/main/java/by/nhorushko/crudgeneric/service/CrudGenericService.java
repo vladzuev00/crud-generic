@@ -5,18 +5,14 @@ import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.mapper.AbstractMapper;
 import by.nhorushko.crudgeneric.util.FieldCopyUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Transactional
 public abstract class CrudGenericService<
@@ -65,9 +61,9 @@ public abstract class CrudGenericService<
     }
 
     public List<DTO> saveAll(List<DTO> list) {
-        List<ENTITY> entities = list.stream().map(d -> mapper.toEntity(d)).collect(Collectors.toList());
-        return StreamSupport.stream(repository.saveAll(entities).spliterator(), false)
-                .map(e -> mapper.toDto(e))
+        List<ENTITY> entities = list.stream().map(mapper::toEntity).collect(Collectors.toList());
+        return repository.saveAll(entities).stream()
+                .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 

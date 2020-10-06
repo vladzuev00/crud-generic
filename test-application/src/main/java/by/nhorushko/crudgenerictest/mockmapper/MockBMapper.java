@@ -1,7 +1,6 @@
 package by.nhorushko.crudgenerictest.mockmapper;
 
 import by.nhorushko.crudgeneric.mapper.ImmutableDtoAbstractMapper;
-import by.nhorushko.crudgenerictest.MockAMapper;
 import by.nhorushko.crudgenerictest.domain.dto.MockBDto;
 import by.nhorushko.crudgenerictest.domain.entity.MockBEntity;
 import org.modelmapper.ModelMapper;

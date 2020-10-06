@@ -3,6 +3,7 @@ package by.nhorushko.crudgenerictest;
 import by.nhorushko.crudgeneric.service.CrudGenericService;
 import by.nhorushko.crudgenerictest.domain.dto.MockADto;
 import by.nhorushko.crudgenerictest.domain.entity.MockAEntity;
+import by.nhorushko.crudgenerictest.mockmapper.MockAMapper;
 import org.springframework.stereotype.Service;
 
 @Service

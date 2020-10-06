@@ -1,4 +1,4 @@
-package by.nhorushko.crudgenerictest;
+package by.nhorushko.crudgenerictest.mockmapper;
 
 import by.nhorushko.crudgeneric.mapper.AbstractMapper;
 import by.nhorushko.crudgenerictest.domain.dto.MockADto;
