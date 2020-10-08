@@ -1,8 +1,10 @@
 package by.nhorushko.crudgeneric.controller;
 
 import by.nhorushko.crudgeneric.domain.AbstractDto;
+import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.exception.AuthenticationException;
 import by.nhorushko.crudgeneric.service.CrudGenericService;
+import by.nhorushko.filterspecification.FilterSpecificationAbstract;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +13,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class CrudGenericRestController<
-        DTO extends AbstractDto,
-        CRUD_SERVICE extends CrudGenericService<DTO, ?, ?, ?>> extends ImmutableGenericRestController<DTO, CRUD_SERVICE> {
+        DTO extends AbstractDto, ENTITY extends AbstractEntity,
+        CRUD_SERVICE extends CrudGenericService<DTO, ENTITY, ?, ?>> extends PageableGenericRestController<DTO, ENTITY, CRUD_SERVICE> {
 
-    public CrudGenericRestController(CRUD_SERVICE service) {
-        super(service);
+    public CrudGenericRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
+        super(service, filterSpecs);
     }
 
     @PostMapping

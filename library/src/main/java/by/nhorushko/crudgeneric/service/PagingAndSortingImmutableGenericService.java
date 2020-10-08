@@ -31,7 +31,7 @@ public abstract class PagingAndSortingImmutableGenericService<
 
     public <DTO_PARTIAL extends AbstractDto> Page<DTO_PARTIAL> list(Pageable pageable, Specification<ENTITY> specs,
                                                                     Class<DTO_PARTIAL> dto_partialClass) {
-        final Mapper<ENTITY, DTO_PARTIAL> mapper =getMapper(dto_partialClass);
+        final Mapper<ENTITY, DTO_PARTIAL> mapper = getMapper(dto_partialClass);
         return repository.findAll(specs, pageable)
                 .map(e -> dto_partialClass.cast(mapper.toDto(e)));
     }
