@@ -2,7 +2,7 @@ package by.nhorushko.crudgeneric.controller;
 
 import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.service.CrudGenericService;
+import by.nhorushko.crudgeneric.service.PagingAndSortingImmutableGenericService;
 import by.nhorushko.filterspecification.FilterSpecificationAbstract;
 import by.nhorushko.filterspecification.FilterSpecificationConstants;
 import by.nhorushko.filterspecification.PageRequestBuilder;
@@ -14,14 +14,14 @@ import java.util.Map;
 
 public class PageableGenericRestController
         <DTO extends AbstractDto, ENTITY extends AbstractEntity,
-                CRUD_SERVICE extends CrudGenericService<DTO, ENTITY, ?, ?>> extends ImmutableGenericRestController<DTO, CRUD_SERVICE> {
+                CRUD_SERVICE extends PagingAndSortingImmutableGenericService<DTO, ENTITY, ?, ?>> extends ImmutableGenericRestController<DTO, CRUD_SERVICE> {
 
     protected final static String PARAM_NAME_PAGE = "page";
     protected final static String PARAM_NAME_SIZE = "size";
     protected final static String PARAM_NAME_SORT = "sort";
     protected final static String FILTER_SUFFIX = FilterSpecificationConstants.FILTER_SUFFIX;
 
-    protected FilterSpecificationAbstract<ENTITY> filterSpecs;
+    protected final FilterSpecificationAbstract<ENTITY> filterSpecs;
 
     public PageableGenericRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
         super(service);

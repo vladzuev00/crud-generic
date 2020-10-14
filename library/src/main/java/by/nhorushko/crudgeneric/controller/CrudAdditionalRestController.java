@@ -3,27 +3,32 @@ package by.nhorushko.crudgeneric.controller;
 import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.exception.AuthenticationException;
-import by.nhorushko.crudgeneric.service.CrudGenericService;
+import by.nhorushko.crudgeneric.service.CrudAdditionalGenericService;
 import by.nhorushko.filterspecification.FilterSpecificationAbstract;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 
-public abstract class CrudGenericRestController<
+/**
+ *
+ */
+public abstract class CrudAdditionalRestController<
         DTO extends AbstractDto, ENTITY extends AbstractEntity,
-        CRUD_SERVICE extends CrudGenericService<DTO, ENTITY, ?, ?>>
+        CRUD_SERVICE extends CrudAdditionalGenericService<DTO, ENTITY, ?, ?>>
         extends RudGenericRestController<DTO, ENTITY, CRUD_SERVICE> {
 
-    public CrudGenericRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
+    public CrudAdditionalRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
         super(service, filterSpecs);
     }
 
-    @PostMapping
-    public ResponseEntity<DTO> save(@RequestBody DTO obj, HttpServletRequest request) {
-        checkAccessSaveBefore(obj, request);
-        DTO saved = service.save(obj);
+    /** Example mapping
+     * /mechanism/unit/{id}
+     */
+    public ResponseEntity<DTO> save(Long rootId,
+                                    DTO body,
+                                    HttpServletRequest request) {
+        checkAccessSaveBefore(body, request);
+        DTO saved = service.save(rootId, body);
         return ResponseEntity.ok(saved);
     }
 
