@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("unchecked")
 @Transactional
@@ -44,14 +45,14 @@ public abstract class ImmutableGenericService<
 
     @Override
     public DTO getById(Long id) {
-        return mapper.toDto(findById(id));
+        return mapper.toDto(findEntityById(id));
     }
 
     public <DTO_PARTIAL extends AbstractDto> DTO_PARTIAL getById(Long id, Class<DTO_PARTIAL> dto_partialClass) {
-        return getMapper(dto_partialClass).toDto(findById(id));
+        return getMapper(dto_partialClass).toDto(findEntityById(id));
     }
 
-    private ENTITY findById(Long id) {
+    protected ENTITY findEntityById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new AppNotFoundException(String.format("Entity %s id: %s was not found", entityClass, id)));
     }
@@ -61,7 +62,7 @@ public abstract class ImmutableGenericService<
         return mapper.toDto(repository.findAllById(ids));
     }
 
-    public<DTO_PARTIAL extends AbstractDto> List<DTO_PARTIAL> getById(Collection<Long> ids, Class<DTO_PARTIAL> dto_partialClass) {
+    public <DTO_PARTIAL extends AbstractDto> List<DTO_PARTIAL> getById(Collection<Long> ids, Class<DTO_PARTIAL> dto_partialClass) {
         return getMapper(dto_partialClass).toDto(repository.findAllById(ids));
     }
 

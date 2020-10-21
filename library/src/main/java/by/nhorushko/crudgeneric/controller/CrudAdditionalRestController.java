@@ -27,12 +27,11 @@ public abstract class CrudAdditionalRestController<
     public ResponseEntity<DTO> save(Long rootId,
                                     DTO body,
                                     HttpServletRequest request) {
-        checkAccessSaveBefore(body, request);
+        checkAccessSaveBefore(rootId, body, request);
         DTO saved = service.save(rootId, body);
         return ResponseEntity.ok(saved);
     }
 
-    protected void checkAccessSaveBefore(DTO obj, HttpServletRequest request) throws AuthenticationException {
-        checkAccess(request, obj);
-    }
+    protected abstract void checkAccessSaveBefore(Long rootId, DTO obj, HttpServletRequest request)
+            throws AuthenticationException;
 }

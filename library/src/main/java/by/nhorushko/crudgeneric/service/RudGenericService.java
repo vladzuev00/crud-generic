@@ -58,12 +58,13 @@ public abstract class RudGenericService<
     }
 
     protected DTO saveUpdatedDto(DTO obj){
-        ENTITY entity = mapper.toEntity(obj);
-        setupEntityBeforeUpdate(entity);
-        return mapper.toDto(repository.save(entity));
+        ENTITY source = findEntityById(obj.getId());
+        ENTITY target = mapper.toEntity(obj);
+        setupEntityBeforeUpdate(source, target);
+        return mapper.toDto(repository.save(target));
     }
 
-    protected void setupEntityBeforeUpdate(ENTITY entity) {
+    protected void setupEntityBeforeUpdate(ENTITY source, ENTITY target) {
     }
 
     protected boolean isNew(DTO dto) {

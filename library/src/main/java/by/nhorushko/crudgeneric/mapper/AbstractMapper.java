@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 /** some useful https://habr.com/ru/post/438808/ */
 public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends AbstractDto> implements Mapper<ENTITY, DTO> {
 
-    protected Class<ENTITY> entityClass;
-    protected Class<DTO> dtoClass;
-    protected ModelMapper mapper;
+    protected final Class<ENTITY> entityClass;
+    protected final Class<DTO> dtoClass;
+    protected final ModelMapper mapper;
 
     public AbstractMapper(Class<ENTITY> entityClass, Class<DTO> dtoClass, ModelMapper modelMapper) {
         this.entityClass = entityClass;
@@ -23,7 +23,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         DtoMappers.register(entityClass, dtoClass, this);
     }
 
-    public void setupMapper() {
+    protected void setupMapper() {
         mapper.createTypeMap(entityClass, dtoClass)
                 .setPostConverter(toDtoConverter());
         mapper.createTypeMap(dtoClass, entityClass)
@@ -62,7 +62,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         return Objects.isNull(entities) ? null : entities.stream().map(e -> toDto(e)).collect(Collectors.toList());
     }
 
-    public Converter<ENTITY, DTO> toDtoConverter() {
+    protected Converter<ENTITY, DTO> toDtoConverter() {
         return context -> {
             ENTITY source = context.getSource();
             DTO destination = context.getDestination();
@@ -71,7 +71,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         };
     }
 
-    public Converter<DTO, ENTITY> toEntityConverter() {
+    protected Converter<DTO, ENTITY> toEntityConverter() {
         return context -> {
             DTO source = context.getSource();
             ENTITY destination = context.getDestination();
@@ -80,9 +80,9 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         };
     }
 
-    public void mapSpecificFields(ENTITY source, DTO destination) {
+    protected void mapSpecificFields(ENTITY source, DTO destination) {
     }
 
-    public void mapSpecificFields(DTO source, ENTITY destination) {
+    protected void mapSpecificFields(DTO source, ENTITY destination) {
     }
 }
