@@ -32,13 +32,21 @@ public abstract class CrudGenericService<
 
     public DTO save(DTO dto) {
         ENTITY entity = mapper.toEntity(dto);
+        setupEntityBeforeSave(entity);
         return mapper.toDto(repository.save(entity));
     }
 
     public List<DTO> saveAll(List<DTO> list) {
-        List<ENTITY> entities = list.stream().map(mapper::toEntity).collect(Collectors.toList());
+        List<ENTITY> entities = list.stream().map(dto -> {
+            ENTITY e = mapper.toEntity(dto);
+            setupEntityBeforeSave(e);
+            return e;
+        }).collect(Collectors.toList());
         return repository.saveAll(entities).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    protected void setupEntityBeforeSave(ENTITY entity) {
     }
 }
