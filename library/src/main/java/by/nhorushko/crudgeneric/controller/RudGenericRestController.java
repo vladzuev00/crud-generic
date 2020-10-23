@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RudGenericRestController<
         DTO extends AbstractDto, ENTITY extends AbstractEntity,
-        CRUD_SERVICE extends RudGenericService<DTO, ENTITY, ?, ?>> extends PageableGenericRestController<DTO, ENTITY, CRUD_SERVICE>  {
+        CRUD_SERVICE extends RudGenericService<DTO, ENTITY, ?, ?>> extends PageableGenericRestController<DTO, ENTITY, CRUD_SERVICE> {
 
     public RudGenericRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
         super(service, filterSpecs);
@@ -39,9 +39,10 @@ public class RudGenericRestController<
 
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Long id, HttpServletRequest request) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id, HttpServletRequest request) {
         checkAccessDeleteBefore(id, request);
         service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     protected void checkAccessDeleteBefore(Long id, HttpServletRequest request) {
