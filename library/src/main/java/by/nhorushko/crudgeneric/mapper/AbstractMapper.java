@@ -3,12 +3,16 @@ package by.nhorushko.crudgeneric.mapper;
 import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import org.modelmapper.Converter;
+import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-/** some useful https://habr.com/ru/post/438808/ */
+
+/**
+ * some useful https://habr.com/ru/post/438808/
+ */
 public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends AbstractDto> implements Mapper<ENTITY, DTO> {
 
     protected final Class<ENTITY> entityClass;
@@ -38,7 +42,11 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
     }
 
     protected ENTITY mapEntity(DTO dto) {
-        return mapper.map(dto, entityClass);
+        try {
+            return mapper.map(dto, entityClass);
+        } catch (MappingException e) {
+            throw (RuntimeException) e.getCause();
+        }
     }
 
     @Override
