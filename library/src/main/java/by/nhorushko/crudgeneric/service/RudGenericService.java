@@ -25,7 +25,7 @@ public abstract class RudGenericService<
     }
 
     public RudGenericService(REPOSITORY repository, MAPPER mapper, Class<DTO> dtoClass, Class<ENTITY> entityClass,
-                              Set<String> ignorePartialUpdateProperties) {
+                             Set<String> ignorePartialUpdateProperties) {
         super(repository, mapper, dtoClass, entityClass);
         this.ignorePartialUpdateProperties = ignorePartialUpdateProperties;
     }
@@ -43,21 +43,23 @@ public abstract class RudGenericService<
     }
 
     public DTO update(DTO obj) {
+        checkEntityIdForUpdate(obj.getId());
         return saveUpdatedDto(obj);
     }
 
     public DTO updatePartial(Long id, Object source) {
+        checkEntityIdForUpdate(id);
         DTO target = copyPartial(id, source);
         return saveUpdatedDto(target);
     }
 
-    protected DTO copyPartial(Long id, Object source) {
+    private DTO copyPartial(Long id, Object source) {
         DTO target = getById(id);
         FieldCopyUtil.copy(source, target, ignorePartialUpdateProperties);
         return target;
     }
 
-    protected DTO saveUpdatedDto(DTO obj){
+    private DTO saveUpdatedDto(DTO obj) {
         ENTITY source = findEntityById(obj.getId());
         ENTITY target = mapper.toEntity(obj);
         setupEntityBeforeUpdate(source, target);
@@ -67,11 +69,26 @@ public abstract class RudGenericService<
     protected void setupEntityBeforeUpdate(ENTITY source, ENTITY target) {
     }
 
-    protected boolean isNew(DTO dto) {
-        return dto.getId() == null || dto.getId().equals(0L);
+    protected boolean isNew(Long id) {
+        return id == null || id.equals(0L);
     }
 
     protected boolean isNew(ENTITY dto) {
         return dto.getId() == null || dto.getId().equals(0L);
+    }
+
+    protected void checkEntityIdForUpdate(Long id) {
+        if (isNew(id)) {
+            throw new IllegalArgumentException(
+                    String.format("Updated entity should have id: (not null OR 0), but was id: %s", id));
+        }
+    }
+
+    protected void setEntityIdForSave(ENTITY e) {
+        if (!isNew(e)) {
+            throw new IllegalArgumentException(
+                    String.format("Saved Entity should have id equals (null or 0), but id: %s", e.getId()));
+        }
+        e.setId(null);
     }
 }

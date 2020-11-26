@@ -6,6 +6,7 @@ import org.modelmapper.Converter;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -50,7 +51,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
     }
 
     @Override
-    public List<ENTITY> toEntity(List<DTO> dtos) {
+    public List<ENTITY> toEntity(Collection<DTO> dtos) {
         return Objects.isNull(dtos) ? null : dtos.stream().map(d -> toEntity(d)).collect(Collectors.toList());
     }
 
@@ -66,7 +67,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
     }
 
     @Override
-    public List<DTO> toDto(List<ENTITY> entities) {
+    public List<DTO> toDto(Collection<ENTITY> entities) {
         return Objects.isNull(entities) ? null : entities.stream().map(e -> toDto(e)).collect(Collectors.toList());
     }
 

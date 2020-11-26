@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @SuppressWarnings("unchecked")
 @Transactional
@@ -54,7 +53,11 @@ public abstract class ImmutableGenericService<
 
     protected ENTITY findEntityById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new AppNotFoundException(String.format("Entity %s id: %s was not found", entityClass, id)));
+                .orElseThrow(() -> notFoundException(id));
+    }
+
+    protected AppNotFoundException notFoundException(Long id) {
+        return new AppNotFoundException(String.format("Entity %s id: %s was not found", entityClass, id));
     }
 
     @Override

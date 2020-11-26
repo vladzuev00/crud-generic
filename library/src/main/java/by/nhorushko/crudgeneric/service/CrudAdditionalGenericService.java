@@ -24,6 +24,7 @@ public abstract class CrudAdditionalGenericService<
 
     public DTO save(Long rootId, DTO dto) {
         ENTITY entity = mapper.toEntity(dto);
+        setEntityIdForSave(entity);
         setupEntityBeforeSave(rootId, entity);
         return mapper.toDto(repository.save(entity));
     }
@@ -32,6 +33,7 @@ public abstract class CrudAdditionalGenericService<
         List<ENTITY> entities = list.stream()
                 .map(dto -> {
                     ENTITY e = mapper.toEntity(dto);
+                    setEntityIdForSave(e);
                     setupEntityBeforeSave(rootId, e);
                     return e;
                 })
