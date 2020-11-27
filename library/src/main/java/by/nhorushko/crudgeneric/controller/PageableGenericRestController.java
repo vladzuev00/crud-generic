@@ -2,6 +2,7 @@ package by.nhorushko.crudgeneric.controller;
 
 import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
+import by.nhorushko.crudgeneric.domain.SettingsVoid;
 import by.nhorushko.crudgeneric.service.PagingAndSortingImmutableGenericService;
 import by.nhorushko.filterspecification.FilterSpecificationAbstract;
 import by.nhorushko.filterspecification.FilterSpecificationConstants;
@@ -12,9 +13,13 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Map;
 
-public class PageableGenericRestController
-        <DTO extends AbstractDto, ENTITY extends AbstractEntity,
-                CRUD_SERVICE extends PagingAndSortingImmutableGenericService<DTO, ENTITY, ?, ?>> extends ImmutableGenericRestController<DTO, CRUD_SERVICE> {
+public abstract class PageableGenericRestController
+        <DTO_INTERMEDIATE extends AbstractDto,
+                DTO_VIEW extends AbstractDto,
+                ENTITY extends AbstractEntity,
+                SETTINGS extends SettingsVoid,
+                CRUD_SERVICE extends PagingAndSortingImmutableGenericService<DTO_INTERMEDIATE, ENTITY, ?, ?>>
+        extends ImmutableGenericRestController<DTO_INTERMEDIATE, DTO_VIEW, SETTINGS, CRUD_SERVICE> {
 
     protected final static String PARAM_NAME_PAGE = "page";
     protected final static String PARAM_NAME_SIZE = "size";
@@ -28,13 +33,17 @@ public class PageableGenericRestController
         this.filterSpecs = filterSpecs;
     }
 
-    protected Page<DTO> getPage(int page, int size, String sort, Specification<ENTITY>... specs) {
+    protected Page<DTO_INTERMEDIATE> getPage(int page, int size, String sort, Specification<ENTITY>... specs) {
         if (filterSpecs == null) {
             throw new IllegalArgumentException("Not specify filter specification");
         }
         Specification<ENTITY> rSpecs = buildAndSpecs(specs);
         Pageable pageable = buildPageRequest(page, size, sort, filterSpecs.getEntityFieldPaths());
         return service.list(pageable, rSpecs);
+    }
+
+    protected Page<DTO_VIEW> postHandle(Page<DTO_INTERMEDIATE> dto, SETTINGS settings) {
+        return dto.map(d -> postHandle(d, settings));
     }
 
     protected Specification<ENTITY> buildAndSpecs(Specification<ENTITY>... specs) {

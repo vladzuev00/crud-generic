@@ -2,6 +2,7 @@ package by.nhorushko.crudgeneric.controller;
 
 import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
+import by.nhorushko.crudgeneric.domain.SettingsVoid;
 import by.nhorushko.crudgeneric.exception.AuthenticationException;
 import by.nhorushko.crudgeneric.service.CrudAdditionalGenericService;
 import by.nhorushko.filterspecification.FilterSpecificationAbstract;
@@ -13,9 +14,12 @@ import javax.servlet.http.HttpServletRequest;
  *
  */
 public abstract class CrudAdditionalRestController<
-        DTO extends AbstractDto, ENTITY extends AbstractEntity,
-        CRUD_SERVICE extends CrudAdditionalGenericService<DTO, ENTITY, ?, ?>>
-        extends RudGenericRestController<DTO, ENTITY, CRUD_SERVICE> {
+        DTO_INTERMEDIATE extends AbstractDto,
+        DTO_VIEW extends AbstractDto,
+        ENTITY extends AbstractEntity,
+        SETTINGS extends SettingsVoid,
+        CRUD_SERVICE extends CrudAdditionalGenericService<DTO_INTERMEDIATE, ENTITY, ?, ?>>
+        extends RudGenericRestController<DTO_INTERMEDIATE, DTO_VIEW, ENTITY, SETTINGS, CRUD_SERVICE> {
 
     public CrudAdditionalRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
         super(service, filterSpecs);
@@ -24,14 +28,16 @@ public abstract class CrudAdditionalRestController<
     /** Example mapping
      * /mechanism/unit/{id}
      */
-    public ResponseEntity<DTO> save(Long rootId,
-                                    DTO body,
+    public ResponseEntity<DTO_VIEW> save(Long rootId,
+                                    DTO_INTERMEDIATE body,
+                                    SETTINGS settings,
                                     HttpServletRequest request) {
         checkAccessSaveBefore(rootId, body, request);
-        DTO saved = service.save(rootId, body);
-        return ResponseEntity.ok(saved);
+        DTO_INTERMEDIATE saved = service.save(rootId, body);
+        DTO_VIEW dtoView = postHandle(saved, settings);
+        return ResponseEntity.ok(dtoView);
     }
 
-    protected abstract void checkAccessSaveBefore(Long rootId, DTO obj, HttpServletRequest request)
+    protected abstract void checkAccessSaveBefore(Long rootId, DTO_INTERMEDIATE obj, HttpServletRequest request)
             throws AuthenticationException;
 }
