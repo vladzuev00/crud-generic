@@ -4,9 +4,10 @@ import by.nhorushko.crudgeneric.domain.AbstractDto;
 import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.domain.SettingsVoid;
 import by.nhorushko.crudgeneric.service.PagingAndSortingImmutableGenericService;
+import by.nhorushko.crudgeneric.util.PageableUtils;
+import by.nhorushko.crudgeneric.util.SpecificationUtils;
 import by.nhorushko.filterspecification.FilterSpecificationAbstract;
 import by.nhorushko.filterspecification.FilterSpecificationConstants;
-import by.nhorushko.filterspecification.PageRequestBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -47,31 +48,14 @@ public abstract class PageableGenericRestController
     }
 
     protected Specification<ENTITY> buildAndSpecs(Specification<ENTITY>... specs) {
-        if (specs.length == 0) {
-            throw new IllegalArgumentException("expect at least one Specification");
-        }
-        Specification<ENTITY> result = specs[0];
-        for (int i = 1; i < specs.length; i++) {
-            result = result.and(specs[i]);
-        }
-        return Specification.where(result);
+        return SpecificationUtils.buildAndSpecs(specs);
     }
 
     protected Specification<ENTITY> buildOrSpecs(Specification<ENTITY>... specs) {
-        if (specs.length == 0) {
-            throw new IllegalArgumentException("expect at least one Specification");
-        }
-        Specification<ENTITY> result = specs[0];
-        for (int i = 1; i < specs.length; i++) {
-            result = result.or(specs[i]);
-        }
-        return Specification.where(result);
+        return buildOrSpecs(specs);
     }
 
     protected Pageable buildPageRequest(int page, int size, String sort, Map<String, String> entityFieldPaths) {
-        for (String k : entityFieldPaths.keySet()) {
-            sort.replaceAll(k, entityFieldPaths.get(k));
-        }
-        return PageRequestBuilder.getPageRequest(size, page, sort);
+       return PageableUtils.buildPageRequest(page, size, sort, entityFieldPaths);
     }
 }
