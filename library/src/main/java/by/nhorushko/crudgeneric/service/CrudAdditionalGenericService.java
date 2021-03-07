@@ -23,6 +23,7 @@ public abstract class CrudAdditionalGenericService<
     }
 
     public DTO save(Long rootId, DTO dto) {
+        check(dto);
         ENTITY entity = mapper.toEntity(dto);
         setEntityIdForSave(entity);
         setupEntityBeforeSave(rootId, entity);
@@ -31,6 +32,7 @@ public abstract class CrudAdditionalGenericService<
 
     public List<DTO> saveAll(Long rootId, Collection<DTO> list) {
         List<ENTITY> entities = list.stream()
+                .peek(this::check)
                 .map(dto -> {
                     ENTITY e = mapper.toEntity(dto);
                     setEntityIdForSave(e);

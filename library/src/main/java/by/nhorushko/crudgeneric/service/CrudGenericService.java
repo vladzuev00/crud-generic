@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,6 +31,7 @@ public abstract class CrudGenericService<
     }
 
     public DTO save(DTO dto) {
+        check(dto);
         ENTITY entity = mapper.toEntity(dto);
         setEntityIdForSave(entity);
         setupEntityBeforeSave(entity);
@@ -39,12 +39,14 @@ public abstract class CrudGenericService<
     }
 
     public List<DTO> saveAll(List<DTO> list) {
-        List<ENTITY> entities = list.stream().map(dto -> {
-            ENTITY e = mapper.toEntity(dto);
-            setEntityIdForSave(e);
-            setupEntityBeforeSave(e);
-            return e;
-        }).collect(Collectors.toList());
+        List<ENTITY> entities = list.stream()
+                .peek(this::check)
+                .map(dto -> {
+                    ENTITY e = mapper.toEntity(dto);
+                    setEntityIdForSave(e);
+                    setupEntityBeforeSave(e);
+                    return e;
+                }).collect(Collectors.toList());
         return repository.saveAll(entities).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());

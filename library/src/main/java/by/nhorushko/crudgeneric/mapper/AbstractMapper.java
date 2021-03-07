@@ -46,6 +46,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
         try {
             return mapper.map(dto, entityClass);
         } catch (MappingException e) {
+            e.printStackTrace();
             throw (RuntimeException) e.getCause();
         }
     }
