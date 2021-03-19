@@ -10,7 +10,7 @@ public interface Mapper<ENTITY extends AbstractEntity, DTO extends AbstractDto> 
 
     ENTITY toEntity(DTO dto);
 
-    List<ENTITY> toEntity(Collection<DTO> dtos);
+    List<ENTITY> toEntity(Collection<? extends DTO> dtos);
 
     DTO toDto(ENTITY entity);
 

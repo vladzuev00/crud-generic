@@ -52,7 +52,7 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends 
     }
 
     @Override
-    public List<ENTITY> toEntity(Collection<DTO> dtos) {
+    public List<ENTITY> toEntity(Collection<? extends DTO> dtos) {
         return Objects.isNull(dtos) ? null : dtos.stream().map(d -> toEntity(d)).collect(Collectors.toList());
     }
 
