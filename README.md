@@ -4,35 +4,15 @@ Abstract generic реализация для Spring Boot CRUD сервисов, 
 реализован mapper для конвертирования объектов
 
 Подключение библиотеки:
-
-<repositories>
+```
     <repository>
-        <id>crud-service-mvn-repo</id>
-        <url>https://raw.github.com/NNikolay/crud-service/mvn-repo/</url>
-        <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>always</updatePolicy>
-        </snapshots>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
     </repository>
-</repositories>
 
-<dependency>
-    <groupId>by.nhorushko</groupId>
-    <artifactId>crud-abstract-generic</artifactId>
-    <version>{version}</version>
-     <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.data</groupId>
-                        <artifactId>spring-data-jpa</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-web</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                </exclusions>
-</dependency>
-
+    <dependency>
+        <groupId>com.github.NikolayNN.crud-generic</groupId>
+        <artifactId>crud-abstract-generic</artifactId>
+        <version>5.2</version>
+    </dependency>
+```
