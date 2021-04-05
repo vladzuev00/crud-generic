@@ -251,7 +251,7 @@ public class CrudGenericServiceIT {
     @Sql(value = {"classpath:add-entities-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void saveTest_ShouldSaveNew() {
         assertNull(entityManager.find(MockAEntity.class, 6L));
-        MockADto actual = mockService.save(new MockADto(55L, "test-6"));
+        MockADto actual = mockService.save(new MockADto(null, "test-6"));
         assertNotNull(entityManager.find(MockAEntity.class, actual.getId()));
     }
 
