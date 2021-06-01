@@ -9,7 +9,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -66,10 +65,16 @@ public abstract class RudGenericService<
         ENTITY source = findEntityById(obj.getId());
         ENTITY target = mapper.toEntity(obj);
         setupEntityBeforeUpdate(source, target);
-        return mapper.toDto(repository.save(target));
+        ENTITY savedEntity = repository.save(target);
+        processEntityAfterUpdate(savedEntity);
+        return mapper.toDto(savedEntity);
     }
 
     protected void check(DTO obj) {
+
+    }
+
+    protected void processEntityAfterUpdate(ENTITY entity){
 
     }
 

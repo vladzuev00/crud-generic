@@ -35,7 +35,9 @@ public abstract class CrudGenericService<
         ENTITY entity = mapper.toEntity(dto);
         setEntityIdForSave(entity);
         setupEntityBeforeSave(entity);
-        return mapper.toDto(repository.save(entity));
+        ENTITY savedEntity = repository.save(entity);
+        processEntityAfterSave(savedEntity);
+        return mapper.toDto(savedEntity);
     }
 
     public List<DTO> saveAll(List<DTO> list) {
@@ -48,10 +50,14 @@ public abstract class CrudGenericService<
                     return e;
                 }).collect(Collectors.toList());
         return repository.saveAll(entities).stream()
+                .peek(this::processEntityAfterSave)
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 
     protected void setupEntityBeforeSave(ENTITY entity) {
+    }
+
+    protected void processEntityAfterSave(ENTITY entity) {
     }
 }
