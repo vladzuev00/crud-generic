@@ -6,13 +6,16 @@ import by.nhorushko.crudgeneric.domain.SettingsVoid;
 import by.nhorushko.crudgeneric.service.PagingAndSortingImmutableGenericService;
 import by.nhorushko.crudgeneric.util.PageableUtils;
 import by.nhorushko.crudgeneric.util.SpecificationUtils;
+import by.nhorushko.filterspecification.FilterOperation;
 import by.nhorushko.filterspecification.FilterSpecificationAbstract;
 import by.nhorushko.filterspecification.FilterSpecificationConstants;
+import by.nhorushko.filterspecification.FilterSpecificationUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Map;
+import java.util.Set;
 
 public abstract class PageableGenericRestController
         <DTO_INTERMEDIATE extends AbstractDto,
@@ -32,6 +35,14 @@ public abstract class PageableGenericRestController
     public PageableGenericRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
         super(service);
         this.filterSpecs = filterSpecs;
+    }
+
+    protected boolean filterParamIsBlank(String filterParam) {
+        return FilterSpecificationUtils.isBlank(filterParam);
+    }
+
+    protected boolean checkFilterOperation(String filter, Set<FilterOperation> availableOperations){
+        return FilterSpecificationUtils.checkFilterOperation(filter, availableOperations);
     }
 
     protected Page<DTO_INTERMEDIATE> getPage(int page, int size, String sort, Specification<ENTITY>... specs) {
@@ -56,6 +67,6 @@ public abstract class PageableGenericRestController
     }
 
     protected Pageable buildPageRequest(int page, int size, String sort, Map<String, String> entityFieldPaths) {
-       return PageableUtils.buildPageRequest(page, size, sort, entityFieldPaths);
+        return PageableUtils.buildPageRequest(page, size, sort, entityFieldPaths);
     }
 }
