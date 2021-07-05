@@ -41,8 +41,8 @@ public abstract class PageableGenericRestController
         return FilterSpecificationUtils.isBlank(filterParam);
     }
 
-    protected boolean checkFilterOperation(String filter, Set<FilterOperation> availableOperations){
-        return FilterSpecificationUtils.checkFilterOperation(filter, availableOperations);
+    protected void checkFilterOperation(String filter, Set<FilterOperation> availableOperations){
+        FilterSpecificationUtils.checkFilterOperation(filter, availableOperations);
     }
 
     protected Page<DTO_INTERMEDIATE> getPage(int page, int size, String sort, Specification<ENTITY>... specs) {
