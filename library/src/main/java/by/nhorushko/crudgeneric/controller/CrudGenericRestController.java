@@ -36,7 +36,7 @@ public abstract class CrudGenericRestController<
         return ResponseEntity.ok(dtoView);
     }
 
-    private DTO_INTERMEDIATE handleBeforeSave(DTO_INTERMEDIATE obj, HttpServletRequest request, SETTINGS settings) {
+    protected DTO_INTERMEDIATE handleBeforeSave(DTO_INTERMEDIATE obj, HttpServletRequest request, SETTINGS settings) {
         return obj;
     }
 
