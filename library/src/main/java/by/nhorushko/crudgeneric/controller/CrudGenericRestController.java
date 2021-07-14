@@ -30,9 +30,14 @@ public abstract class CrudGenericRestController<
                                          SETTINGS settings,
                                          HttpServletRequest request) {
         checkAccessSaveBefore(obj, request);
+        obj = handleBeforeSave(obj, request, settings);
         DTO_INTERMEDIATE saved = service.save(obj);
         DTO_VIEW dtoView = postHandle(saved, settings);
         return ResponseEntity.ok(dtoView);
+    }
+
+    private DTO_INTERMEDIATE handleBeforeSave(DTO_INTERMEDIATE obj, HttpServletRequest request, SETTINGS settings) {
+        return obj;
     }
 
     protected void checkAccessSaveBefore(DTO_INTERMEDIATE obj, HttpServletRequest request) throws AuthenticationException {
