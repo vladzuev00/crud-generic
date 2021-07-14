@@ -51,7 +51,7 @@ public abstract class ImmutableGenericService<
         return getMapper(dto_partialClass).toDto(findEntityById(id));
     }
 
-    protected ENTITY findEntityById(Long id) {
+    public ENTITY findEntityById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> notFoundException(id));
     }

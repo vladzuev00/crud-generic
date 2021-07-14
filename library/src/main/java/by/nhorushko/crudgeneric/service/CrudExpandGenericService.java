@@ -29,7 +29,7 @@ public abstract class CrudExpandGenericService<
     }
 
     @Override
-    protected @Nullable
+    public @Nullable
     ENTITY findEntityById(Long id) {
         return repository.findById(id).orElse(null);
     }
