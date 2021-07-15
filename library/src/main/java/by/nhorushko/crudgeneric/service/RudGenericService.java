@@ -81,14 +81,6 @@ public abstract class RudGenericService<
     protected void setupEntityBeforeUpdate(ENTITY source, ENTITY target) {
     }
 
-    protected boolean isNew(Long id) {
-        return id == null || id.equals(0L);
-    }
-
-    protected boolean isNew(ENTITY dto) {
-        return dto.getId() == null || dto.getId().equals(0L);
-    }
-
     protected void checkEntityIdForUpdate(Long id) {
         if (isNew(id)) {
             throw new IllegalArgumentException(

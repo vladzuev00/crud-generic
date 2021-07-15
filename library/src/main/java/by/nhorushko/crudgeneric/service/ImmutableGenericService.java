@@ -82,4 +82,12 @@ public abstract class ImmutableGenericService<
     protected <DTO_PARTIAL extends AbstractDto> Mapper<ENTITY, DTO_PARTIAL> getMapper(Class<DTO_PARTIAL> dto_partialClass) {
         return DtoMappers.get(entityClass, dto_partialClass);
     }
+
+    protected boolean isNew(Long id) {
+        return id == null || id.equals(0L);
+    }
+
+    protected boolean isNew(ENTITY dto) {
+        return dto.getId() == null || dto.getId().equals(0L);
+    }
 }
