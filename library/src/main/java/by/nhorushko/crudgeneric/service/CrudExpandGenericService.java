@@ -48,7 +48,7 @@ public abstract class CrudExpandGenericService<
     }
 
     @Override
-    protected void setEntityIdForSave(ENTITY e) {
+    protected void checkIdForSave(ENTITY e) {
         //do nothing
     }
 

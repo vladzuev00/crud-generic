@@ -44,12 +44,12 @@ public abstract class RudGenericService<
 
     public DTO update(DTO obj) {
         check(obj);
-        checkEntityIdForUpdate(obj.getId());
+        checkIdForUpdate(obj.getId());
         return saveUpdatedDto(obj);
     }
 
     public DTO updatePartial(Long id, Object source) {
-        checkEntityIdForUpdate(id);
+        checkIdForUpdate(id);
         DTO target = copyPartial(id, source);
         return saveUpdatedDto(target);
     }
@@ -79,20 +79,5 @@ public abstract class RudGenericService<
     }
 
     protected void setupEntityBeforeUpdate(ENTITY source, ENTITY target) {
-    }
-
-    protected void checkEntityIdForUpdate(Long id) {
-        if (isNew(id)) {
-            throw new IllegalArgumentException(
-                    String.format("Updated entity should have id: (not null OR 0), but was id: %s", id));
-        }
-    }
-
-    protected void setEntityIdForSave(ENTITY e) {
-        if (!isNew(e)) {
-            throw new IllegalArgumentException(
-                    String.format("Saved Entity should have id equals (null or 0), but id: %s", e.getId()));
-        }
-        e.setId(null);
     }
 }

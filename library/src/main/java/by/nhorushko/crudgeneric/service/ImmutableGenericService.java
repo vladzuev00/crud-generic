@@ -87,7 +87,42 @@ public abstract class ImmutableGenericService<
         return id == null || id.equals(0L);
     }
 
-    protected boolean isNew(ENTITY dto) {
-        return dto.getId() == null || dto.getId().equals(0L);
+    protected boolean isNew(ENTITY entity) {
+        return isNew(entity.getId());
+    }
+
+    protected boolean isNew(DTO dto) {
+        return isNew(dto.getId());
+    }
+
+    protected void checkIdForUpdate(DTO dto) {
+        checkIdForUpdate(dto.getId());
+    }
+
+    protected void checkIdForUpdate(ENTITY entity) {
+       checkIdForUpdate(entity.getId());
+    }
+
+    protected void checkIdForUpdate(Long id){
+        if (isNew(id)) {
+            throw new IllegalArgumentException(
+                    String.format("Updated entity should have id: (not null OR 0), but was id: %s", id));
+        }
+    }
+
+    protected void checkIdForSave(DTO e) {
+       checkIdForSave(e.getId());
+    }
+
+    protected void checkIdForSave(ENTITY e) {
+        checkIdForSave(e.getId());
+        e.setId(null);
+    }
+
+    protected void checkIdForSave(Long id) {
+        if (!isNew(id)) {
+            throw new IllegalArgumentException(
+                    String.format("Saved Entity should have id equals (null or 0), but id: %s", id));
+        }
     }
 }
