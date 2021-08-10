@@ -2,8 +2,8 @@ package by.nhorushko.crudgeneric.domain;
 
 public class SettingsTranslateable implements SettingsVoid {
 
-    private String lang;
-    private Object cacheLanguage;
+    protected String lang;
+    protected Object cacheLanguage;
 
     public Object getCachedLanguage(){
         return cacheLanguage;
