@@ -10,36 +10,17 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-public abstract class RudGenericRestController<
+public abstract class ReadUpdateDeleteGenericRestController<
         DTO_INTERMEDIATE extends AbstractDto,
         DTO_VIEW extends AbstractDto,
         ENTITY extends AbstractEntity,
         SETTINGS extends SettingsVoid,
         CRUD_SERVICE extends RudGenericService<DTO_INTERMEDIATE, ENTITY, ?, ?>>
-        extends PageableGenericRestController<DTO_INTERMEDIATE, DTO_VIEW, ENTITY, SETTINGS, CRUD_SERVICE> {
+        extends ReadUpdateGenericRestController<DTO_INTERMEDIATE, DTO_VIEW, ENTITY, SETTINGS, CRUD_SERVICE> {
 
-    public RudGenericRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
+    public ReadUpdateDeleteGenericRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
         super(service, filterSpecs);
     }
-
-    @PutMapping("{id}")
-    public ResponseEntity<DTO_VIEW> update(@PathVariable("id") Long id,
-                                      SETTINGS settings,
-                                      @RequestBody DTO_INTERMEDIATE obj,
-                                      HttpServletRequest request) {
-
-        if (!id.equals(obj.getId())) {
-            throw new IllegalArgumentException("wrong id");
-        }
-        checkAccessUpdateBefore(obj, request);
-        DTO_INTERMEDIATE saved = service.update(obj);
-        return okResponse(saved, settings);
-    }
-
-    protected void checkAccessUpdateBefore(DTO_INTERMEDIATE obj, HttpServletRequest request) {
-        checkAccess(request, obj);
-    }
-
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id, HttpServletRequest request) {

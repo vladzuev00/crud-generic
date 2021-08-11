@@ -18,7 +18,7 @@ public abstract class CrudGenericRestController<
         ENTITY extends AbstractEntity,
         SETTINGS extends SettingsVoid,
         CRUD_SERVICE extends CrudGenericService<DTO_INTERMEDIATE, ENTITY, ?, ?>>
-        extends RudGenericRestController<DTO_INTERMEDIATE, DTO_VIEW, ENTITY, SETTINGS, CRUD_SERVICE> {
+        extends ReadUpdateDeleteGenericRestController<DTO_INTERMEDIATE, DTO_VIEW, ENTITY, SETTINGS, CRUD_SERVICE> {
 
     public CrudGenericRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
         super(service, filterSpecs);

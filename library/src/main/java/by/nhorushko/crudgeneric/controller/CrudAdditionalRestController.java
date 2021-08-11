@@ -19,7 +19,7 @@ public abstract class CrudAdditionalRestController<
         ENTITY extends AbstractEntity,
         SETTINGS extends SettingsVoid,
         CRUD_SERVICE extends CrudAdditionalGenericService<DTO_INTERMEDIATE, ENTITY, ?, ?>>
-        extends RudGenericRestController<DTO_INTERMEDIATE, DTO_VIEW, ENTITY, SETTINGS, CRUD_SERVICE> {
+        extends ReadUpdateDeleteGenericRestController<DTO_INTERMEDIATE, DTO_VIEW, ENTITY, SETTINGS, CRUD_SERVICE> {
 
     public CrudAdditionalRestController(CRUD_SERVICE service, FilterSpecificationAbstract<ENTITY> filterSpecs) {
         super(service, filterSpecs);
