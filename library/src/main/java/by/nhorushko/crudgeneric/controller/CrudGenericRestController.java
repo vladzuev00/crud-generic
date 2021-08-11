@@ -31,8 +31,7 @@ public abstract class CrudGenericRestController<
         checkAccessSaveBefore(obj, request);
         obj = handleBeforeSave(obj, request, settings);
         DTO_INTERMEDIATE saved = service.save(obj);
-        DTO_VIEW dtoView = postHandle(saved, settings);
-        return ResponseEntity.ok(dtoView);
+        return okResponse(saved, settings);
     }
 
     protected DTO_INTERMEDIATE handleBeforeSave(DTO_INTERMEDIATE obj, HttpServletRequest request, SETTINGS settings) {

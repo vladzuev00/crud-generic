@@ -33,8 +33,7 @@ public abstract class RudGenericRestController<
         }
         checkAccessUpdateBefore(obj, request);
         DTO_INTERMEDIATE saved = service.update(obj);
-        DTO_VIEW dtoView = postHandle(saved, settings);
-        return ResponseEntity.ok(dtoView);
+        return okResponse(saved, settings);
     }
 
     protected void checkAccessUpdateBefore(DTO_INTERMEDIATE obj, HttpServletRequest request) {

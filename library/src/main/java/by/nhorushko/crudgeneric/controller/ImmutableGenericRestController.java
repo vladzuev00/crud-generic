@@ -7,7 +7,6 @@ import by.nhorushko.crudgeneric.service.ImmutableGenericService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -34,7 +33,11 @@ public abstract class ImmutableGenericRestController<
         checkAccessGetByIdBefore(id, request);
         DTO_INTERMEDIATE dto = service.getById(id);
         checkAccessGetByIdAfter(dto, request);
-        DTO_VIEW dtoView = postHandle(dto, settings);
+        return okResponse(dto, settings);
+    }
+
+    protected ResponseEntity<DTO_VIEW> okResponse(DTO_INTERMEDIATE dtoIntermediate, SETTINGS settings) {
+        DTO_VIEW dtoView = postHandle(dtoIntermediate, settings);
         return ResponseEntity.ok(dtoView);
     }
 

@@ -34,8 +34,7 @@ public abstract class CrudAdditionalRestController<
                                     HttpServletRequest request) {
         checkAccessSaveBefore(rootId, body, request);
         DTO_INTERMEDIATE saved = service.save(rootId, body);
-        DTO_VIEW dtoView = postHandle(saved, settings);
-        return ResponseEntity.ok(dtoView);
+        return okResponse(saved, settings);
     }
 
     protected abstract void checkAccessSaveBefore(Long rootId, DTO_INTERMEDIATE obj, HttpServletRequest request)
