@@ -41,6 +41,11 @@ public abstract class ImmutableGenericRestController<
         return ResponseEntity.ok(dtoView);
     }
 
+    protected ResponseEntity<List<DTO_VIEW>> okResponse(Collection<DTO_INTERMEDIATE> list, SETTINGS settings) {
+        List<DTO_VIEW> result = list.stream().map(d -> postHandle(d, settings)).collect(Collectors.toList());
+        return ResponseEntity.ok(result);
+    }
+
     protected abstract DTO_VIEW postHandle(DTO_INTERMEDIATE dto, SETTINGS settings);
 
     protected List<DTO_VIEW> postHandle(Collection<DTO_INTERMEDIATE> dtos, SETTINGS settings) {
