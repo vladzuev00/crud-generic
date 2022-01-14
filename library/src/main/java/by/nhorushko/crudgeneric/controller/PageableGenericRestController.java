@@ -45,7 +45,8 @@ public abstract class PageableGenericRestController
         FilterSpecificationUtils.checkFilterOperation(filter, availableOperations);
     }
 
-    protected Page<DTO_INTERMEDIATE> getPage(int page, int size, String sort, Specification<ENTITY>... specs) {
+    @SafeVarargs
+    protected final Page<DTO_INTERMEDIATE> getPage(int page, int size, String sort, Specification<ENTITY>... specs) {
         if (filterSpecs == null) {
             throw new IllegalArgumentException("Not specify filter specification");
         }
@@ -58,11 +59,13 @@ public abstract class PageableGenericRestController
         return dto.map(d -> postHandle(d, settings));
     }
 
-    protected Specification<ENTITY> buildAndSpecs(Specification<ENTITY>... specs) {
+    @SafeVarargs
+    protected final Specification<ENTITY> buildAndSpecs(Specification<ENTITY>... specs) {
         return SpecificationUtils.buildAndSpecs(specs);
     }
 
-    protected Specification<ENTITY> buildOrSpecs(Specification<ENTITY>... specs) {
+    @SafeVarargs
+    protected final Specification<ENTITY> buildOrSpecs(Specification<ENTITY>... specs) {
         return buildOrSpecs(specs);
     }
 
