@@ -32,10 +32,20 @@ public abstract class RudGenericService<
 
     public void deleteById(Long id) {
         try {
+            processBeforeDelete(repository.getOne(id));
             repository.deleteById(id);
+            processAfterDelete(id);
         } catch (EmptyResultDataAccessException ex) {
             throw new AppNotFoundException(String.format("Entity %s with id: %s was not found", entityClass.getSimpleName(), id), ex);
         }
+    }
+
+    public void processBeforeDelete(ENTITY entity) {
+
+    }
+
+    public void processAfterDelete(Long id) {
+
     }
 
     public void deleteAll(List<DTO> dtos) {
