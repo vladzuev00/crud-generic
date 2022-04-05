@@ -55,6 +55,16 @@ public abstract class PageableGenericRestController
         return service.list(pageable, rSpecs);
     }
 
+    @SafeVarargs
+    protected final Page<DTO_INTERMEDIATE> getPageOr(int page, int size, String sort, Specification<ENTITY>... specs) {
+        if (filterSpecs == null) {
+            throw new IllegalArgumentException("Not specify filter specification");
+        }
+        Specification<ENTITY> rSpecs = buildOrSpecs(specs);
+        Pageable pageable = buildPageRequest(page, size, sort, filterSpecs.getEntityFieldPaths());
+        return service.list(pageable, rSpecs);
+    }
+
     protected Page<DTO_VIEW> postHandle(Page<DTO_INTERMEDIATE> dto, SETTINGS settings) {
         return dto.map(d -> postHandle(d, settings));
     }
@@ -66,7 +76,7 @@ public abstract class PageableGenericRestController
 
     @SafeVarargs
     protected final Specification<ENTITY> buildOrSpecs(Specification<ENTITY>... specs) {
-        return buildOrSpecs(specs);
+        return SpecificationUtils.buildOrSpecs(specs);
     }
 
     protected Pageable buildPageRequest(int page, int size, String sort, Map<String, String> entityFieldPaths) {
