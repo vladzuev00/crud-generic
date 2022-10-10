@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 public abstract class AbstractCrudService<
         ENTITY_ID,
         ENTITY extends AbstractEntity<ENTITY_ID>,
@@ -30,8 +28,6 @@ public abstract class AbstractCrudService<
     public List<DTO> saveAll(Collection<DTO> dto) {
         final List<ENTITY> entities = super.mapper.toEntity(dto);
         final List<ENTITY> savedEntities = super.repository.saveAll(entities);
-        return savedEntities.stream()
-                .map(super.mapper::toDto)
-                .collect(toList());
+        return super.mapper.toDto(savedEntities);
     }
 }
