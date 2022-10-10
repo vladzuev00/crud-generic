@@ -35,8 +35,6 @@ public abstract class AbstractExtCRUDService<
                 .map(dto -> super.mapper.toEntity(relationId, dto))
                 .collect(toList());
         final List<ENTITY> savedEntities = super.repository.saveAll(entities);
-        return savedEntities.stream()
-                .map(super.mapper::toDto)
-                .collect(toList());
+        return super.mapper.toDto(savedEntities);
     }
 }
