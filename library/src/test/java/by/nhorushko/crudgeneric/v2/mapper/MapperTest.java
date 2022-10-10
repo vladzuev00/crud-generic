@@ -1,8 +1,9 @@
 package by.nhorushko.crudgeneric.v2.mapper;
 
-import by.nhorushko.crudgeneric.domain.AbstractDto;
-import by.nhorushko.crudgeneric.domain.AbstractEntity;
-import lombok.*;
+import by.nhorushko.crudgeneric.domain.dto.Car;
+import by.nhorushko.crudgeneric.domain.dto.User;
+import by.nhorushko.crudgeneric.domain.entity.CarEntity;
+import by.nhorushko.crudgeneric.domain.entity.UserEntity;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
 
@@ -29,48 +30,6 @@ public final class MapperTest {
         assertEquals(expected, actual);
     }
 
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Setter
-    @Getter
-    @EqualsAndHashCode
-    @ToString
-    private static final class UserEntity implements AbstractEntity {
-        private Long id;
-        private String email;
-        private String name;
-        private String surname;
-        private String patronymic;
-        private CarEntity car;
-    }
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Setter
-    @Getter
-    @EqualsAndHashCode
-    @ToString
-    private static final class CarEntity implements AbstractEntity {
-        private Long id;
-        private String number;
-    }
-
-    @Value
-    private static class User implements AbstractDto {
-        Long id;
-        String email;
-        String name;
-        String surname;
-        String patronymic;
-        Car car;
-    }
-
-    @Value
-    private static class Car implements AbstractDto {
-        Long id;
-        String number;
-    }
-
     private static final class CarMapper extends Mapper<CarEntity, Car> {
 
         public CarMapper(ModelMapper modelMapper) {
@@ -79,7 +38,7 @@ public final class MapperTest {
 
         @Override
         protected Car createDto(CarEntity entity) {
-            return new Car(entity.id, entity.number);
+            return new Car(entity.getId(), entity.getNumber());
         }
     }
 
@@ -93,8 +52,8 @@ public final class MapperTest {
 
         @Override
         protected User createDto(UserEntity entity) {
-            return new User(entity.id, entity.email, entity.name, entity.surname, entity.patronymic,
-                    this.carMapper.toDto(entity.car));
+            return new User(entity.getId(), entity.getEmail(), entity.getName(), entity.getSurname(),
+                    entity.getPatronymic(), this.carMapper.toDto(entity.getCar()));
         }
     }
 }
