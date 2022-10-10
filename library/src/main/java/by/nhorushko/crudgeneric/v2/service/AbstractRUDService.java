@@ -19,7 +19,7 @@ public abstract class AbstractRUDService<
         MAPPER extends AbstractMapper<ENTITY, DTO>>
 
         extends AbstractReadService<ENTITY_ID, ENTITY, DTO, MAPPER> {
-    private static final String TEMPLATE_EXCEPTION_DESCRIPTION_ENTITY_NOT_EXIST
+    private static final String TEMPLATE_PARTIAL_UPDATE_EXCEPTION_DESCRIPTION_ENTITY_NOT_EXIST
             = "Partitial update operation is impossible because of not existing entity with id = '%s'.";
     private static final Set<String> IGNORE_PARTIAL_UPDATE_PROPERTIES = Set.of("id");
 
@@ -43,15 +43,14 @@ public abstract class AbstractRUDService<
         final Optional<ENTITY> optionalEntity = super.repository.findById(id);
         final ENTITY entity = optionalEntity
                 .orElseThrow(() -> new AppNotFoundException(
-                        format(TEMPLATE_EXCEPTION_DESCRIPTION_ENTITY_NOT_EXIST, id)));
+                        format(TEMPLATE_PARTIAL_UPDATE_EXCEPTION_DESCRIPTION_ENTITY_NOT_EXIST, id)));
         FieldCopyUtil.copy(source, entity, IGNORE_PARTIAL_UPDATE_PROPERTIES);
         return this.mapper.toDto(entity);
     }
 
     public void delete(ENTITY_ID id) {
         if (this.isIdNotDefined(id)) {
-            throw new AppNotFoundException("Impossible to delete entity with id: " + id
-                    + ", because of not defined id.");
+            throw new AppNotFoundException("Delete operation is impossible because of not defined id.");
         }
         super.repository.deleteById(id);
     }
