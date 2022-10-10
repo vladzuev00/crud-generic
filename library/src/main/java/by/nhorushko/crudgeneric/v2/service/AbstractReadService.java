@@ -26,19 +26,19 @@ public abstract class AbstractReadService<
         this.repository = repository;
     }
 
-    public Optional<DTO> findById(ID id) {
+    public Optional<DTO> getByIdOptional(ID id) {
         return this.repository.findById(id)
                 .map(this.mapper::toDto);
     }
 
-    public List<DTO> findById(Collection<ID> ids) {
+    public List<DTO> getById(Collection<ID> ids) {
         final List<ENTITY> entities = this.repository.findAllById(ids);
         return this.mapper.toDto(entities);
     }
 
     public DTO getById(ID id) {
-        return this.findById(id)
-                .orElseThrow(() -> new AppNotFoundException(format("No entity with id = '%s'.", id)));
+        return this.getByIdOptional(id)
+                .orElseThrow(() -> new AppNotFoundException(format("Entity id: %s was not found", id)));
     }
 
     public boolean isExist(ID id) {
