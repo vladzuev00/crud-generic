@@ -63,7 +63,7 @@ public final class AbstractReadServiceTest {
                 20);
         when(this.mockedMapper.toDto(any(MessageEntity.class))).thenReturn(expected);
 
-        final Optional<Message> optionalActual = this.service.findById(givenId);
+        final Optional<Message> optionalActual = this.service.getByIdOptional(givenId);
         assertTrue(optionalActual.isPresent());
         final Message actual = optionalActual.get();
         assertEquals(expected, actual);
@@ -80,7 +80,7 @@ public final class AbstractReadServiceTest {
         final Long givenId = 255L;
         when(this.mockedRepository.findById(anyLong())).thenReturn(empty());
 
-        final Optional<Message> optionalActual = this.service.findById(givenId);
+        final Optional<Message> optionalActual = this.service.getByIdOptional(givenId);
         assertTrue(optionalActual.isEmpty());
 
         verify(this.mockedRepository, times(1)).findById(this.longArgumentCaptor.capture());
@@ -104,7 +104,7 @@ public final class AbstractReadServiceTest {
         );
         when(this.mockedMapper.toDto(anyCollectionOf(MessageEntity.class))).thenReturn(givenMessages);
 
-        final List<Message> actual = this.service.findById(givenIds);
+        final List<Message> actual = this.service.getById(givenIds);
         assertSame(givenMessages, actual);
 
         verify(this.mockedRepository, times(1)).findAllById(this.longsArgumentCaptor.capture());
