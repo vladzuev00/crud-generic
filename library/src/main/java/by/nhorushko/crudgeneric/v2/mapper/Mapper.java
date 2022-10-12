@@ -39,6 +39,10 @@ public abstract class Mapper<ENTITY extends AbstractEntity<?>, DTO extends Abstr
 
     protected abstract DTO createDto(ENTITY entity);
 
+    protected void mapSpecificFields(ENTITY source, DTO destination) {
+
+    }
+
     @SuppressWarnings("unchecked")
     private void configureMapper() {
         this.modelMapper.createTypeMap(this.entityClass, this.dtoClass)
@@ -49,6 +53,8 @@ public abstract class Mapper<ENTITY extends AbstractEntity<?>, DTO extends Abstr
     private Converter<ENTITY, DTO> createConverterEntityToDto() {
         return context -> {
             final ENTITY source = context.getSource();
+            final DTO destination = context.getDestination();
+            mapSpecificFields(source, destination);
             return context.getDestination();
         };
     }
