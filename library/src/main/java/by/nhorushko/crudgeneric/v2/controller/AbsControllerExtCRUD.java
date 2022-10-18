@@ -3,22 +3,22 @@ package by.nhorushko.crudgeneric.v2.controller;
 import by.nhorushko.crudgeneric.domain.SettingsVoid;
 import by.nhorushko.crudgeneric.exception.AuthenticationException;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
-import by.nhorushko.crudgeneric.v2.service.AbstractExtCRUDService;
+import by.nhorushko.crudgeneric.v2.service.AbsServiceExtCRUD;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 
-public abstract class AbstractExtCRUDController<
+public abstract class AbsControllerExtCRUD<
         ID,
         DTO extends AbstractDto<ID>,
         DTO_VIEW extends DTO,
         SETTINGS extends SettingsVoid,
-        SERVICE extends AbstractExtCRUDService<ID, ?, DTO, RELATION_ID, ?, ?>,
-        RELATION_ID
+        SERVICE extends AbsServiceExtCRUD<ID, ?, DTO, Ext_ID, ?, ?>,
+        Ext_ID
         >
-        extends AbstractReadUpdateDeleteController<ID, DTO, DTO_VIEW, SETTINGS, SERVICE> {
+        extends AbsControllerRUD<ID, DTO, DTO_VIEW, SETTINGS, SERVICE> {
 
-    public AbstractExtCRUDController(SERVICE service) {
+    public AbsControllerExtCRUD(SERVICE service) {
         super(service);
     }
 
@@ -26,7 +26,7 @@ public abstract class AbstractExtCRUDController<
      * Example mapping
      * /mechanism/unit/{id}
      */
-    public ResponseEntity<DTO_VIEW> save(RELATION_ID relationId,
+    public ResponseEntity<DTO_VIEW> save(Ext_ID relationId,
                                          DTO body,
                                          SETTINGS settings,
                                          HttpServletRequest request) {
@@ -36,10 +36,10 @@ public abstract class AbstractExtCRUDController<
         return okResponse(saved, settings);
     }
 
-    private DTO handleBeforeSave(RELATION_ID relationId, DTO body, HttpServletRequest request) {
+    private DTO handleBeforeSave(Ext_ID extId, DTO body, HttpServletRequest request) {
         return body;
     }
 
-    protected abstract void checkAccessSaveBefore(RELATION_ID relationId, DTO obj, HttpServletRequest request)
+    protected abstract void checkAccessSaveBefore(Ext_ID relationId, DTO obj, HttpServletRequest request)
             throws AuthenticationException;
 }

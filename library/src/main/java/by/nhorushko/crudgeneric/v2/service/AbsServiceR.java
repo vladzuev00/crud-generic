@@ -3,7 +3,7 @@ package by.nhorushko.crudgeneric.v2.service;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.v2.mapper.DtoMapper;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,18 +13,21 @@ import java.util.Optional;
 
 import static java.lang.String.format;
 
+/**
+ * Only read service
+ */
 @Transactional
-public abstract class AbstractReadService<
+public abstract class AbsServiceR<
         ID,
         ENTITY extends AbstractEntity<ID>,
         DTO extends AbstractDto<ID>,
-        MAPPER extends DtoMapper<ENTITY, DTO>,
+        MAPPER extends AbsMapperDto<ENTITY, DTO>,
         REPOSITORY extends JpaRepository<ENTITY, ID>> {
 
     protected final MAPPER mapper;
     protected final REPOSITORY repository;
 
-    public AbstractReadService(MAPPER mapper, REPOSITORY repository) {
+    public AbsServiceR(MAPPER mapper, REPOSITORY repository) {
         this.mapper = mapper;
         this.repository = repository;
     }

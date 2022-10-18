@@ -4,27 +4,28 @@ import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.util.FieldCopyUtil;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.v2.mapper.DtoEntityMapper;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperDtoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
 import static java.lang.String.format;
 
-@Transactional
-public abstract class AbstractRUDService<
+/**
+ * Read Update Delete service
+ */
+public abstract class AbsServiceRUD<
         ENTITY_ID,
         ENTITY extends AbstractEntity<ENTITY_ID>,
         DTO extends AbstractDto<ENTITY_ID>,
-        MAPPER extends DtoEntityMapper<ENTITY, DTO>,
+        MAPPER extends AbsMapperDtoEntity<ENTITY, DTO>,
         REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>>
 
-        extends AbstractReadService<ENTITY_ID, ENTITY, DTO, MAPPER, REPOSITORY> {
+        extends AbsServiceR<ENTITY_ID, ENTITY, DTO, MAPPER, REPOSITORY> {
 
     protected Set<String> IGNORE_PARTIAL_UPDATE_PROPERTIES = Set.of("id");
 
-    public AbstractRUDService(MAPPER mapper, REPOSITORY repository) {
+    public AbsServiceRUD(MAPPER mapper, REPOSITORY repository) {
         super(mapper, repository);
     }
 

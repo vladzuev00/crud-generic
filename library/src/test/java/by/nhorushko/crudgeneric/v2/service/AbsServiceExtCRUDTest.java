@@ -4,7 +4,7 @@ import by.nhorushko.crudgeneric.domain.dto.Car;
 import by.nhorushko.crudgeneric.domain.dto.User;
 import by.nhorushko.crudgeneric.domain.entity.CarEntity;
 import by.nhorushko.crudgeneric.domain.entity.UserEntity;
-import by.nhorushko.crudgeneric.v2.mapper.ExtDtoEntityMapper;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperExtDtoEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,10 +23,10 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class AbstractExtCRUDServiceTest {
+public final class AbsServiceExtCRUDTest {
 
     @Mock
-    private ExtDtoEntityMapper<UserEntity, User, Long, CarEntity> mockedMapper;
+    private AbsMapperExtDtoEntity<UserEntity, User, Long, CarEntity> mockedMapper;
 
     @Mock
     private JpaRepository<UserEntity, Long> mockedRepository;
@@ -43,11 +43,11 @@ public final class AbstractExtCRUDServiceTest {
     @Captor
     private ArgumentCaptor<List<UserEntity>> userEntitiesArgumentCaptor;
 
-    private AbstractExtCRUDService<Long, UserEntity, User, Long, CarEntity, JpaRepository<UserEntity, Long>> service;
+    private AbsServiceExtCRUD<Long, UserEntity, User, Long, CarEntity, JpaRepository<UserEntity, Long>> service;
 
     @Before
     public void initializeService() {
-        this.service = new AbstractExtCRUDService<>(this.mockedMapper, this.mockedRepository) {
+        this.service = new AbsServiceExtCRUD<>(this.mockedMapper, this.mockedRepository) {
         };
     }
 

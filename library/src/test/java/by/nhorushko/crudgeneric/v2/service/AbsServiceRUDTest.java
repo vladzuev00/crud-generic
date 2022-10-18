@@ -4,7 +4,7 @@ import by.nhorushko.crudgeneric.domain.dto.Message;
 import by.nhorushko.crudgeneric.domain.dto.Message.GpsCoordinate;
 import by.nhorushko.crudgeneric.domain.entity.MessageEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
-import by.nhorushko.crudgeneric.v2.mapper.DtoEntityMapper;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperDtoEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,10 +24,10 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class AbstractRUDServiceTest {
+public final class AbsServiceRUDTest {
 
     @Mock
-    private DtoEntityMapper<MessageEntity, Message> mockedMapper;
+    private AbsMapperDtoEntity<MessageEntity, Message> mockedMapper;
 
     @Mock
     private JpaRepository<MessageEntity, Long> mockedRepository;
@@ -41,11 +41,11 @@ public final class AbstractRUDServiceTest {
     @Captor
     private ArgumentCaptor<Long> longArgumentCaptor;
 
-    private MessageRUDService service;
+    private MessageAbsServiceRUD service;
 
     @Before
     public void initializeService() {
-        this.service = new MessageRUDService(this.mockedMapper, this.mockedRepository);
+        this.service = new MessageAbsServiceRUD(this.mockedMapper, this.mockedRepository);
     }
 
     @Test
@@ -154,11 +154,11 @@ public final class AbstractRUDServiceTest {
     }
 
     @SuppressWarnings("all")
-    private static final class MessageRUDService
-            extends AbstractRUDService<Long, MessageEntity, Message, DtoEntityMapper<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
+    private static final class MessageAbsServiceRUD
+            extends AbsServiceRUD<Long, MessageEntity, Message, AbsMapperDtoEntity<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
 
-        public MessageRUDService(DtoEntityMapper<MessageEntity, Message> mapper,
-                                 JpaRepository<MessageEntity, Long> repository) {
+        public MessageAbsServiceRUD(AbsMapperDtoEntity<MessageEntity, Message> mapper,
+                                    JpaRepository<MessageEntity, Long> repository) {
             super(mapper, repository);
         }
     }

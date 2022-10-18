@@ -7,10 +7,10 @@ import org.modelmapper.ModelMapper;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class DtoMapper<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>>
-        extends VoMapper<ENTITY, DTO> {
+public abstract class AbsMapperDto<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>>
+        extends AbsMapperVo<ENTITY, DTO> {
 
-    public DtoMapper(ModelMapper modelMapper, Class<ENTITY> entityClass, Class<DTO> dtoClass) {
+    public AbsMapperDto(ModelMapper modelMapper, Class<ENTITY> entityClass, Class<DTO> dtoClass) {
         super(modelMapper, entityClass, dtoClass);
     }
 

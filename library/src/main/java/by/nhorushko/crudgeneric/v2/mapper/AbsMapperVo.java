@@ -12,13 +12,13 @@ import static java.util.stream.Collectors.toList;
 /**
  * Мапинг классов без ID которые не являются ENTITY
  */
-public abstract class VoMapper<FROM, TO> {
+public abstract class AbsMapperVo<FROM, TO> {
 
     protected final ModelMapper modelMapper;
     protected final Class<FROM> entityClass;
     protected final Class<TO> dtoClass;
 
-    public VoMapper(ModelMapper modelMapper, Class<FROM> entityClass, Class<TO> dtoClass) {
+    public AbsMapperVo(ModelMapper modelMapper, Class<FROM> entityClass, Class<TO> dtoClass) {
         this.modelMapper = modelMapper;
         this.entityClass = entityClass;
         this.dtoClass = dtoClass;

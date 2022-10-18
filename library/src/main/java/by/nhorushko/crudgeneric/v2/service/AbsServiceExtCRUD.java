@@ -2,38 +2,40 @@ package by.nhorushko.crudgeneric.v2.service;
 
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.v2.mapper.ExtDtoEntityMapper;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperExtDtoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@Transactional
-public abstract class AbstractExtCRUDService<
+/**
+ *
+ * Read Update Delete Create Service
+ */
+public abstract class AbsServiceExtCRUD<
         ENTITY_ID,
         ENTITY extends AbstractEntity<ENTITY_ID>,
         DTO extends AbstractDto<ENTITY_ID>,
-        RELATION_ID,
-        RELATION extends AbstractEntity<RELATION_ID>,
+        EXT_ID,
+        EXT extends AbstractEntity<EXT_ID>,
         REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>>
 
-        extends AbstractRUDService<ENTITY_ID, ENTITY, DTO, ExtDtoEntityMapper<ENTITY, DTO, RELATION_ID, RELATION>, REPOSITORY> {
+        extends AbsServiceRUD<ENTITY_ID, ENTITY, DTO, AbsMapperExtDtoEntity<ENTITY, DTO, EXT_ID, EXT>, REPOSITORY> {
 
-    public AbstractExtCRUDService(ExtDtoEntityMapper<ENTITY, DTO, RELATION_ID, RELATION> mapper,
-                                  REPOSITORY repository) {
+    public AbsServiceExtCRUD(AbsMapperExtDtoEntity<ENTITY, DTO, EXT_ID, EXT> mapper,
+                             REPOSITORY repository) {
         super(mapper, repository);
     }
 
-    public DTO save(RELATION_ID relationId, DTO dto) {
+    public DTO save(EXT_ID relationId, DTO dto) {
         final ENTITY entity = super.mapper.revMap(relationId, dto);
         final ENTITY savedEntity = super.repository.save(entity);
         return super.mapper.map(savedEntity);
     }
 
-    public List<DTO> saveAll(RELATION_ID relationId, Collection<DTO> dtos) {
+    public List<DTO> saveAll(EXT_ID relationId, Collection<DTO> dtos) {
         final List<ENTITY> entities = dtos.stream()
                 .map(dto -> super.mapper.revMap(relationId, dto))
                 .collect(toList());

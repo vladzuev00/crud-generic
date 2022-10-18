@@ -3,7 +3,7 @@ package by.nhorushko.crudgeneric.v2.controller;
 import by.nhorushko.crudgeneric.domain.SettingsVoid;
 import by.nhorushko.crudgeneric.exception.AuthenticationException;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
-import by.nhorushko.crudgeneric.v2.service.AbstractReadService;
+import by.nhorushko.crudgeneric.v2.service.AbsServiceR;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public abstract class AbstractReadController  <ID, DTO extends AbstractDto<ID>, DTO_VIEW, SETTINGS extends SettingsVoid,
-        SERVICE extends AbstractReadService<ID, ?, DTO, ?, ?>> {
+public abstract class AbsControllerR<ID, DTO extends AbstractDto<ID>, DTO_VIEW, SETTINGS extends SettingsVoid,
+        SERVICE extends AbsServiceR<ID, ?, DTO, ?, ?>> {
 
     protected final SERVICE service;
 
-    public AbstractReadController(SERVICE service) {
+    public AbsControllerR(SERVICE service) {
         this.service = service;
     }
 

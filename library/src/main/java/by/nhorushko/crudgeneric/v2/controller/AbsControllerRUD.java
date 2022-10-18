@@ -2,22 +2,22 @@ package by.nhorushko.crudgeneric.v2.controller;
 
 import by.nhorushko.crudgeneric.domain.SettingsVoid;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
-import by.nhorushko.crudgeneric.v2.service.AbstractRUDService;
+import by.nhorushko.crudgeneric.v2.service.AbsServiceRUD;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
 
-public abstract class AbstractReadUpdateDeleteController<
+public abstract class AbsControllerRUD<
         ID,
         DTO extends AbstractDto<ID>,
         DTO_VIEW extends DTO,
         SETTINGS extends SettingsVoid,
-        SERVICE extends AbstractRUDService<ID, ?, DTO, ?, ?>>
-        extends AbstractReadUpdateController<ID, DTO, DTO_VIEW, SETTINGS, SERVICE> {
+        SERVICE extends AbsServiceRUD<ID, ?, DTO, ?, ?>>
+        extends AbsControllerRU<ID, DTO, DTO_VIEW, SETTINGS, SERVICE> {
 
-    public AbstractReadUpdateDeleteController(SERVICE service) {
+    public AbsControllerRUD(SERVICE service) {
         super(service);
     }
 

@@ -3,7 +3,7 @@ package by.nhorushko.crudgeneric.v2.service;
 import by.nhorushko.crudgeneric.domain.dto.Message;
 import by.nhorushko.crudgeneric.domain.dto.Message.GpsCoordinate;
 import by.nhorushko.crudgeneric.domain.entity.MessageEntity;
-import by.nhorushko.crudgeneric.v2.mapper.DtoEntityMapper;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperDtoEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,10 +21,10 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class AbstractCrudServiceTest {
+public final class AbsServiceCRUDTest {
 
     @Mock
-    private DtoEntityMapper<MessageEntity, Message> mockedMapper;
+    private AbsMapperDtoEntity<MessageEntity, Message> mockedMapper;
 
     @Mock
     private JpaRepository<MessageEntity, Long> mockedRepository;
@@ -41,11 +41,11 @@ public final class AbstractCrudServiceTest {
     @Captor
     private ArgumentCaptor<List<MessageEntity>> messageEntitiesArgumentCaptor;
 
-    private AbstractCrudService<Long, MessageEntity, Message, JpaRepository<MessageEntity, Long>> service;
+    private AbsServiceCRUD<Long, MessageEntity, Message, JpaRepository<MessageEntity, Long>> service;
 
     @Before
     public void initializeService() {
-        this.service = new AbstractCrudService<>(this.mockedMapper, this.mockedRepository) {
+        this.service = new AbsServiceCRUD<>(this.mockedMapper, this.mockedRepository) {
         };
     }
 

@@ -26,7 +26,7 @@ public final class ExtDtoEntityMapperTest {
     @Mock
     private EntityManager mockedEntityManager;
 
-    private UserDtoEntityMapper userMapper;
+    private UserAbsMapperExtDtoEntity userMapper;
 
     public ExtDtoEntityMapperTest() {
         this.modelMapper = new ModelMapper();
@@ -34,7 +34,7 @@ public final class ExtDtoEntityMapperTest {
 
     @Before
     public void initializeUserMapper() {
-        this.userMapper = new UserDtoEntityMapper(this.modelMapper, this.mockedEntityManager);
+        this.userMapper = new UserAbsMapperExtDtoEntity(this.modelMapper, this.mockedEntityManager);
     }
 
     @SuppressWarnings("unchecked")
@@ -61,9 +61,9 @@ public final class ExtDtoEntityMapperTest {
     }
 
     @SuppressWarnings("all")
-    private static final class UserDtoEntityMapper extends ExtDtoEntityMapper<UserEntity, User, Long, CarEntity> {
+    private static final class UserAbsMapperExtDtoEntity extends AbsMapperExtDtoEntity<UserEntity, User, Long, CarEntity> {
 
-        public UserDtoEntityMapper(ModelMapper modelMapper, EntityManager entityManager) {
+        public UserAbsMapperExtDtoEntity(ModelMapper modelMapper, EntityManager entityManager) {
             super(modelMapper, UserEntity.class, User.class, entityManager, CarEntity.class);
         }
 
@@ -73,8 +73,8 @@ public final class ExtDtoEntityMapperTest {
         }
 
         @Override
-        protected void setRelation(CarEntity relation, UserEntity destination) {
-            destination.setCar(relation);
+        protected void setRelation(CarEntity ext, UserEntity destination) {
+            destination.setCar(ext);
         }
     }
 }

@@ -3,22 +3,22 @@ package by.nhorushko.crudgeneric.v2.controller;
 import by.nhorushko.crudgeneric.domain.SettingsVoid;
 import by.nhorushko.crudgeneric.exception.AuthenticationException;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
-import by.nhorushko.crudgeneric.v2.service.AbstractCrudService;
+import by.nhorushko.crudgeneric.v2.service.AbsServiceCRUD;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 
-public abstract class AbstractCRUDController<
+public abstract class AbsControllerCRUD<
         ID,
         DTO extends AbstractDto<ID>,
         DTO_VIEW extends DTO,
         SETTINGS extends SettingsVoid,
-        SERVICE extends AbstractCrudService<ID, ?, DTO, ?>>
-        extends AbstractReadUpdateDeleteController<ID, DTO, DTO_VIEW, SETTINGS, SERVICE> {
+        SERVICE extends AbsServiceCRUD<ID, ?, DTO, ?>>
+        extends AbsControllerRUD<ID, DTO, DTO_VIEW, SETTINGS, SERVICE> {
 
-    public AbstractCRUDController(SERVICE service) {
+    public AbsControllerCRUD(SERVICE service) {
         super(service);
     }
 

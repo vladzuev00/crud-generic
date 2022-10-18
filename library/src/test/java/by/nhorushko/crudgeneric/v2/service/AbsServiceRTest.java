@@ -4,7 +4,7 @@ import by.nhorushko.crudgeneric.domain.dto.Message;
 import by.nhorushko.crudgeneric.domain.dto.Message.GpsCoordinate;
 import by.nhorushko.crudgeneric.domain.entity.MessageEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
-import by.nhorushko.crudgeneric.v2.mapper.DtoMapper;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,10 +25,10 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class AbstractReadServiceTest {
+public final class AbsServiceRTest {
 
     @Mock
-    private DtoMapper<MessageEntity, Message> mockedMapper;
+    private AbsMapperDto<MessageEntity, Message> mockedMapper;
 
     @Mock
     private JpaRepository<MessageEntity, Long> mockedRepository;
@@ -45,11 +45,11 @@ public final class AbstractReadServiceTest {
     @Captor
     private ArgumentCaptor<List<MessageEntity>> messageEntitiesArgumentCaptor;
 
-    private MessageReadService service;
+    private MessageReadServiceR service;
 
     @Before
     public void initializeService() {
-        this.service = new MessageReadService(this.mockedMapper, this.mockedRepository);
+        this.service = new MessageReadServiceR(this.mockedMapper, this.mockedRepository);
     }
 
     @Test
@@ -155,11 +155,11 @@ public final class AbstractReadServiceTest {
     }
 
     @SuppressWarnings("all")
-    private static final class MessageReadService
-            extends AbstractReadService<Long, MessageEntity, Message, DtoMapper<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
+    private static final class MessageReadServiceR
+            extends AbsServiceR<Long, MessageEntity, Message, AbsMapperDto<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
 
-        public MessageReadService(DtoMapper<MessageEntity, Message> mapper,
-                                  JpaRepository<MessageEntity, Long> repository) {
+        public MessageReadServiceR(AbsMapperDto<MessageEntity, Message> mapper,
+                                   JpaRepository<MessageEntity, Long> repository) {
             super(mapper, repository);
         }
     }

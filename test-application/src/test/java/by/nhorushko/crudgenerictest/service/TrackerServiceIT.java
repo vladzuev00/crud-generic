@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 public class TrackerServiceIT {
 
     @Autowired
-    private TrackerService service;
+    private TrackerServiceCRUD service;
 
     @Autowired
     private EntityManager entityManager;
