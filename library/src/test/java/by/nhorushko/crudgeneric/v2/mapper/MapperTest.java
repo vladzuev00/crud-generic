@@ -23,7 +23,7 @@ public final class MapperTest {
         final UserEntity givenEntity = new UserEntity(255L, "email@mail.ru", "name", "surname",
                 "patronymic", new CarEntity(256L, "number"));
 
-        final User actual = this.userMapper.createDto(givenEntity);
+        final User actual = this.userMapper.create(givenEntity);
         final User expected = new User(255L, "email@mail.ru", "name", "surname",
                 "patronymic", new Car(256L, "number"));
 
@@ -37,7 +37,7 @@ public final class MapperTest {
         }
 
         @Override
-        protected Car createDto(CarEntity entity) {
+        protected Car create(CarEntity entity) {
             return new Car(entity.getId(), entity.getNumber());
         }
     }
@@ -51,9 +51,9 @@ public final class MapperTest {
         }
 
         @Override
-        protected User createDto(UserEntity entity) {
+        protected User create(UserEntity entity) {
             return new User(entity.getId(), entity.getEmail(), entity.getName(), entity.getSurname(),
-                    entity.getPatronymic(), this.carMapper.toDto(entity.getCar()));
+                    entity.getPatronymic(), this.carMapper.map(entity.getCar()));
         }
     }
 }

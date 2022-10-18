@@ -24,7 +24,7 @@ public final class AbstractMapperTest {
     public void entityWithoutSpecificFieldsShouldBeMapped() {
         final Car givenCar = new Car(255L, "number");
 
-        final CarEntity actual = this.carMapper.toEntity(givenCar);
+        final CarEntity actual = this.carMapper.revMap(givenCar);
         final CarEntity expected = new CarEntity(255L, "number");
         assertEquals(expected, actual);
     }
@@ -34,7 +34,7 @@ public final class AbstractMapperTest {
         final Message givenMessage = new Message(255L, new GpsCoordinate(5.5F, 6.5F),
                 10, 11, 12);
 
-        final MessageEntity actual = this.messageMapper.toEntity(givenMessage);
+        final MessageEntity actual = this.messageMapper.revMap(givenMessage);
         final MessageEntity expected = new MessageEntity(255L, 5.5F, 6.5F, 10, 11,
                 12);
         assertEquals(expected, actual);
@@ -46,7 +46,7 @@ public final class AbstractMapperTest {
         }
 
         @Override
-        protected Car createDto(CarEntity entity) {
+        protected Car create(CarEntity entity) {
             return null;
         }
     }
@@ -58,7 +58,7 @@ public final class AbstractMapperTest {
         }
 
         @Override
-        protected Message createDto(MessageEntity entity) {
+        protected Message create(MessageEntity entity) {
             return null;
         }
 

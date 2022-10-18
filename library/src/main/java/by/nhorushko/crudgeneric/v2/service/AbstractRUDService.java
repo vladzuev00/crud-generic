@@ -21,6 +21,7 @@ public abstract class AbstractRUDService<
         REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>>
 
         extends AbstractReadService<ENTITY_ID, ENTITY, DTO, MAPPER, REPOSITORY> {
+
     protected Set<String> IGNORE_PARTIAL_UPDATE_PROPERTIES = Set.of("id");
 
     public AbstractRUDService(MAPPER mapper, REPOSITORY repository) {
@@ -29,9 +30,9 @@ public abstract class AbstractRUDService<
 
     public DTO update(DTO dto) {
         checkId(dto.getId());
-        final ENTITY entity = super.mapper.toEntity(dto);
+        final ENTITY entity = super.mapper.revMap(dto);
         final ENTITY updatedEntity = super.repository.save(entity);
-        return this.mapper.toDto(updatedEntity);
+        return this.mapper.map(updatedEntity);
     }
 
     private void checkId(ENTITY_ID id) {
@@ -48,7 +49,7 @@ public abstract class AbstractRUDService<
                         format("Partial update operation is impossible because of not existing entity with id = '%s'.",
                                 id)));
         FieldCopyUtil.copy(source, entity, IGNORE_PARTIAL_UPDATE_PROPERTIES);
-        return this.mapper.toDto(entity);
+        return this.mapper.map(entity);
     }
 
     public void delete(ENTITY_ID id) {

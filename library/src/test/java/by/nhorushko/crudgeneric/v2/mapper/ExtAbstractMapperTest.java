@@ -47,7 +47,7 @@ public final class ExtAbstractMapperTest {
         final CarEntity givenCarEntity = new CarEntity(256L, null);
         when(this.mockedEntityManager.getReference(any(Class.class), anyLong())).thenReturn(givenCarEntity);
 
-        final UserEntity actual = this.userMapper.toEntity(givenCar.getId(), givenUser);
+        final UserEntity actual = this.userMapper.revMap(givenCar.getId(), givenUser);
         final UserEntity expected = new UserEntity(255L, "email@mail.ru", "name", "surname",
                 "patronymic", givenCarEntity);
         assertEquals(expected, actual);
@@ -55,8 +55,8 @@ public final class ExtAbstractMapperTest {
 
     @Test
     public void nullUserDtoShouldBeMappedToNullUserEntity() {
-        final UserEntity givenUserEntity = this.userMapper.toEntity(255L, null);
-        final User resultUserDto = this.userMapper.toDto(givenUserEntity);
+        final UserEntity givenUserEntity = this.userMapper.revMap(255L, null);
+        final User resultUserDto = this.userMapper.map(givenUserEntity);
         assertNull(resultUserDto);
     }
 
@@ -68,7 +68,7 @@ public final class ExtAbstractMapperTest {
         }
 
         @Override
-        protected User createDto(UserEntity entity) {
+        protected User create(UserEntity entity) {
             throw new UnsupportedOperationException();
         }
 

@@ -21,7 +21,7 @@ public abstract class ExtAbstractMapper<ENTITY extends AbstractEntity<?>, DTO ex
         this.relationClass = relationClass;
     }
 
-    public ENTITY toEntity(RELATION_ID relationId, DTO dto) {
+    public ENTITY revMap(RELATION_ID relationId, DTO dto) {
         if (isNull(dto)) {
             return null;
         }

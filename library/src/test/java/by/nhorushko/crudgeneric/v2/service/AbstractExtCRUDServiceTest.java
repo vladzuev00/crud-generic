@@ -59,7 +59,7 @@ public final class AbstractExtCRUDServiceTest {
 
         final UserEntity givenUserEntityToBeSaved = new UserEntity(null, "email@mail.ru", "name",
                 "surname", "patronymic", new CarEntity(givenCarId, "number"));
-        when(this.mockedMapper.toEntity(anyLong(), any(User.class))).thenReturn(givenUserEntityToBeSaved);
+        when(this.mockedMapper.revMap(anyLong(), any(User.class))).thenReturn(givenUserEntityToBeSaved);
 
         final UserEntity givenSavedUserEntity = new UserEntity(256L, "email@mail.ru", "name",
                 "surname", "patronymic", new CarEntity(givenCarId, "number"));
@@ -67,15 +67,15 @@ public final class AbstractExtCRUDServiceTest {
 
         final User givenSavedUser = new User(256L, "email@mail.ru", "name",
                 "surname", "patronymic", new Car(givenCarId, "number"));
-        when(this.mockedMapper.toDto(any(UserEntity.class))).thenReturn(givenSavedUser);
+        when(this.mockedMapper.map(any(UserEntity.class))).thenReturn(givenSavedUser);
 
         final User actual = this.service.save(givenCarId, givenUserToBeSaved);
         assertSame(givenSavedUser, actual);
 
         verify(this.mockedMapper, times(1))
-                .toEntity(this.longArgumentCaptor.capture(), this.userArgumentCaptor.capture());
+                .revMap(this.longArgumentCaptor.capture(), this.userArgumentCaptor.capture());
         verify(this.mockedRepository, times(1)).save(this.userEntityArgumentCaptor.capture());
-        verify(this.mockedMapper, times(1)).toDto(this.userEntityArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).map(this.userEntityArgumentCaptor.capture());
 
         assertSame(givenCarId, this.longArgumentCaptor.getValue());
         assertSame(givenUserToBeSaved, this.userArgumentCaptor.getValue());
@@ -101,7 +101,7 @@ public final class AbstractExtCRUDServiceTest {
                         "firstPatronymic", givenCarEntity),
                 new UserEntity(null, "second-email@mail.ru", "secondName", "secondSurname",
                         "secondPatronymic", givenCarEntity));
-        when(this.mockedMapper.toEntity(anyLong(), any(User.class)))
+        when(this.mockedMapper.revMap(anyLong(), any(User.class)))
                 .thenReturn(givenUserEntitiesToBeSaved.get(0))
                 .thenReturn(givenUserEntitiesToBeSaved.get(1));
 
@@ -117,17 +117,17 @@ public final class AbstractExtCRUDServiceTest {
                         "firstPatronymic", givenCar),
                 new User(257L, "second-email@mail.ru", "secondName", "secondSurname",
                         "secondPatronymic", givenCar));
-        when(this.mockedMapper.toDto(anyCollectionOf(UserEntity.class))).thenReturn(givenSavedUsers);
+        when(this.mockedMapper.map(anyCollectionOf(UserEntity.class))).thenReturn(givenSavedUsers);
 
         final List<User> actual = this.service.saveAll(givenCarId, givenUsersToBeSaved);
         assertSame(givenSavedUsers, actual);
 
         verify(this.mockedMapper, times(2))
-                .toEntity(this.longArgumentCaptor.capture(), this.userArgumentCaptor.capture());
+                .revMap(this.longArgumentCaptor.capture(), this.userArgumentCaptor.capture());
         verify(this.mockedRepository, times(1))
                 .saveAll(this.userEntitiesArgumentCaptor.capture());
         verify(this.mockedMapper, times(1))
-                .toDto(this.userEntitiesArgumentCaptor.capture());
+                .map(this.userEntitiesArgumentCaptor.capture());
 
         assertSame(givenCarId, this.longArgumentCaptor.getValue());
 

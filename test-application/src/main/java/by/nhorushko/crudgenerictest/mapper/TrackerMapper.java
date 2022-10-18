@@ -13,7 +13,7 @@ public final class TrackerMapper extends AbstractMapper<TrackerEntity, Tracker> 
     }
 
     @Override
-    protected Tracker createDto(TrackerEntity entity) {
+    protected Tracker create(TrackerEntity entity) {
         return new Tracker(entity.getId(), entity.getImei(), entity.getPhoneNumber());
     }
 }

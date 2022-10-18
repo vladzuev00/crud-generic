@@ -19,16 +19,16 @@ public abstract class AbstractMapper<ENTITY extends AbstractEntity<?>, DTO exten
         this.configureMapper();
     }
 
-    public ENTITY toEntity(DTO dto) {
+    public ENTITY revMap(DTO dto) {
         return !Objects.isNull(dto)
                 ? this.modelMapper.map(dto, this.entityClass)
                 : null;
     }
 
-    public List<ENTITY> toEntity(Collection<DTO> dtos) {
+    public List<ENTITY> revMap(Collection<DTO> dtos) {
         return !Objects.isNull(dtos)
                 ? dtos.stream()
-                .map(this::toEntity)
+                .map(this::revMap)
                 .collect(toList())
                 : null;
     }

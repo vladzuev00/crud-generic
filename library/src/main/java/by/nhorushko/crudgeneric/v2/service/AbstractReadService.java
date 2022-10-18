@@ -31,12 +31,12 @@ public abstract class AbstractReadService<
 
     public Optional<DTO> getByIdOptional(ID id) {
         return this.repository.findById(id)
-                .map(this.mapper::toDto);
+                .map(this.mapper::map);
     }
 
     public List<DTO> getById(Collection<ID> ids) {
         final List<ENTITY> entities = this.repository.findAllById(ids);
-        return this.mapper.toDto(entities);
+        return this.mapper.map(entities);
     }
 
     public DTO getById(ID id) {
