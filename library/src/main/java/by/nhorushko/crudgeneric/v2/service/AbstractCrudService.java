@@ -11,11 +11,13 @@ import java.util.List;
 public abstract class AbstractCrudService<
         ENTITY_ID,
         ENTITY extends AbstractEntity<ENTITY_ID>,
-        DTO extends AbstractDto<ENTITY_ID>>
+        DTO extends AbstractDto<ENTITY_ID>,
+        REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>
+        >
 
-        extends AbstractRUDService<ENTITY_ID, ENTITY, DTO, AbstractMapper<ENTITY, DTO>> {
+        extends AbstractRUDService<ENTITY_ID, ENTITY, DTO, AbstractMapper<ENTITY, DTO>, REPOSITORY> {
 
-    public AbstractCrudService(AbstractMapper<ENTITY, DTO> mapper, JpaRepository<ENTITY, ENTITY_ID> repository) {
+    public AbstractCrudService(AbstractMapper<ENTITY, DTO> mapper, REPOSITORY repository) {
         super(mapper, repository);
     }
 

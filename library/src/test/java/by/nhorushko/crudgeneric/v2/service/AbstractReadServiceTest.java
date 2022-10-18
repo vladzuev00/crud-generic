@@ -156,7 +156,7 @@ public final class AbstractReadServiceTest {
 
     @SuppressWarnings("all")
     private static final class MessageReadService
-            extends AbstractReadService<Long, MessageEntity, Message, Mapper<MessageEntity, Message>> {
+            extends AbstractReadService<Long, MessageEntity, Message, Mapper<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
 
         public MessageReadService(Mapper<MessageEntity, Message> mapper,
                                   JpaRepository<MessageEntity, Long> repository) {

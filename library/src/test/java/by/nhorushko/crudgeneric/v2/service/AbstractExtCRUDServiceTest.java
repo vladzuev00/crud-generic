@@ -43,7 +43,7 @@ public final class AbstractExtCRUDServiceTest {
     @Captor
     private ArgumentCaptor<List<UserEntity>> userEntitiesArgumentCaptor;
 
-    private AbstractExtCRUDService<Long, UserEntity, User, Long, CarEntity> service;
+    private AbstractExtCRUDService<Long, UserEntity, User, Long, CarEntity, JpaRepository<UserEntity, Long>> service;
 
     @Before
     public void initializeService() {

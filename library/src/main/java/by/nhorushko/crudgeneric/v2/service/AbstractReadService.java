@@ -16,12 +16,13 @@ public abstract class AbstractReadService<
         ID,
         ENTITY extends AbstractEntity<ID>,
         DTO extends AbstractDto<ID>,
-        MAPPER extends Mapper<ENTITY, DTO>> {
+        MAPPER extends Mapper<ENTITY, DTO>,
+        REPOSITORY extends JpaRepository<ENTITY, ID>> {
 
     protected final MAPPER mapper;
-    protected final JpaRepository<ENTITY, ID> repository;
+    protected final REPOSITORY repository;
 
-    public AbstractReadService(MAPPER mapper, JpaRepository<ENTITY, ID> repository) {
+    public AbstractReadService(MAPPER mapper, REPOSITORY repository) {
         this.mapper = mapper;
         this.repository = repository;
     }

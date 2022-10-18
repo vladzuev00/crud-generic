@@ -15,12 +15,13 @@ public abstract class AbstractRUDService<
         ENTITY_ID,
         ENTITY extends AbstractEntity<ENTITY_ID>,
         DTO extends AbstractDto<ENTITY_ID>,
-        MAPPER extends AbstractMapper<ENTITY, DTO>>
+        MAPPER extends AbstractMapper<ENTITY, DTO>,
+        REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>>
 
-        extends AbstractReadService<ENTITY_ID, ENTITY, DTO, MAPPER> {
+        extends AbstractReadService<ENTITY_ID, ENTITY, DTO, MAPPER, REPOSITORY> {
     protected Set<String> IGNORE_PARTIAL_UPDATE_PROPERTIES = Set.of("id");
 
-    public AbstractRUDService(MAPPER mapper, JpaRepository<ENTITY, ENTITY_ID> repository) {
+    public AbstractRUDService(MAPPER mapper, REPOSITORY repository) {
         super(mapper, repository);
     }
 

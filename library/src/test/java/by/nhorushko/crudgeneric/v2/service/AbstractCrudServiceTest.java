@@ -41,7 +41,7 @@ public final class AbstractCrudServiceTest {
     @Captor
     private ArgumentCaptor<List<MessageEntity>> messageEntitiesArgumentCaptor;
 
-    private AbstractCrudService<Long, MessageEntity, Message> service;
+    private AbstractCrudService<Long, MessageEntity, Message, JpaRepository<MessageEntity, Long>> service;
 
     @Before
     public void initializeService() {

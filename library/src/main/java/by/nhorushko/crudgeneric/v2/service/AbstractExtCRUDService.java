@@ -15,12 +15,14 @@ public abstract class AbstractExtCRUDService<
         ENTITY extends AbstractEntity<ENTITY_ID>,
         DTO extends AbstractDto<ENTITY_ID>,
         RELATION_ID,
-        RELATION extends AbstractEntity<RELATION_ID>>
+        RELATION extends AbstractEntity<RELATION_ID>,
+        REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>
+        >
 
-        extends AbstractRUDService<ENTITY_ID, ENTITY, DTO, ExtAbstractMapper<ENTITY, DTO, RELATION_ID, RELATION>> {
+        extends AbstractRUDService<ENTITY_ID, ENTITY, DTO, ExtAbstractMapper<ENTITY, DTO, RELATION_ID, RELATION>, REPOSITORY> {
 
     public AbstractExtCRUDService(ExtAbstractMapper<ENTITY, DTO, RELATION_ID, RELATION> mapper,
-                                  JpaRepository<ENTITY, ENTITY_ID> repository) {
+                                  REPOSITORY repository) {
         super(mapper, repository);
     }
 

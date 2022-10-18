@@ -8,7 +8,7 @@ import by.nhorushko.crudgenerictest.repository.TrackerRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class TrackerService extends AbstractCrudService<Long, TrackerEntity, Tracker> {
+public final class TrackerService extends AbstractCrudService<Long, TrackerEntity, Tracker, TrackerRepository> {
     public TrackerService(TrackerMapper mapper, TrackerRepository repository) {
         super(mapper, repository);
     }

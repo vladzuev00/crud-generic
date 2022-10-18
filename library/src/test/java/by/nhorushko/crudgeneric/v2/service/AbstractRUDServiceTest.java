@@ -155,7 +155,7 @@ public final class AbstractRUDServiceTest {
 
     @SuppressWarnings("all")
     private static final class MessageRUDService
-            extends AbstractRUDService<Long, MessageEntity, Message, AbstractMapper<MessageEntity, Message>> {
+            extends AbstractRUDService<Long, MessageEntity, Message, AbstractMapper<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
 
         public MessageRUDService(AbstractMapper<MessageEntity, Message> mapper,
                                  JpaRepository<MessageEntity, Long> repository) {
