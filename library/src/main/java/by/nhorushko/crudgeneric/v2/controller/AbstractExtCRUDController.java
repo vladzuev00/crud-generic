@@ -13,8 +13,9 @@ public abstract class AbstractExtCRUDController<
         DTO extends AbstractDto<ID>,
         DTO_VIEW extends DTO,
         SETTINGS extends SettingsVoid,
-        RELATION_ID,
-        SERVICE extends AbstractExtCRUDService<ID, ?, DTO, RELATION_ID, ?, ?>>
+        SERVICE extends AbstractExtCRUDService<ID, ?, DTO, RELATION_ID, ?, ?>,
+        RELATION_ID
+        >
         extends AbstractReadUpdateDeleteController<ID, DTO, DTO_VIEW, SETTINGS, SERVICE> {
 
     public AbstractExtCRUDController(SERVICE service) {
