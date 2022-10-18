@@ -4,7 +4,7 @@ import by.nhorushko.crudgeneric.domain.dto.Message;
 import by.nhorushko.crudgeneric.domain.dto.Message.GpsCoordinate;
 import by.nhorushko.crudgeneric.domain.entity.MessageEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
-import by.nhorushko.crudgeneric.v2.mapper.Mapper;
+import by.nhorushko.crudgeneric.v2.mapper.DtoMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
 public final class AbstractReadServiceTest {
 
     @Mock
-    private Mapper<MessageEntity, Message> mockedMapper;
+    private DtoMapper<MessageEntity, Message> mockedMapper;
 
     @Mock
     private JpaRepository<MessageEntity, Long> mockedRepository;
@@ -156,9 +156,9 @@ public final class AbstractReadServiceTest {
 
     @SuppressWarnings("all")
     private static final class MessageReadService
-            extends AbstractReadService<Long, MessageEntity, Message, Mapper<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
+            extends AbstractReadService<Long, MessageEntity, Message, DtoMapper<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
 
-        public MessageReadService(Mapper<MessageEntity, Message> mapper,
+        public MessageReadService(DtoMapper<MessageEntity, Message> mapper,
                                   JpaRepository<MessageEntity, Long> repository) {
             super(mapper, repository);
         }

@@ -4,7 +4,7 @@ import by.nhorushko.crudgeneric.domain.dto.Message;
 import by.nhorushko.crudgeneric.domain.dto.Message.GpsCoordinate;
 import by.nhorushko.crudgeneric.domain.entity.MessageEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
-import by.nhorushko.crudgeneric.v2.mapper.AbstractMapper;
+import by.nhorushko.crudgeneric.v2.mapper.DtoEntityMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 public final class AbstractRUDServiceTest {
 
     @Mock
-    private AbstractMapper<MessageEntity, Message> mockedMapper;
+    private DtoEntityMapper<MessageEntity, Message> mockedMapper;
 
     @Mock
     private JpaRepository<MessageEntity, Long> mockedRepository;
@@ -155,9 +155,9 @@ public final class AbstractRUDServiceTest {
 
     @SuppressWarnings("all")
     private static final class MessageRUDService
-            extends AbstractRUDService<Long, MessageEntity, Message, AbstractMapper<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
+            extends AbstractRUDService<Long, MessageEntity, Message, DtoEntityMapper<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
 
-        public MessageRUDService(AbstractMapper<MessageEntity, Message> mapper,
+        public MessageRUDService(DtoEntityMapper<MessageEntity, Message> mapper,
                                  JpaRepository<MessageEntity, Long> repository) {
             super(mapper, repository);
         }

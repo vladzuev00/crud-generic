@@ -20,21 +20,21 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ExtAbstractMapperTest {
+public final class ExtDtoEntityMapperTest {
     private final ModelMapper modelMapper;
 
     @Mock
     private EntityManager mockedEntityManager;
 
-    private UserMapper userMapper;
+    private UserDtoEntityMapper userMapper;
 
-    public ExtAbstractMapperTest() {
+    public ExtDtoEntityMapperTest() {
         this.modelMapper = new ModelMapper();
     }
 
     @Before
     public void initializeUserMapper() {
-        this.userMapper = new UserMapper(this.modelMapper, this.mockedEntityManager);
+        this.userMapper = new UserDtoEntityMapper(this.modelMapper, this.mockedEntityManager);
     }
 
     @SuppressWarnings("unchecked")
@@ -61,9 +61,9 @@ public final class ExtAbstractMapperTest {
     }
 
     @SuppressWarnings("all")
-    private static final class UserMapper extends ExtAbstractMapper<UserEntity, User, Long, CarEntity> {
+    private static final class UserDtoEntityMapper extends ExtDtoEntityMapper<UserEntity, User, Long, CarEntity> {
 
-        public UserMapper(ModelMapper modelMapper, EntityManager entityManager) {
+        public UserDtoEntityMapper(ModelMapper modelMapper, EntityManager entityManager) {
             super(modelMapper, UserEntity.class, User.class, entityManager, CarEntity.class);
         }
 

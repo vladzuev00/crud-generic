@@ -2,7 +2,7 @@ package by.nhorushko.crudgeneric.v2.service;
 
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.v2.mapper.ExtAbstractMapper;
+import by.nhorushko.crudgeneric.v2.mapper.ExtDtoEntityMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +20,9 @@ public abstract class AbstractExtCRUDService<
         RELATION extends AbstractEntity<RELATION_ID>,
         REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>>
 
-        extends AbstractRUDService<ENTITY_ID, ENTITY, DTO, ExtAbstractMapper<ENTITY, DTO, RELATION_ID, RELATION>, REPOSITORY> {
+        extends AbstractRUDService<ENTITY_ID, ENTITY, DTO, ExtDtoEntityMapper<ENTITY, DTO, RELATION_ID, RELATION>, REPOSITORY> {
 
-    public AbstractExtCRUDService(ExtAbstractMapper<ENTITY, DTO, RELATION_ID, RELATION> mapper,
+    public AbstractExtCRUDService(ExtDtoEntityMapper<ENTITY, DTO, RELATION_ID, RELATION> mapper,
                                   REPOSITORY repository) {
         super(mapper, repository);
     }

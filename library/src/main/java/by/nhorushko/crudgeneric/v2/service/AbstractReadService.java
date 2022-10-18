@@ -3,7 +3,7 @@ package by.nhorushko.crudgeneric.v2.service;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.v2.mapper.Mapper;
+import by.nhorushko.crudgeneric.v2.mapper.DtoMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +18,7 @@ public abstract class AbstractReadService<
         ID,
         ENTITY extends AbstractEntity<ID>,
         DTO extends AbstractDto<ID>,
-        MAPPER extends Mapper<ENTITY, DTO>,
+        MAPPER extends DtoMapper<ENTITY, DTO>,
         REPOSITORY extends JpaRepository<ENTITY, ID>> {
 
     protected final MAPPER mapper;

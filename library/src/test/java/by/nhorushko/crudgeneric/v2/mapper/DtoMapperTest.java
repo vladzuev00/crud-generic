@@ -9,13 +9,13 @@ import org.modelmapper.ModelMapper;
 
 import static org.junit.Assert.assertEquals;
 
-public final class MapperTest {
-    private final Mapper<UserEntity, User> userMapper;
+public final class DtoMapperTest {
+    private final DtoMapper<UserEntity, User> userMapper;
 
-    public MapperTest() {
+    public DtoMapperTest() {
         final ModelMapper modelMapper = new ModelMapper();
-        final Mapper<CarEntity, Car> carMapper = new CarMapper(modelMapper);
-        this.userMapper = new UserMapper(modelMapper, carMapper);
+        final DtoMapper<CarEntity, Car> carMapper = new CarDtoMapper(modelMapper);
+        this.userMapper = new UserDtoMapper(modelMapper, carMapper);
     }
 
     @Test
@@ -30,9 +30,9 @@ public final class MapperTest {
         assertEquals(expected, actual);
     }
 
-    private static final class CarMapper extends Mapper<CarEntity, Car> {
+    private static final class CarDtoMapper extends DtoMapper<CarEntity, Car> {
 
-        public CarMapper(ModelMapper modelMapper) {
+        public CarDtoMapper(ModelMapper modelMapper) {
             super(modelMapper, CarEntity.class, Car.class);
         }
 
@@ -42,12 +42,12 @@ public final class MapperTest {
         }
     }
 
-    private static final class UserMapper extends Mapper<UserEntity, User> {
-        private final Mapper<CarEntity, Car> carMapper;
+    private static final class UserDtoMapper extends DtoMapper<UserEntity, User> {
+        private final DtoMapper<CarEntity, Car> carMapper;
 
-        public UserMapper(ModelMapper modelMapper, Mapper<CarEntity, Car> carMapper) {
+        public UserDtoMapper(ModelMapper modelMapper, DtoMapper<CarEntity, Car> carDtoMapper) {
             super(modelMapper, UserEntity.class, User.class);
-            this.carMapper = carMapper;
+            this.carMapper = carDtoMapper;
         }
 
         @Override

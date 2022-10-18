@@ -10,14 +10,14 @@ import org.modelmapper.ModelMapper;
 
 import static org.junit.Assert.assertEquals;
 
-public final class AbstractMapperTest {
-    private final AbstractMapper<CarEntity, Car> carMapper;
-    private final AbstractMapper<MessageEntity, Message> messageMapper;
+public final class DtoEntityMapperTest {
+    private final DtoEntityMapper<CarEntity, Car> carMapper;
+    private final DtoEntityMapper<MessageEntity, Message> messageMapper;
 
-    public AbstractMapperTest() {
+    public DtoEntityMapperTest() {
         final ModelMapper modelMapper = new ModelMapper();
-        this.carMapper = new CarMapper(modelMapper);
-        this.messageMapper = new MessageMapper(modelMapper);
+        this.carMapper = new CarDtoEntityMapper(modelMapper);
+        this.messageMapper = new MessageDtoEntityMapper(modelMapper);
     }
 
     @Test
@@ -40,8 +40,8 @@ public final class AbstractMapperTest {
         assertEquals(expected, actual);
     }
 
-    private static final class CarMapper extends AbstractMapper<CarEntity, Car> {
-        public CarMapper(ModelMapper modelMapper) {
+    private static final class CarDtoEntityMapper extends DtoEntityMapper<CarEntity, Car> {
+        public CarDtoEntityMapper(ModelMapper modelMapper) {
             super(modelMapper, CarEntity.class, Car.class);
         }
 
@@ -51,9 +51,9 @@ public final class AbstractMapperTest {
         }
     }
 
-    private static final class MessageMapper extends AbstractMapper<MessageEntity, Message> {
+    private static final class MessageDtoEntityMapper extends DtoEntityMapper<MessageEntity, Message> {
 
-        public MessageMapper(ModelMapper modelMapper) {
+        public MessageDtoEntityMapper(ModelMapper modelMapper) {
             super(modelMapper, MessageEntity.class, Message.class);
         }
 

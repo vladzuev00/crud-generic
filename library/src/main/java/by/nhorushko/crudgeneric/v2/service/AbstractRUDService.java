@@ -4,7 +4,7 @@ import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.util.FieldCopyUtil;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.v2.mapper.AbstractMapper;
+import by.nhorushko.crudgeneric.v2.mapper.DtoEntityMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,7 @@ public abstract class AbstractRUDService<
         ENTITY_ID,
         ENTITY extends AbstractEntity<ENTITY_ID>,
         DTO extends AbstractDto<ENTITY_ID>,
-        MAPPER extends AbstractMapper<ENTITY, DTO>,
+        MAPPER extends DtoEntityMapper<ENTITY, DTO>,
         REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>>
 
         extends AbstractReadService<ENTITY_ID, ENTITY, DTO, MAPPER, REPOSITORY> {

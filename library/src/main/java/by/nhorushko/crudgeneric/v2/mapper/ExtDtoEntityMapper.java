@@ -8,14 +8,14 @@ import javax.persistence.EntityManager;
 
 import static java.util.Objects.isNull;
 
-public abstract class ExtAbstractMapper<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>, RELATION_ID,
+public abstract class ExtDtoEntityMapper<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>, RELATION_ID,
         RELATION extends AbstractEntity<RELATION_ID>>
-        extends AbstractMapper<ENTITY, DTO> {
+        extends DtoEntityMapper<ENTITY, DTO> {
     private final EntityManager entityManager;
     private final Class<RELATION> relationClass;
 
-    public ExtAbstractMapper(ModelMapper modelMapper, Class<ENTITY> entityClass, Class<DTO> dtoClass,
-                             EntityManager entityManager, Class<RELATION> relationClass) {
+    public ExtDtoEntityMapper(ModelMapper modelMapper, Class<ENTITY> entityClass, Class<DTO> dtoClass,
+                              EntityManager entityManager, Class<RELATION> relationClass) {
         super(modelMapper, entityClass, dtoClass);
         this.entityManager = entityManager;
         this.relationClass = relationClass;
