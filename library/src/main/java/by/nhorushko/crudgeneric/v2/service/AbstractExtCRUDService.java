@@ -4,12 +4,14 @@ import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
 import by.nhorushko.crudgeneric.v2.mapper.ExtAbstractMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Transactional
 public abstract class AbstractExtCRUDService<
         ENTITY_ID,
         ENTITY extends AbstractEntity<ENTITY_ID>,
