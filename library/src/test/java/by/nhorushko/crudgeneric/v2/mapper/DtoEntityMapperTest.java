@@ -11,13 +11,13 @@ import org.modelmapper.ModelMapper;
 import static org.junit.Assert.assertEquals;
 
 public final class DtoEntityMapperTest {
-    private final AbsMapperDtoEntity<CarEntity, Car> carMapper;
-    private final AbsMapperDtoEntity<MessageEntity, Message> messageMapper;
+    private final AbsMapperEntityDto<CarEntity, Car> carMapper;
+    private final AbsMapperEntityDto<MessageEntity, Message> messageMapper;
 
     public DtoEntityMapperTest() {
         final ModelMapper modelMapper = new ModelMapper();
-        this.carMapper = new CarAbsMapperDtoEntity(modelMapper);
-        this.messageMapper = new MessageAbsMapperDtoEntity(modelMapper);
+        this.carMapper = new CarAbsMapperEntityDto(modelMapper);
+        this.messageMapper = new MessageAbsMapperEntityDto(modelMapper);
     }
 
     @Test
@@ -40,8 +40,8 @@ public final class DtoEntityMapperTest {
         assertEquals(expected, actual);
     }
 
-    private static final class CarAbsMapperDtoEntity extends AbsMapperDtoEntity<CarEntity, Car> {
-        public CarAbsMapperDtoEntity(ModelMapper modelMapper) {
+    private static final class CarAbsMapperEntityDto extends AbsMapperEntityDto<CarEntity, Car> {
+        public CarAbsMapperEntityDto(ModelMapper modelMapper) {
             super(modelMapper, CarEntity.class, Car.class);
         }
 
@@ -51,9 +51,9 @@ public final class DtoEntityMapperTest {
         }
     }
 
-    private static final class MessageAbsMapperDtoEntity extends AbsMapperDtoEntity<MessageEntity, Message> {
+    private static final class MessageAbsMapperEntityDto extends AbsMapperEntityDto<MessageEntity, Message> {
 
-        public MessageAbsMapperDtoEntity(ModelMapper modelMapper) {
+        public MessageAbsMapperEntityDto(ModelMapper modelMapper) {
             super(modelMapper, MessageEntity.class, Message.class);
         }
 

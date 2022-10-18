@@ -3,7 +3,7 @@ package by.nhorushko.crudgeneric.v2.service;
 import by.nhorushko.crudgeneric.domain.dto.Message;
 import by.nhorushko.crudgeneric.domain.dto.Message.GpsCoordinate;
 import by.nhorushko.crudgeneric.domain.entity.MessageEntity;
-import by.nhorushko.crudgeneric.v2.mapper.AbsMapperDtoEntity;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperEntityDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 public final class AbsServiceCRUDTest {
 
     @Mock
-    private AbsMapperDtoEntity<MessageEntity, Message> mockedMapper;
+    private AbsMapperEntityDto<MessageEntity, Message> mockedMapper;
 
     @Mock
     private JpaRepository<MessageEntity, Long> mockedRepository;

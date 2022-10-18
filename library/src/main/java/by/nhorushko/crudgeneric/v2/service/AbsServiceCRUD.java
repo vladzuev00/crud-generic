@@ -2,7 +2,7 @@ package by.nhorushko.crudgeneric.v2.service;
 
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.v2.mapper.AbsMapperDtoEntity;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperEntityDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +16,9 @@ public abstract class AbsServiceCRUD<
         DTO extends AbstractDto<ENTITY_ID>,
         REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>>
 
-        extends AbsServiceRUD<ENTITY_ID, ENTITY, DTO, AbsMapperDtoEntity<ENTITY, DTO>, REPOSITORY> {
+        extends AbsServiceRUD<ENTITY_ID, ENTITY, DTO, AbsMapperEntityDto<ENTITY, DTO>, REPOSITORY> {
 
-    public AbsServiceCRUD(AbsMapperDtoEntity<ENTITY, DTO> mapper, REPOSITORY repository) {
+    public AbsServiceCRUD(AbsMapperEntityDto<ENTITY, DTO> mapper, REPOSITORY repository) {
         super(mapper, repository);
     }
 

@@ -8,13 +8,13 @@ import javax.persistence.EntityManager;
 
 import static java.util.Objects.isNull;
 
-public abstract class AbsMapperExtDtoEntity<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>, EXT_ID,
+public abstract class AbsMapperEntityExtDto<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>, EXT_ID,
         EXT extends AbstractEntity<EXT_ID>>
-        extends AbsMapperDtoEntity<ENTITY, DTO> {
+        extends AbsMapperEntityDto<ENTITY, DTO> {
     private final EntityManager entityManager;
     private final Class<EXT> extClass;
 
-    public AbsMapperExtDtoEntity(ModelMapper modelMapper, Class<ENTITY> entityClass, Class<DTO> dtoClass,
+    public AbsMapperEntityExtDto(ModelMapper modelMapper, Class<ENTITY> entityClass, Class<DTO> dtoClass,
                                  EntityManager entityManager, Class<EXT> extClass) {
         super(modelMapper, entityClass, dtoClass);
         this.entityManager = entityManager;

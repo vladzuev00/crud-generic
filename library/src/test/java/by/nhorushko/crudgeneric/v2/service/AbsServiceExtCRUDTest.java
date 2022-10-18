@@ -4,7 +4,7 @@ import by.nhorushko.crudgeneric.domain.dto.Car;
 import by.nhorushko.crudgeneric.domain.dto.User;
 import by.nhorushko.crudgeneric.domain.entity.CarEntity;
 import by.nhorushko.crudgeneric.domain.entity.UserEntity;
-import by.nhorushko.crudgeneric.v2.mapper.AbsMapperExtDtoEntity;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperEntityExtDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 public final class AbsServiceExtCRUDTest {
 
     @Mock
-    private AbsMapperExtDtoEntity<UserEntity, User, Long, CarEntity> mockedMapper;
+    private AbsMapperEntityExtDto<UserEntity, User, Long, CarEntity> mockedMapper;
 
     @Mock
     private JpaRepository<UserEntity, Long> mockedRepository;

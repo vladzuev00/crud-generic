@@ -4,7 +4,7 @@ import by.nhorushko.crudgeneric.domain.dto.Message;
 import by.nhorushko.crudgeneric.domain.dto.Message.GpsCoordinate;
 import by.nhorushko.crudgeneric.domain.entity.MessageEntity;
 import by.nhorushko.crudgeneric.exception.AppNotFoundException;
-import by.nhorushko.crudgeneric.v2.mapper.AbsMapperDtoEntity;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperEntityDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 public final class AbsServiceRUDTest {
 
     @Mock
-    private AbsMapperDtoEntity<MessageEntity, Message> mockedMapper;
+    private AbsMapperEntityDto<MessageEntity, Message> mockedMapper;
 
     @Mock
     private JpaRepository<MessageEntity, Long> mockedRepository;
@@ -155,9 +155,9 @@ public final class AbsServiceRUDTest {
 
     @SuppressWarnings("all")
     private static final class MessageAbsServiceRUD
-            extends AbsServiceRUD<Long, MessageEntity, Message, AbsMapperDtoEntity<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
+            extends AbsServiceRUD<Long, MessageEntity, Message, AbsMapperEntityDto<MessageEntity, Message>, JpaRepository<MessageEntity, Long>> {
 
-        public MessageAbsServiceRUD(AbsMapperDtoEntity<MessageEntity, Message> mapper,
+        public MessageAbsServiceRUD(AbsMapperEntityDto<MessageEntity, Message> mapper,
                                     JpaRepository<MessageEntity, Long> repository) {
             super(mapper, repository);
         }

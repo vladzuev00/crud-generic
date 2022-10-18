@@ -4,7 +4,7 @@ import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.util.FieldCopyUtil;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.v2.mapper.AbsMapperDtoEntity;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperEntityDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Set;
@@ -18,7 +18,7 @@ public abstract class AbsServiceRUD<
         ENTITY_ID,
         ENTITY extends AbstractEntity<ENTITY_ID>,
         DTO extends AbstractDto<ENTITY_ID>,
-        MAPPER extends AbsMapperDtoEntity<ENTITY, DTO>,
+        MAPPER extends AbsMapperEntityDto<ENTITY, DTO>,
         REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>>
 
         extends AbsServiceR<ENTITY_ID, ENTITY, DTO, MAPPER, REPOSITORY> {

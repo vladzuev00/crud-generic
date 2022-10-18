@@ -11,10 +11,10 @@ import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 
-public abstract class AbsMapperDtoEntity<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>>
+public abstract class AbsMapperEntityDto<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>>
         extends AbsMapperDto<ENTITY, DTO> {
 
-    public AbsMapperDtoEntity(ModelMapper modelMapper, Class<ENTITY> entityClass, Class<DTO> dtoClass) {
+    public AbsMapperEntityDto(ModelMapper modelMapper, Class<ENTITY> entityClass, Class<DTO> dtoClass) {
         super(modelMapper, entityClass, dtoClass);
         this.configureMapper();
     }

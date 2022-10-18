@@ -2,7 +2,7 @@ package by.nhorushko.crudgeneric.v2.service;
 
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
-import by.nhorushko.crudgeneric.v2.mapper.AbsMapperExtDtoEntity;
+import by.nhorushko.crudgeneric.v2.mapper.AbsMapperEntityExtDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
@@ -22,9 +22,9 @@ public abstract class AbsServiceExtCRUD<
         EXT extends AbstractEntity<EXT_ID>,
         REPOSITORY extends JpaRepository<ENTITY, ENTITY_ID>>
 
-        extends AbsServiceRUD<ENTITY_ID, ENTITY, DTO, AbsMapperExtDtoEntity<ENTITY, DTO, EXT_ID, EXT>, REPOSITORY> {
+        extends AbsServiceRUD<ENTITY_ID, ENTITY, DTO, AbsMapperEntityExtDto<ENTITY, DTO, EXT_ID, EXT>, REPOSITORY> {
 
-    public AbsServiceExtCRUD(AbsMapperExtDtoEntity<ENTITY, DTO, EXT_ID, EXT> mapper,
+    public AbsServiceExtCRUD(AbsMapperEntityExtDto<ENTITY, DTO, EXT_ID, EXT> mapper,
                              REPOSITORY repository) {
         super(mapper, repository);
     }
