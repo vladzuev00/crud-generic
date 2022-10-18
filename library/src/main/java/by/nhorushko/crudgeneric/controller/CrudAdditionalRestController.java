@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  *
  */
+@Deprecated
 public abstract class CrudAdditionalRestController<
         DTO_INTERMEDIATE extends AbstractDto,
         DTO_VIEW extends AbstractDto,

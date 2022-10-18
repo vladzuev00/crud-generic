@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Deprecated
 public abstract class CrudExpandRestController<
         DTO_INTERMEDIATE extends AbstractDto,
         DTO_VIEW extends AbstractDto,

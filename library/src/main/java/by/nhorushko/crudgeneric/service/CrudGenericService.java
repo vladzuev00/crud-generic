@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Deprecated
 @Transactional
 public abstract class CrudGenericService<
         DTO extends AbstractDto,

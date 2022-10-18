@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 /**
  * some useful https://habr.com/ru/post/438808/
  */
+@Deprecated
 public abstract class AbstractMapper<ENTITY extends AbstractEntity, DTO extends AbstractDto> implements Mapper<ENTITY, DTO> {
 
     protected final Class<ENTITY> entityClass;

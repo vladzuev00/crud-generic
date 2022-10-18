@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Deprecated
 public abstract class ImmutableGenericRestController<
         DTO_INTERMEDIATE extends AbstractDto,
         DTO_VIEW extends AbstractDto,

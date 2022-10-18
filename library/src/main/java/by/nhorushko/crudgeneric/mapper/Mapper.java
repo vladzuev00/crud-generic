@@ -6,6 +6,7 @@ import by.nhorushko.crudgeneric.domain.AbstractEntity;
 import java.util.Collection;
 import java.util.List;
 
+@Deprecated
 public interface Mapper<ENTITY extends AbstractEntity, DTO extends AbstractDto> {
 
     ENTITY toEntity(DTO dto);

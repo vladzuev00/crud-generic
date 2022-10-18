@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.Map;
 import java.util.Set;
 
+@Deprecated
 public abstract class PageableGenericRestController
         <DTO_INTERMEDIATE extends AbstractDto,
                 DTO_VIEW extends AbstractDto,

@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.List;
 import java.util.Set;
 
+@Deprecated
 public abstract class RudGenericService<
         DTO extends AbstractDto,
         ENTITY extends AbstractEntity,

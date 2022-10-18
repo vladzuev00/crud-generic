@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Deprecated
 public abstract class ReadUpdateDeleteGenericRestController<
         DTO_INTERMEDIATE extends AbstractDto,
         DTO_VIEW extends AbstractDto,

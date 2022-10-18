@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Deprecated
 public abstract class DtoMappers {
 
     private static Map<TypeMap, Mapper> mappers = new HashMap<>();

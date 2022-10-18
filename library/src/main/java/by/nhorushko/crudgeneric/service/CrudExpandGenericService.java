@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import javax.annotation.Nullable;
 
+@Deprecated
 public abstract class CrudExpandGenericService<
         DTO extends AbstractDto,
         ENTITY extends AbstractEntity,

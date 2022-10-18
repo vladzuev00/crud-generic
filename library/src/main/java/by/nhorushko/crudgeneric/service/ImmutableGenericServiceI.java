@@ -5,6 +5,7 @@ import by.nhorushko.crudgeneric.domain.AbstractDto;
 import java.util.Collection;
 import java.util.List;
 
+@Deprecated
 public interface ImmutableGenericServiceI<DTO extends AbstractDto> {
 
     List<DTO> list();

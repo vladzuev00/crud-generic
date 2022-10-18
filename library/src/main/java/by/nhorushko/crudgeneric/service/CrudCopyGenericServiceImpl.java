@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.io.Serializable;
 
+@Deprecated
 public class CrudCopyGenericServiceImpl<
         DTO extends AbstractDto,
         ENTITY extends AbstractEntity & Serializable,
