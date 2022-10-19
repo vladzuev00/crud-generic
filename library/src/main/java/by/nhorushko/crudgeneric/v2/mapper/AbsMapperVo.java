@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
@@ -58,7 +59,6 @@ public abstract class AbsMapperVo<FROM, TO> {
     @SuppressWarnings("unchecked")
     private void configureMapper() {
         this.modelMapper.createTypeMap(this.fromClass, this.toClass)
-                .setPostConverter(this.createConverter())
                 .setProvider(request -> this.create((FROM) request.getSource()));
     }
 
