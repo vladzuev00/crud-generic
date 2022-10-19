@@ -21,7 +21,7 @@ public abstract class AbsMapperEntityDto<ENTITY extends AbstractEntity<?>, DTO e
 
     public ENTITY revMap(DTO dto) {
         return !Objects.isNull(dto)
-                ? this.modelMapper.map(dto, this.entityClass)
+                ? this.modelMapper.map(dto, this.fromClass)
                 : null;
     }
 
@@ -38,7 +38,7 @@ public abstract class AbsMapperEntityDto<ENTITY extends AbstractEntity<?>, DTO e
     }
 
     private void configureMapper() {
-        this.modelMapper.createTypeMap(super.dtoClass, super.entityClass)
+        this.modelMapper.createTypeMap(super.toClass, super.fromClass)
                 .setPostConverter(this.createConverterDtoToEntity());
     }
 

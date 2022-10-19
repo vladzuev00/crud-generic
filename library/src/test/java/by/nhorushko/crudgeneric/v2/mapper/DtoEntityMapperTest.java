@@ -46,7 +46,7 @@ public final class DtoEntityMapperTest {
         }
 
         @Override
-        protected Car create(CarEntity entity) {
+        protected Car create(CarEntity from) {
             return null;
         }
     }
@@ -58,7 +58,7 @@ public final class DtoEntityMapperTest {
         }
 
         @Override
-        protected Message create(MessageEntity entity) {
+        protected Message create(MessageEntity from) {
             return null;
         }
 

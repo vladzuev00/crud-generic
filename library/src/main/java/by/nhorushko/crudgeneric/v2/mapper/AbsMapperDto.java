@@ -23,5 +23,5 @@ public abstract class AbsMapperDto<ENTITY extends AbstractEntity<?>, DTO extends
     }
 
     @Override
-    protected abstract DTO create(ENTITY entity);
+    protected abstract DTO create(ENTITY from);
 }

@@ -13,7 +13,7 @@ public final class TrackerAbsMapperEntityDto extends AbsMapperEntityDto<TrackerE
     }
 
     @Override
-    protected Tracker create(TrackerEntity entity) {
-        return new Tracker(entity.getId(), entity.getImei(), entity.getPhoneNumber());
+    protected Tracker create(TrackerEntity from) {
+        return new Tracker(from.getId(), from.getImei(), from.getPhoneNumber());
     }
 }

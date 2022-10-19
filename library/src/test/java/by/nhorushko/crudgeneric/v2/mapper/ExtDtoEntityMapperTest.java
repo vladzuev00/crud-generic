@@ -68,7 +68,7 @@ public final class ExtDtoEntityMapperTest {
         }
 
         @Override
-        protected User create(UserEntity entity) {
+        protected User create(UserEntity from) {
             throw new UnsupportedOperationException();
         }
 

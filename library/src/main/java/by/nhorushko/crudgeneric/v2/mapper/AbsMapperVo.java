@@ -15,19 +15,19 @@ import static java.util.stream.Collectors.toList;
 public abstract class AbsMapperVo<FROM, TO> {
 
     protected final ModelMapper modelMapper;
-    protected final Class<FROM> entityClass;
-    protected final Class<TO> dtoClass;
+    protected final Class<FROM> fromClass;
+    protected final Class<TO> toClass;
 
-    public AbsMapperVo(ModelMapper modelMapper, Class<FROM> entityClass, Class<TO> dtoClass) {
+    public AbsMapperVo(ModelMapper modelMapper, Class<FROM> fromClass, Class<TO> toClass) {
         this.modelMapper = modelMapper;
-        this.entityClass = entityClass;
-        this.dtoClass = dtoClass;
+        this.fromClass = fromClass;
+        this.toClass = toClass;
         this.configureMapper();
     }
 
     public TO map(FROM from) {
         return !Objects.isNull(from)
-                ? mapAny(from, this.dtoClass)
+                ? mapAny(from, this.toClass)
                 : null;
     }
 
@@ -43,7 +43,13 @@ public abstract class AbsMapperVo<FROM, TO> {
         return this.modelMapper.map(obj, clazz);
     }
 
-    protected abstract TO create(FROM entity);
+    public <T>List<T> mapAny(Collection<?> objects, Class<T> clazz) {
+        return objects.stream()
+                .map(o -> mapAny(o, clazz))
+                .collect(toList());
+    }
+
+    protected abstract TO create(FROM from);
 
     protected void mapSpecificFields(FROM source, TO destination) {
 
@@ -51,7 +57,7 @@ public abstract class AbsMapperVo<FROM, TO> {
 
     @SuppressWarnings("unchecked")
     private void configureMapper() {
-        this.modelMapper.createTypeMap(this.entityClass, this.dtoClass)
+        this.modelMapper.createTypeMap(this.fromClass, this.toClass)
                 .setPostConverter(this.createConverter())
                 .setProvider(request -> this.create((FROM) request.getSource()));
     }

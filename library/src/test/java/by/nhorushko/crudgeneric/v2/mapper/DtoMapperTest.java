@@ -37,8 +37,8 @@ public final class DtoMapperTest {
         }
 
         @Override
-        protected Car create(CarEntity entity) {
-            return new Car(entity.getId(), entity.getNumber());
+        protected Car create(CarEntity from) {
+            return new Car(from.getId(), from.getNumber());
         }
     }
 
@@ -51,9 +51,9 @@ public final class DtoMapperTest {
         }
 
         @Override
-        protected User create(UserEntity entity) {
-            return new User(entity.getId(), entity.getEmail(), entity.getName(), entity.getSurname(),
-                    entity.getPatronymic(), this.carMapper.map(entity.getCar()));
+        protected User create(UserEntity from) {
+            return new User(from.getId(), from.getEmail(), from.getName(), from.getSurname(),
+                    from.getPatronymic(), this.carMapper.map(from.getCar()));
         }
     }
 }

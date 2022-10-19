@@ -25,7 +25,7 @@ public abstract class AbsMapperEntityExtDto<ENTITY extends AbstractEntity<?>, DT
         if (isNull(dto)) {
             return null;
         }
-        final ENTITY entity = super.modelMapper.map(dto, super.entityClass);
+        final ENTITY entity = super.modelMapper.map(dto, super.fromClass);
         this.setRelation(relationId, entity);
         return entity;
     }
