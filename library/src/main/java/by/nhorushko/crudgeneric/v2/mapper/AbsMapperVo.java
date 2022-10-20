@@ -2,6 +2,7 @@ package by.nhorushko.crudgeneric.v2.mapper;
 
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
 
 import java.util.Collection;
 import java.util.List;
@@ -52,22 +53,11 @@ public abstract class AbsMapperVo<FROM, TO> {
 
     protected abstract TO create(FROM from);
 
-    protected void mapSpecificFields(FROM source, TO destination) {
-
-    }
-
     @SuppressWarnings("unchecked")
     private void configureMapper() {
-        this.modelMapper.createTypeMap(this.fromClass, this.toClass)
+        this.modelMapper
+                .createTypeMap(this.fromClass, this.toClass)
+                .setConverter(MappingContext::getDestination)
                 .setProvider(request -> this.create((FROM) request.getSource()));
-    }
-
-    private Converter<FROM, TO> createConverter() {
-        return context -> {
-            final FROM source = context.getSource();
-            final TO destination = context.getDestination();
-            mapSpecificFields(source, destination);
-            return context.getDestination();
-        };
     }
 }
