@@ -15,7 +15,7 @@ public final class DtoMapperTest {
     public DtoMapperTest() {
         final ModelMapper modelMapper = new ModelMapper();
         final AbsMapperDto<CarEntity, Car> carMapper = new CarAbsMapperDto(modelMapper);
-        this.userMapper = new UserAbsMapperDto(modelMapper, carMapper);
+        this.userMapper = new UserAbsMapperDto(modelMapper);
     }
 
     @Test
@@ -43,17 +43,17 @@ public final class DtoMapperTest {
     }
 
     private static final class UserAbsMapperDto extends AbsMapperDto<UserEntity, User> {
-        private final AbsMapperDto<CarEntity, Car> carMapper;
 
-        public UserAbsMapperDto(ModelMapper modelMapper, AbsMapperDto<CarEntity, Car> carDtoMapper) {
+
+        public UserAbsMapperDto(ModelMapper modelMapper) {
             super(modelMapper, UserEntity.class, User.class);
-            this.carMapper = carDtoMapper;
+
         }
 
         @Override
         protected User create(UserEntity from) {
             return new User(from.getId(), from.getEmail(), from.getName(), from.getSurname(),
-                    from.getPatronymic(), this.carMapper.map(from.getCar()));
+                    from.getPatronymic(), this.mapAny(from.getCar(), Car.class));
         }
     }
 }

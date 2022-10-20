@@ -1,18 +1,16 @@
 package by.nhorushko.crudgeneric.v2.mapper;
 
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.spi.MappingContext;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 
 /**
  * Мапинг классов без ID которые не являются ENTITY
+ * https://stackoverflow.com/questions/44534172/how-to-customize-modelmapper
  */
 public abstract class AbsMapperVo<FROM, TO> {
 
@@ -41,11 +39,14 @@ public abstract class AbsMapperVo<FROM, TO> {
                 : null;
     }
 
-    public <T> T mapAny(Object obj, Class<T> clazz){
-        return this.modelMapper.map(obj, clazz);
+    public <T> T mapAny(Object obj, Class<T> destinationType) {
+        if (this.modelMapper.getTypeMap(obj.getClass(), destinationType) == null) {
+            throw new IllegalArgumentException(String.format("type map: %s -> %s was not found", obj.getClass(), destinationType));
+        }
+        return this.modelMapper.map(obj, destinationType);
     }
 
-    public <T>List<T> mapAny(Collection<?> objects, Class<T> clazz) {
+    public <T> List<T> mapAny(Collection<?> objects, Class<T> clazz) {
         return objects.stream()
                 .map(o -> mapAny(o, clazz))
                 .collect(toList());
@@ -57,7 +58,11 @@ public abstract class AbsMapperVo<FROM, TO> {
     private void configureMapper() {
         this.modelMapper
                 .createTypeMap(this.fromClass, this.toClass)
-                .setConverter(MappingContext::getDestination)
-                .setProvider(request -> this.create((FROM) request.getSource()));
+                .setProvider(request -> {
+                    System.out.println("!!!! run provider for class: " + request.getRequestedType());
+                    TO obj = this.create((FROM) request.getSource());
+                    System.out.println("!!!! provider create: " + obj);
+                    return obj;
+                });
     }
 }
