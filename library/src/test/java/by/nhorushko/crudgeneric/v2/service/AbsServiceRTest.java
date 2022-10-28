@@ -61,7 +61,7 @@ public final class AbsServiceRTest {
 
         final Message expected = new Message(givenId, new GpsCoordinate(5.5F, 4.6F), 10, 15,
                 20);
-        when(this.mockedMapper.map(any(MessageEntity.class))).thenReturn(expected);
+        when(this.mockedMapper.toDto(any(MessageEntity.class))).thenReturn(expected);
 
         final Optional<Message> optionalActual = this.service.getByIdOptional(givenId);
         assertTrue(optionalActual.isPresent());
@@ -69,7 +69,7 @@ public final class AbsServiceRTest {
         assertEquals(expected, actual);
 
         verify(this.mockedRepository, times(1)).findById(this.longArgumentCaptor.capture());
-        verify(this.mockedMapper, times(1)).map(this.messageEntityArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toDto(this.messageEntityArgumentCaptor.capture());
 
         assertSame(givenId, this.longArgumentCaptor.getValue());
         assertSame(foundEntity, this.messageEntityArgumentCaptor.getValue());
@@ -84,7 +84,7 @@ public final class AbsServiceRTest {
         assertTrue(optionalActual.isEmpty());
 
         verify(this.mockedRepository, times(1)).findById(this.longArgumentCaptor.capture());
-        verify(this.mockedMapper, times(0)).map(any(MessageEntity.class));
+        verify(this.mockedMapper, times(0)).toDto(any(MessageEntity.class));
 
         assertSame(givenId, this.longArgumentCaptor.getValue());
     }
@@ -102,13 +102,13 @@ public final class AbsServiceRTest {
                 new Message(255L, new GpsCoordinate(3.3F, 4.4F), 10, 11, 12),
                 new Message(256L, new GpsCoordinate(5.5F, 6.6F), 13, 14, 15)
         );
-        when(this.mockedMapper.map(anyCollectionOf(MessageEntity.class))).thenReturn(givenMessages);
+        when(this.mockedMapper.toDtos(anyCollectionOf(MessageEntity.class))).thenReturn(givenMessages);
 
         final List<Message> actual = this.service.getById(givenIds);
         assertSame(givenMessages, actual);
 
         verify(this.mockedRepository, times(1)).findAllById(this.longsArgumentCaptor.capture());
-        verify(this.mockedMapper, times(1)).map(this.messageEntitiesArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toDtos(this.messageEntitiesArgumentCaptor.capture());
 
         assertSame(givenIds, this.longsArgumentCaptor.getValue());
         assertSame(givenMessageEntities, this.messageEntitiesArgumentCaptor.getValue());
@@ -123,13 +123,13 @@ public final class AbsServiceRTest {
 
         final Message expected = new Message(givenId, new GpsCoordinate(5.5F, 4.6F), 10, 15,
                 20);
-        when(this.mockedMapper.map(any(MessageEntity.class))).thenReturn(expected);
+        when(this.mockedMapper.toDto(any(MessageEntity.class))).thenReturn(expected);
 
         final Message actual = this.service.getById(givenId);
         assertSame(expected, actual);
 
         verify(this.mockedRepository, times(1)).findById(this.longArgumentCaptor.capture());
-        verify(this.mockedMapper, times(1)).map(this.messageEntityArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toDto(this.messageEntityArgumentCaptor.capture());
 
         assertSame(givenId, this.longArgumentCaptor.getValue());
         assertSame(foundEntity, this.messageEntityArgumentCaptor.getValue());

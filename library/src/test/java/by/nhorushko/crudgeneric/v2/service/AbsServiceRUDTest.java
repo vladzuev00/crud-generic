@@ -55,7 +55,7 @@ public final class AbsServiceRUDTest {
 
         final MessageEntity givenMessageEntityToUpdate = new MessageEntity(255L, 5.5F, 6.6F,
                 10, 15, 20);
-        when(this.mockedMapper.revMap(any(Message.class))).thenReturn(givenMessageEntityToUpdate);
+        when(this.mockedMapper.toEntity(any(Message.class))).thenReturn(givenMessageEntityToUpdate);
 
         final MessageEntity givenUpdatedMessageEntity = new MessageEntity(255L, 5.5F, 6.6F,
                 10, 15, 20);
@@ -63,14 +63,14 @@ public final class AbsServiceRUDTest {
 
         final Message givenUpdatedMessageDto = new Message(255L, new GpsCoordinate(5.5F, 6.6F),
                 10, 15, 20);
-        when(this.mockedMapper.map(any(MessageEntity.class))).thenReturn(givenUpdatedMessageDto);
+        when(this.mockedMapper.toDto(any(MessageEntity.class))).thenReturn(givenUpdatedMessageDto);
 
         final Message actual = this.service.update(givenMessageDtoToUpdate);
         assertSame(givenUpdatedMessageDto, actual);
 
-        verify(this.mockedMapper, times(1)).revMap(this.messageArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toEntity(this.messageArgumentCaptor.capture());
         verify(this.mockedRepository, times(1)).save(this.messageEntityArgumentCaptor.capture());
-        verify(this.mockedMapper, times(1)).map(this.messageEntityArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toDto(this.messageEntityArgumentCaptor.capture());
 
         assertSame(givenMessageDtoToUpdate, this.messageArgumentCaptor.getValue());
 
@@ -107,30 +107,16 @@ public final class AbsServiceRUDTest {
 
         final Message givenUpdatedMessageDto = new Message(255L, new GpsCoordinate(5.5F, 6.5F),
                 10, 15, 20);
-        when(this.mockedMapper.map(any(MessageEntity.class))).thenReturn(givenUpdatedMessageDto);
+        when(this.mockedMapper.toDto(any(MessageEntity.class))).thenReturn(givenUpdatedMessageDto);
 
         final Message actual = this.service.updatePartial(givenId, givenNewGpsCoordinate);
         assertSame(givenUpdatedMessageDto, actual);
 
         verify(this.mockedRepository, times(1)).findById(this.longArgumentCaptor.capture());
-        verify(this.mockedMapper, times(1)).map(this.messageEntityArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toDto(this.messageEntityArgumentCaptor.capture());
 
         assertSame(givenId, this.longArgumentCaptor.getValue());
         assertEquals(givenUpdatedMessageEntity, this.messageEntityArgumentCaptor.getValue());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void messageShouldNotBePartialUpdatedBecauseOfIdIsNull() {
-        final GpsCoordinate givenNewGpsCoordinate = new GpsCoordinate(5.5F, 6.5F);
-        this.service.updatePartial(null, givenNewGpsCoordinate);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void messageShouldNotBePartialUpdatedBecauseOfIdIsZero() {
-        final Long givenId = 0L;
-        final GpsCoordinate givenNewGpsCoordinate = new GpsCoordinate(5.5F, 6.5F);
-
-        this.service.updatePartial(givenId, givenNewGpsCoordinate);
     }
 
     @Test(expected = AppNotFoundException.class)

@@ -24,7 +24,7 @@ public final class DtoEntityMapperTest {
     public void entityWithoutSpecificFieldsShouldBeMapped() {
         final Car givenCar = new Car(255L, "number");
 
-        final CarEntity actual = this.carMapper.revMap(givenCar);
+        final CarEntity actual = this.carMapper.toEntity(givenCar);
         final CarEntity expected = new CarEntity(255L, "number");
         assertEquals(expected, actual);
     }
@@ -34,7 +34,7 @@ public final class DtoEntityMapperTest {
         final Message givenMessage = new Message(255L, new GpsCoordinate(5.5F, 6.5F),
                 10, 11, 12);
 
-        final MessageEntity actual = this.messageMapper.revMap(givenMessage);
+        final MessageEntity actual = this.messageMapper.toEntity(givenMessage);
         final MessageEntity expected = new MessageEntity(255L, 5.5F, 6.5F, 10, 11,
                 12);
         assertEquals(expected, actual);

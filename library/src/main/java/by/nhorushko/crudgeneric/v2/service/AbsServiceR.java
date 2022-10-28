@@ -33,21 +33,21 @@ public abstract class AbsServiceR<
     }
 
     public Optional<DTO> getByIdOptional(ID id) {
-        return this.repository.findById(id)
-                .map(this.mapper::map);
+        return repository.findById(id)
+                .map(mapper::toDto);
     }
 
     public List<DTO> getById(Collection<ID> ids) {
-        final List<ENTITY> entities = this.repository.findAllById(ids);
-        return this.mapper.map(entities);
+        List<ENTITY> entities = repository.findAllById(ids);
+        return mapper.toDtos(entities);
     }
 
     public DTO getById(ID id) {
-        return this.getByIdOptional(id)
+        return getByIdOptional(id)
                 .orElseThrow(() -> new AppNotFoundException(format("Entity id: %s was not found", id)));
     }
 
     public boolean isExist(ID id) {
-        return this.repository.existsById(id);
+        return repository.existsById(id);
     }
 }

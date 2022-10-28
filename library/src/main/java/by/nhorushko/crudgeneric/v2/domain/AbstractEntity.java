@@ -1,6 +1,5 @@
 package by.nhorushko.crudgeneric.v2.domain;
 
-public interface AbstractEntity<IdType> {
-    void setId(IdType id);
-    IdType getId();
+public interface AbstractEntity<ID> extends IdEntity<ID> {
+    void setId(ID id);
 }

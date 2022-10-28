@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  *
  * Read Update Delete Create Service
@@ -30,16 +28,12 @@ public abstract class AbsServiceExtCRUD<
     }
 
     public DTO save(EXT_ID relationId, DTO dto) {
-        final ENTITY entity = super.mapper.revMap(relationId, dto);
-        final ENTITY savedEntity = super.repository.save(entity);
-        return super.mapper.map(savedEntity);
+        ENTITY entity = repository.save(mapper.toEntity(relationId, dto));
+        return mapper.toDto(entity);
     }
 
     public List<DTO> saveAll(EXT_ID relationId, Collection<DTO> dtos) {
-        final List<ENTITY> entities = dtos.stream()
-                .map(dto -> super.mapper.revMap(relationId, dto))
-                .collect(toList());
-        final List<ENTITY> savedEntities = super.repository.saveAll(entities);
-        return super.mapper.map(savedEntities);
+        List<ENTITY> entities = repository.saveAll(mapper.toEntities(relationId, dtos));
+        return mapper.toDtos(entities);
     }
 }

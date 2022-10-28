@@ -7,9 +7,6 @@ import org.modelmapper.ModelMapper;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-
-import static java.util.stream.Collectors.toList;
 
 public abstract class AbsMapperEntityDto<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>>
         extends AbsMapperDto<ENTITY, DTO> {
@@ -19,18 +16,12 @@ public abstract class AbsMapperEntityDto<ENTITY extends AbstractEntity<?>, DTO e
         this.configureMapper();
     }
 
-    public ENTITY revMap(DTO dto) {
-        return !Objects.isNull(dto)
-                ? this.modelMapper.map(dto, this.fromClass)
-                : null;
+    public ENTITY toEntity(DTO dto) {
+        return map(dto, entityClass);
     }
 
-    public List<ENTITY> revMap(Collection<DTO> dtos) {
-        return !Objects.isNull(dtos)
-                ? dtos.stream()
-                .map(this::revMap)
-                .collect(toList())
-                : null;
+    public List<ENTITY> toEntities(Collection<DTO> dtos) {
+        return mapAll(dtos, entityClass);
     }
 
     protected void mapSpecificFields(DTO source, ENTITY destination) {
@@ -38,15 +29,15 @@ public abstract class AbsMapperEntityDto<ENTITY extends AbstractEntity<?>, DTO e
     }
 
     private void configureMapper() {
-        this.modelMapper.createTypeMap(super.toClass, super.fromClass)
-                .setPostConverter(this.createConverterDtoToEntity());
+        modelMapper.createTypeMap(dtoClass, entityClass)
+                .setPostConverter(createConverterDtoToEntity());
     }
 
     private Converter<DTO, ENTITY> createConverterDtoToEntity() {
         return context -> {
-            final DTO source = context.getSource();
-            final ENTITY destination = context.getDestination();
-            this.mapSpecificFields(source, destination);
+            DTO source = context.getSource();
+            ENTITY destination = context.getDestination();
+            mapSpecificFields(source, destination);
             return destination;
         };
     }

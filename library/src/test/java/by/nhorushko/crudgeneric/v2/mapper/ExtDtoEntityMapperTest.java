@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
@@ -47,7 +49,7 @@ public final class ExtDtoEntityMapperTest {
         final CarEntity givenCarEntity = new CarEntity(256L, null);
         when(this.mockedEntityManager.getReference(any(Class.class), anyLong())).thenReturn(givenCarEntity);
 
-        final UserEntity actual = this.userMapper.revMap(givenCar.getId(), givenUser);
+        final UserEntity actual = this.userMapper.toEntity(givenCar.getId(), givenUser);
         final UserEntity expected = new UserEntity(255L, "email@mail.ru", "name", "surname",
                 "patronymic", givenCarEntity);
         assertEquals(expected, actual);
@@ -55,8 +57,8 @@ public final class ExtDtoEntityMapperTest {
 
     @Test
     public void nullUserDtoShouldBeMappedToNullUserEntity() {
-        final UserEntity givenUserEntity = this.userMapper.revMap(255L, null);
-        final User resultUserDto = this.userMapper.map(givenUserEntity);
+        final UserEntity givenUserEntity = this.userMapper.toEntity(255L, null);
+        final User resultUserDto = this.userMapper.toDto(givenUserEntity);
         assertNull(resultUserDto);
     }
 

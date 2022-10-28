@@ -53,7 +53,7 @@ public final class DtoMapperTest {
         @Override
         protected User create(UserEntity from) {
             return new User(from.getId(), from.getEmail(), from.getName(), from.getSurname(),
-                    from.getPatronymic(), this.mapAny(from.getCar(), Car.class));
+                    from.getPatronymic(), this.map(from.getCar(), Car.class));
         }
     }
 }

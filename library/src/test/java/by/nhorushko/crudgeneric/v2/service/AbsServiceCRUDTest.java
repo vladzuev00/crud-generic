@@ -56,7 +56,7 @@ public final class AbsServiceCRUDTest {
 
         final MessageEntity givenMessageEntityToBeSaved = new MessageEntity(null, 5.5F, 6.6F,
                 10, 15, 20);
-        when(this.mockedMapper.revMap(any(Message.class))).thenReturn(givenMessageEntityToBeSaved);
+        when(this.mockedMapper.toEntity(any(Message.class))).thenReturn(givenMessageEntityToBeSaved);
 
         final MessageEntity givenSavedMessageEntity = new MessageEntity(255L, 5.5F, 6.6F, 10,
                 15, 20);
@@ -64,14 +64,14 @@ public final class AbsServiceCRUDTest {
 
         final Message givenSavedMessageDto = new Message(255L, new GpsCoordinate(5.5F, 6.6F),
                 10, 15, 20);
-        when(this.mockedMapper.map(any(MessageEntity.class))).thenReturn(givenSavedMessageDto);
+        when(this.mockedMapper.toDto(any(MessageEntity.class))).thenReturn(givenSavedMessageDto);
 
         final Message actual = this.service.save(givenMessageDtoToBeSaved);
         assertSame(givenSavedMessageDto, actual);
 
-        verify(this.mockedMapper, times(1)).revMap(this.messageArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toEntity(this.messageArgumentCaptor.capture());
         verify(this.mockedRepository, times(1)).save(this.messageEntityArgumentCaptor.capture());
-        verify(this.mockedMapper, times(1)).map(this.messageEntityArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toDto(this.messageEntityArgumentCaptor.capture());
 
         assertSame(givenMessageDtoToBeSaved, this.messageArgumentCaptor.getValue());
 
@@ -91,7 +91,7 @@ public final class AbsServiceCRUDTest {
                 new MessageEntity(null, 5.5F, 6.6F, 10, 15, 20),
                 new MessageEntity(5L, 7.7F, 8.8F, 11, 16, 21)
         );
-        when(this.mockedMapper.revMap(anyCollectionOf(Message.class))).thenReturn(givenMessageEntitiesToBeSaved);
+        when(this.mockedMapper.toEntities(anyCollectionOf(Message.class))).thenReturn(givenMessageEntitiesToBeSaved);
 
         final List<MessageEntity> givenSavedMessageEntities = List.of(
                 new MessageEntity(255L, 5.5F, 6.6F, 10, 15, 20),
@@ -103,15 +103,15 @@ public final class AbsServiceCRUDTest {
                 new Message(255L, new GpsCoordinate(5.5F, 6.6F), 10, 15, 20),
                 new Message(5L, new GpsCoordinate(7.7F, 8.8F), 11, 16, 21)
         );
-        when(this.mockedMapper.map(anyCollectionOf(MessageEntity.class))).thenReturn(givenSavedMessages);
+        when(this.mockedMapper.toDtos(anyCollectionOf(MessageEntity.class))).thenReturn(givenSavedMessages);
 
         final List<Message> actual = this.service.saveAll(givenMessagesToBeSaved);
         assertSame(givenSavedMessages, actual);
 
-        verify(this.mockedMapper, times(1)).revMap(this.messagesArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toEntities(this.messagesArgumentCaptor.capture());
         verify(this.mockedRepository, times(1))
                 .saveAll(this.messageEntitiesArgumentCaptor.capture());
-        verify(this.mockedMapper, times(1)).map(this.messageEntitiesArgumentCaptor.capture());
+        verify(this.mockedMapper, times(1)).toDtos(this.messageEntitiesArgumentCaptor.capture());
 
         assertSame(givenMessagesToBeSaved, this.messagesArgumentCaptor.getValue());
 

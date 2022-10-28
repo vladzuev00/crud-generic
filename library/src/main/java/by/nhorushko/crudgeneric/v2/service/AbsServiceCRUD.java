@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.List;
 
-@Transactional
 public abstract class AbsServiceCRUD<
         ENTITY_ID,
         ENTITY extends AbstractEntity<ENTITY_ID>,
@@ -23,14 +22,12 @@ public abstract class AbsServiceCRUD<
     }
 
     public DTO save(DTO dto) {
-        final ENTITY entity = super.mapper.revMap(dto);
-        final ENTITY savedEntity = super.repository.save(entity);
-        return super.mapper.map(savedEntity);
+        ENTITY entity = repository.save(mapper.toEntity(dto));
+        return mapper.toDto(entity);
     }
 
     public List<DTO> saveAll(Collection<DTO> dto) {
-        final List<ENTITY> entities = super.mapper.revMap(dto);
-        final List<ENTITY> savedEntities = super.repository.saveAll(entities);
-        return super.mapper.map(savedEntities);
+        List<ENTITY> entities = repository.saveAll(mapper.toEntities(dto));
+        return mapper.toDtos(entities);
     }
 }
