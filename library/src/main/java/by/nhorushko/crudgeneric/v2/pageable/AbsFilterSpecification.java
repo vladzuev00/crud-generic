@@ -100,7 +100,7 @@ public abstract class AbsFilterSpecification<ENTITY> {
         return this.entityContext.get(propertyName).path;
     }
 
-    private <T extends Comparable<T>> Specification<ENTITY> buildSpecification(PageFilterRequest.Filter filter,
+    protected  <T extends Comparable<T>> Specification<ENTITY> buildSpecification(PageFilterRequest.Filter filter,
                                                                                FilterSpecifications<ENTITY, T> specification) {
         String fieldName = this.getPathByName(filter.getName());
         Function<String, T> converterFunction = converters.getFunction(entityContext.get(filter.getName()).clazz);
