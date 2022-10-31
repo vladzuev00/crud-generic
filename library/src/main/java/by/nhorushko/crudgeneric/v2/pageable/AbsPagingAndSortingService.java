@@ -34,7 +34,7 @@ public abstract class AbsPagingAndSortingService<ID,
         int i = 0;
         for (PageFilterRequest.Filter filter : pageFilterRequest.getFilters()) {
             result[i++] = buildSpecification(filter)
-                    .orElseThrow(() -> new RuntimeException(String.format("Specification for filter: %s can't be build", filter)));
+                    .orElseThrow(() -> new RuntimeException(String.format("Specification for filter: %s can't be build. Set entity path for: '%s", filter, filter.getName())));
         }
         return concat(result, pageFilterRequest.getConcatCondition());
     }
