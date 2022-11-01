@@ -7,6 +7,9 @@ public interface IdEntity<ID> {
     ID getId();
 
     @JsonIgnore
+    /**
+     * check this entity is new
+     */
     default boolean isNew() {
         if (getId() == null) {
             return true;

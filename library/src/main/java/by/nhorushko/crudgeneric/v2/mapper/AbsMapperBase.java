@@ -8,7 +8,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Мапинг классов без ID которые не являются ENTITY
+ * Mapping for objects without Id
  * https://stackoverflow.com/questions/44534172/how-to-customize-modelmapper
  */
 public abstract class AbsMapperBase<FROM, TO> {

@@ -12,7 +12,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Optional;
 
-public abstract class AbsPagingAndSortingService<ID,
+public abstract class AbsPagingAndSortingService<
+        ID,
         DTO extends AbstractDto<ID>,
         ENTITY extends AbstractEntity<ID>,
         SPECS extends AbsFilterSpecification<ENTITY>> {
