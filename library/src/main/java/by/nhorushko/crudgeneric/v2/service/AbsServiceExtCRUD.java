@@ -28,12 +28,23 @@ public abstract class AbsServiceExtCRUD<
     }
 
     public DTO save(EXT_ID relationId, DTO dto) {
-        ENTITY entity = repository.save(mapper.toEntity(relationId, dto));
-        return mapper.toDto(entity);
+        if (dto.isNew()) {
+            ENTITY entity = repository.save(mapper.toEntity(relationId, dto));
+            return mapper.toDto(entity);
+        }
+        throw new IllegalArgumentException(wrongIdMessage(dto.getId()));
     }
 
     public List<DTO> saveAll(EXT_ID relationId, Collection<DTO> dtos) {
-        List<ENTITY> entities = repository.saveAll(mapper.toEntities(relationId, dtos));
+        List<ENTITY> entities = mapper.toEntities(relationId, dtos);
+        entities.forEach(e -> {
+            if (!e.isNew()) throw new IllegalArgumentException(wrongIdMessage(e.getId()));
+        });
+        entities = repository.saveAll(mapper.toEntities(relationId, dtos));
         return mapper.toDtos(entities);
+    }
+
+    private String wrongIdMessage(ENTITY_ID id) {
+        return String.format("wrong id: %s to save new entity id should be null", id);
     }
 }
