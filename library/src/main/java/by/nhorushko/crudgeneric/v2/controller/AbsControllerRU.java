@@ -23,7 +23,7 @@ public abstract class AbsControllerRU<
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<DTO_VIEW> update(@PathVariable("id") Long id,
+    public ResponseEntity<DTO_VIEW> update(@PathVariable("id") ID id,
                                            SETTINGS settings,
                                            @RequestBody DTO obj,
                                            HttpServletRequest request) {
