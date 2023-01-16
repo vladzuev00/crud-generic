@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 
+//todo add abstract save чтобы пользователь не забывал добавлять мапинг
 public abstract class AbsControllerExtCRUD<
         ID,
         DTO extends AbstractDto<ID>,

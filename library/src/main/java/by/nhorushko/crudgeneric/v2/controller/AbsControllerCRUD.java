@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+//todo Add @Valid annotation to methods with request body
 public abstract class AbsControllerCRUD<
         ID,
         DTO extends AbstractDto<ID>,
