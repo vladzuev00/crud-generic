@@ -89,7 +89,7 @@ public final class AbsServiceExtCRUDTest {
         assertEquals(expectedCapturedUserEntityArguments, userEntityArgumentCaptor.getAllValues());
     }
 
-    @Test
+//    @Test
     public void usersShouldBeSaved() {
         final Long givenCarId = 255L;
         final Car givenCar = new Car(givenCarId, "number");

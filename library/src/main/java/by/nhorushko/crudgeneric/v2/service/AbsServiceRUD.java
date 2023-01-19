@@ -31,9 +31,25 @@ public abstract class AbsServiceRUD<
     }
 
     public DTO update(DTO dto) {
+        return runUpdate(dto);
+    }
+
+    public DTO updatePartial(ENTITY_ID id, Object partial) {
+        DTO target = copyPartial(id, partial);
+        return runUpdate(target);
+    }
+
+    private DTO runUpdate(DTO dto) {
         checkId(dto);
-        ENTITY entity = repository.save(mapper.toEntity(dto));
-        return mapper.toDto(entity);
+        ENTITY prevValue = repository.getOne(dto.getId());
+        ENTITY newValue = mapper.toEntity(dto);
+        preUpdate(prevValue, newValue);
+        ENTITY actual = repository.save(newValue);
+        return mapper.toDto(actual);
+    }
+
+    protected void preUpdate(ENTITY prevValue, ENTITY newValue) {
+
     }
 
     private void checkId(IdEntity<ENTITY_ID> entity) {
@@ -43,13 +59,10 @@ public abstract class AbsServiceRUD<
         }
     }
 
-    public DTO updatePartial(ENTITY_ID id, Object source) {
-        ENTITY entity = repository.findById(id)
-                .orElseThrow(() -> new AppNotFoundException(
-                        format("Partial update operation is impossible because of not existing entity with id = '%s'.",
-                                id)));
-        FieldCopyUtil.copy(source, entity, IGNORE_PARTIAL_UPDATE_PROPERTIES);
-        return this.mapper.toDto(entity);
+    private DTO copyPartial(ENTITY_ID id, Object source) {
+        DTO target = getById(id);
+        FieldCopyUtil.copy(source, target, IGNORE_PARTIAL_UPDATE_PROPERTIES);
+        return target;
     }
 
     public void delete(ENTITY_ID id) {

@@ -129,6 +129,8 @@ public class TrackerServiceIT {
         this.service.updatePartial(givenTrackerId, trackerImei);
 
         final TrackerEntity updatedTracker = findTrackerFromDB(givenTrackerId);
+        entityManager.flush();
+        entityManager.refresh(updatedTracker);
         assertEquals(trackerImei.getImei(), updatedTracker.getImei());
     }
 
