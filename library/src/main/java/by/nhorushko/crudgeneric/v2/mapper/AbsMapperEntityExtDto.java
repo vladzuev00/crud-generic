@@ -5,6 +5,7 @@ import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.EntityManager;
+import javax.swing.text.html.parser.Entity;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,13 +13,11 @@ import java.util.stream.Collectors;
 public abstract class AbsMapperEntityExtDto<ENTITY extends AbstractEntity<?>, DTO extends AbstractDto<?>, EXT_ID,
         EXT extends AbstractEntity<EXT_ID>>
         extends AbsMapperEntityDto<ENTITY, DTO> {
-    protected final EntityManager entityManager;
     protected final Class<EXT> extClass;
 
     public AbsMapperEntityExtDto(ModelMapper modelMapper, Class<ENTITY> entityClass, Class<DTO> dtoClass,
                                  EntityManager entityManager, Class<EXT> extClass) {
-        super(modelMapper, entityClass, dtoClass);
-        this.entityManager = entityManager;
+        super(modelMapper, entityManager, entityClass, dtoClass);
         this.extClass = extClass;
     }
 
@@ -36,6 +35,9 @@ public abstract class AbsMapperEntityExtDto<ENTITY extends AbstractEntity<?>, DT
                 .map(d -> toEntity(relationId, d))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    protected abstract void mapSpecificFields(DTO source, ENTITY beforeEntity, ENTITY destination);
 
     protected abstract void setRelation(EXT ext, ENTITY destination);
 

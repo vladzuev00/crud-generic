@@ -34,7 +34,6 @@ public class TrackerServiceIT {
     private EntityManager entityManager;
 
     @Test
-    @Sql("classpath:data/data.sql")
     public void trackerShouldBeFoundById() {
         final Optional<Tracker> optionalActual = this.service.getByIdOptional(1L);
         assertTrue(optionalActual.isPresent());
@@ -50,7 +49,6 @@ public class TrackerServiceIT {
     }
 
     @Test
-    @Sql("classpath:data/data.sql")
     public void trackersShouldBeFoundByIds() {
         final List<Long> givenIds = List.of(1L, 2L, 3L);
 
@@ -64,14 +62,13 @@ public class TrackerServiceIT {
 
     @Test
     public void trackersShouldNotBeFoundByIds() {
-        final List<Long> givenIds = List.of(1L, 2L, 3L);
+        final List<Long> givenIds = List.of(111L, 222L, 3333L);
 
         final List<Tracker> foundTrackers = this.service.getById(givenIds);
         assertTrue(foundTrackers.isEmpty());
     }
 
     @Test
-    @Sql("classpath:data/data.sql")
     public void trackerShouldBeGotById() {
         final Tracker actual = this.service.getById(1L);
         final Tracker expected = new Tracker(1L, "355234055650192", "+37257063997");
@@ -84,7 +81,6 @@ public class TrackerServiceIT {
     }
 
     @Test
-    @Sql("classpath:data/data.sql")
     public void trackerWithGivenIdShouldExist() {
         final Long givenId = 3L;
         assertTrue(this.service.isExist(givenId));
@@ -97,7 +93,6 @@ public class TrackerServiceIT {
     }
 
     @Test
-    @Sql("classpath:data/data.sql")
     public void trackerShouldBeUpdated() {
         final Tracker givenTrackerToUpdate = new Tracker(1L, "3550260722834532", "37257591222");
         this.service.update(givenTrackerToUpdate);
@@ -120,7 +115,6 @@ public class TrackerServiceIT {
     }
 
     @Test
-    @Sql("classpath:data/data.sql")
     public void trackerShouldBePartialUpdated() {
         final Long givenTrackerId = 1L;
 
@@ -135,7 +129,6 @@ public class TrackerServiceIT {
     }
 
     @Test
-    @Sql("classpath:data/data.sql")
     public void trackerShouldBeDeletedById() {
         final Long givenTrackerId = 1L;
 

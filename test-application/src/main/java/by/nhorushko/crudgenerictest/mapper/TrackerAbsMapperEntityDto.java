@@ -6,10 +6,12 @@ import by.nhorushko.crudgenerictest.domain.entity.TrackerEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
+
 @Component
 public final class TrackerAbsMapperEntityDto extends AbsMapperEntityDto<TrackerEntity, Tracker> {
-    public TrackerAbsMapperEntityDto(ModelMapper modelMapper) {
-        super(modelMapper, TrackerEntity.class, Tracker.class);
+    public TrackerAbsMapperEntityDto(ModelMapper modelMapper, EntityManager entityManager) {
+        super(modelMapper, entityManager, TrackerEntity.class, Tracker.class);
     }
 
     @Override

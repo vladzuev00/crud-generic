@@ -41,10 +41,7 @@ public abstract class AbsServiceRUD<
 
     private DTO runUpdate(DTO dto) {
         checkId(dto);
-        ENTITY prevValue = repository.getOne(dto.getId());
-        ENTITY newValue = mapper.toEntity(dto);
-        preUpdate(prevValue, newValue);
-        ENTITY actual = repository.save(newValue);
+        ENTITY actual = repository.save(mapper.toEntity(dto));
         return mapper.toDto(actual);
     }
 
