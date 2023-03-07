@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.Instant;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -40,6 +41,10 @@ public abstract class AbsFilterSpecification<ENTITY> {
     @Lazy
     @Autowired
     private FilterSpecifications<ENTITY, Double> doubleFilterSpecifications;
+
+    @Lazy
+    @Autowired
+    private FilterSpecifications<ENTITY, ChronoLocalDateTime<?>> localDateTimeFilterSpecifications;
 
 
     public AbsFilterSpecification(Converters converters) {
@@ -94,6 +99,10 @@ public abstract class AbsFilterSpecification<ENTITY> {
 
     public Specification<ENTITY> getDoubleSpecification(PageFilterRequest.Filter filter) {
         return buildSpecification(filter, doubleFilterSpecifications);
+    }
+
+    public Specification<ENTITY> getLocalDateTimeSpecification(PageFilterRequest.Filter filter) {
+        return buildSpecification(filter, localDateTimeFilterSpecifications);
     }
 
     private String getPathByName(String propertyName) {
