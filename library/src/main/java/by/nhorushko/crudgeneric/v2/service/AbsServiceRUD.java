@@ -1,6 +1,5 @@
 package by.nhorushko.crudgeneric.v2.service;
 
-import by.nhorushko.crudgeneric.exception.AppNotFoundException;
 import by.nhorushko.crudgeneric.util.FieldCopyUtil;
 import by.nhorushko.crudgeneric.v2.domain.AbstractDto;
 import by.nhorushko.crudgeneric.v2.domain.AbstractEntity;
