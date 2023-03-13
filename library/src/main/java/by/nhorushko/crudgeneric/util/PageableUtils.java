@@ -12,16 +12,16 @@ public class PageableUtils {
         return PageRequestBuilder.getPageRequest(size, page, sort);
     }
 
-    private static String sortAliases(String sort) {
-        sort = sort.replace("asc#", "+");
-        return sort.replace("desc#", "-");
-    }
-
     public static Pageable buildPageRequest(int page, int size, String sort, Map<String, String> entityFieldPaths) {
         sort = sortAliases(sort);
         for (String k : entityFieldPaths.keySet()) {
             sort.replaceAll(k, entityFieldPaths.get(k));
         }
         return buildPageRequest(page, size, sort);
+    }
+
+    private static String sortAliases(String sort) {
+        sort = sort.replace("asc#", "+");
+        return sort.replace("desc#", "-");
     }
 }
