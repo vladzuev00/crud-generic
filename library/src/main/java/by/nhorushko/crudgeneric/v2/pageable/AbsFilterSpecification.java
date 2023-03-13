@@ -54,6 +54,8 @@ public abstract class AbsFilterSpecification<ENTITY> {
 
     public String handleSort(PageFilterRequest request) {
         String sort = request.getSort();
+        sort = sort.replace("asc:", "+");
+        sort = sort.replace("desc:", "-");
         String sign = "+";
         if (sort.startsWith("+")) {
             sort = sort.substring(1);
