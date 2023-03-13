@@ -42,7 +42,7 @@ public abstract class PageableGenericRestController
         return FilterSpecificationUtils.isBlank(filterParam);
     }
 
-    protected void checkFilterOperation(String filter, Set<FilterOperation> availableOperations){
+    protected void checkFilterOperation(String filter, Set<FilterOperation> availableOperations) {
         FilterSpecificationUtils.checkFilterOperation(filter, availableOperations);
     }
 
@@ -81,6 +81,8 @@ public abstract class PageableGenericRestController
     }
 
     protected Pageable buildPageRequest(int page, int size, String sort, Map<String, String> entityFieldPaths) {
+        sort = sort.replace("asc#", "+");
+        sort = sort.replace("desc#", "-");
         return PageableUtils.buildPageRequest(page, size, sort, entityFieldPaths);
     }
 }
