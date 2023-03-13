@@ -12,6 +12,8 @@ public class PageableUtils {
     }
 
     public static Pageable buildPageRequest(int page, int size, String sort, Map<String, String> entityFieldPaths) {
+        sort = sort.replace("asc#", "+");
+        sort = sort.replace("desc#", "-");
         for (String k : entityFieldPaths.keySet()) {
             sort.replaceAll(k, entityFieldPaths.get(k));
         }
