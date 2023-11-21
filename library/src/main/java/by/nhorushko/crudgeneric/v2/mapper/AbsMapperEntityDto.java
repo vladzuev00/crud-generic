@@ -6,7 +6,6 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.EntityManager;
-import javax.swing.text.html.parser.Entity;
 import java.util.Collection;
 import java.util.List;
 

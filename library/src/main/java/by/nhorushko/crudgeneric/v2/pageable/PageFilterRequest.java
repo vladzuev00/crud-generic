@@ -3,9 +3,7 @@ package by.nhorushko.crudgeneric.v2.pageable;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PageFilterRequest {
@@ -20,7 +18,7 @@ public class PageFilterRequest {
      * -name
      */
     private String sort;
-    private Filters filters;
+    private FilterGroup filters;
 
     public int getPage() {
         return page;
@@ -34,8 +32,8 @@ public class PageFilterRequest {
         return sort;
     }
 
-    public List<Filter> getFilters() {
-        return filters.filters;
+    public FilterGroup getFilters() {
+        return filters;
     }
 
     public ConcatCondition getConcatCondition() {
@@ -46,7 +44,7 @@ public class PageFilterRequest {
         this.page = page;
         this.pageSize = pageSize;
         this.sort = sort;
-        this.filters = new Filters(
+        this.filters = new FilterGroup(
                 Arrays.stream(filters)
                         .filter(f -> StringUtils.isNotEmpty(f.getFilter()))
                         .collect(Collectors.toList()),
@@ -84,13 +82,33 @@ public class PageFilterRequest {
                 '}';
     }
 
-    public static class Filters {
+    public static class FilterGroup {
         private final List<Filter> filters;
         private final ConcatCondition condition;
+        private final List<FilterGroup> subGroup;
 
-        public Filters(List<Filter> filters, ConcatCondition condition) {
+        public FilterGroup(List<Filter> filters, ConcatCondition condition) {
             this.filters = filters;
             this.condition = condition;
+            this.subGroup = new LinkedList<>();
+        }
+
+        public FilterGroup(List<Filter> filters, ConcatCondition condition, List<FilterGroup> subGroup) {
+            this.filters = filters;
+            this.condition = condition;
+            this.subGroup = subGroup;
+        }
+
+        public List<Filter> getFilters() {
+            return filters;
+        }
+
+        public ConcatCondition getCondition() {
+            return condition;
+        }
+
+        public List<FilterGroup> getSubGroup() {
+            return subGroup;
         }
 
         public boolean isEmpty() {
@@ -101,7 +119,7 @@ public class PageFilterRequest {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Filters filters1 = (Filters) o;
+            FilterGroup filters1 = (FilterGroup) o;
             return Objects.equals(filters, filters1.filters) && condition == filters1.condition;
         }
 
