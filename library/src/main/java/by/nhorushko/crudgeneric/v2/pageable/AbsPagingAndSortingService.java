@@ -33,7 +33,7 @@ public abstract class AbsPagingAndSortingService<
     }
 
     protected Specification<ENTITY> buildSpecs(PageFilterRequest pageFilterRequest) {
-        return buildSpecFromFilterGroup(pageFilterRequest.getFilters());
+        return buildSpecFromFilterGroup(pageFilterRequest.getFilterGroup());
     }
 
     protected Specification<ENTITY> buildSpecFromFilterGroup(PageFilterRequest.FilterGroup filterGroup) {
@@ -49,7 +49,7 @@ public abstract class AbsPagingAndSortingService<
         }
 
         // Recursively process nested filter groups
-        for (PageFilterRequest.FilterGroup subgroup : filterGroup.getSubGroup()) {
+        for (PageFilterRequest.FilterGroup subgroup : filterGroup.getSubGroups()) {
             Specification<ENTITY> subgroupSpec = buildSpecFromFilterGroup(subgroup);
             if (subgroupSpec != null) {
                 specs.add(subgroupSpec);
@@ -79,7 +79,7 @@ public abstract class AbsPagingAndSortingService<
 
     public Page<DTO> page(PageFilterRequest request) {
         Pageable pageable = PageableUtils.buildPageRequest(request.getPage(), request.getPageSize(), filterSpecs.handleSort(request));
-        if (request.getFilters().isEmpty()) {
+        if (request.getFilterGroup().isEmpty()) {
             return repository.findAll(null, pageable)
                     .map(mapper::toDto);
         } else {

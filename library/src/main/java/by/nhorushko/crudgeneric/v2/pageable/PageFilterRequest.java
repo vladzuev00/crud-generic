@@ -32,12 +32,15 @@ public class PageFilterRequest {
         return sort;
     }
 
-    public FilterGroup getFilters() {
+    public FilterGroup getFilterGroup() {
         return filters;
     }
 
-    public ConcatCondition getConcatCondition() {
-        return filters.condition;
+    public PageFilterRequest(int page, int pageSize, String sort, FilterGroup filters) {
+        this.page = page;
+        this.pageSize = pageSize;
+        this.sort = sort;
+        this.filters = filters;
     }
 
     private PageFilterRequest(int page, int pageSize, String sort, ConcatCondition condition, Filter... filters) {
@@ -49,6 +52,10 @@ public class PageFilterRequest {
                         .filter(f -> StringUtils.isNotEmpty(f.getFilter()))
                         .collect(Collectors.toList()),
                 condition);
+    }
+
+    public static PageFilterRequest pageRequest(int page, int pageSize, String sort, FilterGroup group) {
+        return new PageFilterRequest(page, pageSize, sort, group);
     }
 
     public static PageFilterRequest pageRequestOr(int page, int pageSize, String sort, Filter... filters) {
@@ -85,19 +92,20 @@ public class PageFilterRequest {
     public static class FilterGroup {
         private final List<Filter> filters;
         private final ConcatCondition condition;
-        private final List<FilterGroup> subGroup;
+        private final List<FilterGroup> subGroups;
 
         public FilterGroup(List<Filter> filters, ConcatCondition condition) {
             this.filters = filters;
             this.condition = condition;
-            this.subGroup = new LinkedList<>();
+            this.subGroups = new LinkedList<>();
         }
 
-        public FilterGroup(List<Filter> filters, ConcatCondition condition, List<FilterGroup> subGroup) {
+        public FilterGroup(List<Filter> filters, ConcatCondition condition, List<FilterGroup> subGroups) {
             this.filters = filters;
             this.condition = condition;
-            this.subGroup = subGroup;
+            this.subGroups = subGroups;
         }
+
 
         public List<Filter> getFilters() {
             return filters;
@@ -107,8 +115,8 @@ public class PageFilterRequest {
             return condition;
         }
 
-        public List<FilterGroup> getSubGroup() {
-            return subGroup;
+        public List<FilterGroup> getSubGroups() {
+            return subGroups;
         }
 
         public boolean isEmpty() {
