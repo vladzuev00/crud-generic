@@ -64,4 +64,8 @@ public class FilterGroupBuilder {
     public static FilterGroup or(PageFilterRequest.Filter... filters) {
         return new FilterGroup(Arrays.asList(filters), PageFilterRequest.ConcatCondition.OR);
     }
+
+    public static FilterGroup filter(PageFilterRequest.Filter filter) {
+        return new FilterGroup(List.of(filter), PageFilterRequest.ConcatCondition.AND);
+    }
 }

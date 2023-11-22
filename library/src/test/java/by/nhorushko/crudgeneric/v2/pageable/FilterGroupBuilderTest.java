@@ -21,8 +21,8 @@ public class FilterGroupBuilderTest {
         FilterGroupBuilder builder = new FilterGroupBuilder();
         PageFilterRequest.FilterGroup group = builder
                 .or(
-                        builder.and(filter1, filter2),
-                        builder.or(filter3, filter4)
+                        FilterGroupBuilder.and(filter1, filter2),
+                        FilterGroupBuilder.or(filter3, filter4)
                 )
                 .build();
 
