@@ -18,7 +18,7 @@ public class PageFilterRequest {
      * -name
      */
     private String sort;
-    private FilterGroup filters;
+    private FilterGroup filterGroup;
 
     public int getPage() {
         return page;
@@ -33,22 +33,22 @@ public class PageFilterRequest {
     }
 
     public FilterGroup getFilterGroup() {
-        return filters;
+        return filterGroup;
     }
 
-    public PageFilterRequest(int page, int pageSize, String sort, FilterGroup filters) {
+    public PageFilterRequest(int page, int pageSize, String sort, FilterGroup filterGroup) {
         this.page = page;
         this.pageSize = pageSize;
         this.sort = sort;
-        this.filters = filters;
+        this.filterGroup = filterGroup;
     }
 
-    private PageFilterRequest(int page, int pageSize, String sort, ConcatCondition condition, Filter... filters) {
+    private PageFilterRequest(int page, int pageSize, String sort, ConcatCondition condition, Filter... filterGroup) {
         this.page = page;
         this.pageSize = pageSize;
         this.sort = sort;
-        this.filters = new FilterGroup(
-                Arrays.stream(filters)
+        this.filterGroup = new FilterGroup(
+                Arrays.stream(filterGroup)
                         .filter(f -> StringUtils.isNotEmpty(f.getFilter()))
                         .collect(Collectors.toList()),
                 condition);
@@ -71,12 +71,12 @@ public class PageFilterRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PageFilterRequest that = (PageFilterRequest) o;
-        return page == that.page && pageSize == that.pageSize && sort.equals(that.sort) && filters.equals(that.filters);
+        return page == that.page && pageSize == that.pageSize && sort.equals(that.sort) && filterGroup.equals(that.filterGroup);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(page, pageSize, sort, filters);
+        return Objects.hash(page, pageSize, sort, filterGroup);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class PageFilterRequest {
                 "page=" + page +
                 ", pageSize=" + pageSize +
                 ", sort='" + sort + '\'' +
-                ", filters=" + filters +
+                ", filters=" + filterGroup +
                 '}';
     }
 
@@ -120,7 +120,7 @@ public class PageFilterRequest {
         }
 
         public boolean isEmpty() {
-            return CollectionUtils.isEmpty(filters);
+            return CollectionUtils.isEmpty(filters) && CollectionUtils.isEmpty(subGroups);
         }
 
         @Override
